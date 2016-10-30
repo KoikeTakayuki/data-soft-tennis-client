@@ -1,41 +1,24 @@
 import React from 'react';
-import { render } from 'react-dom';
+import DataList from './DataList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import PlayerCard from './PlayerCard';
 import ServerConfig from '../config/server-config';
 import { CircularProgress } from 'material-ui';
 
-export default class PlayerList extends React.Component {
+export default class PlayerList extends DataList {
 
 
   constructor(props) {
-    super(props);
-    this.state = { players: false };
-    this.fetchPlayers = this.fetchPlayers.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchPlayers();
-  }
-
-  fetchPlayers() {
-
-    $.ajax({
-      url: ServerConfig.URL + 'player',
-      dataType: 'json',
-      cache: true,
-      success: function(players) {
-          this.setState({players: players});
-      }.bind(this)
-    });
+    const url = ServerConfig.URL + 'player';
+    super(props, url);
   }
 
   render() {
-    if (this.state.players) {
+    if (this.state.data) {
       return (
           <Grid>
             <h2>プレイヤー一覧</h2>
-            <Row>{this.state.players.map((p) => <Col xs={12} sm={6} md={3}><PlayerCard player={p} /></Col>)}</Row>
+            <Row>{this.state.data.map((p) => <Col xs={12} sm={6} md={3}><PlayerCard player={p} /></Col>)}</Row>
           </Grid>
       );
     }

@@ -4,18 +4,18 @@ import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router'
 
 
-export default class PlayerCard extends React.Component {
+export default class TeamCard extends React.Component {
 
   render() {
     return (
       <Card>
         <CardHeader
-          title={this.props.player.name}
-          subtitle={this.props.player.team_name}
+          title={this.props.team.name}
+          subtitle={this.props.team.prefecture_name}
           avatar="assets/images/player.png"
         />
         <CardActions>
-          <Link to={"player/" + this.props.player.id}>
+          <Link to={"team/" + this.props.team.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>
