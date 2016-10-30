@@ -21870,7 +21870,7 @@
 	      var drawerMenus = links.map(function (l) {
 	        return _react2['default'].createElement(
 	          _reactRouter.Link,
-	          { to: l.url },
+	          { to: l.url, eventName: 'onTouchTap' },
 	          _react2['default'].createElement(
 	            _materialUiMenuItem2['default'],
 	            { onTouchTap: _this.toggleDrawer },
