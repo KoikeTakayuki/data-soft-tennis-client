@@ -10,12 +10,12 @@ export default class PlayerCard extends React.Component {
     return (
       <Card>
         <CardHeader
-          title="Without Avatar"
+          title={this.props.player.name}
           subtitle="Subtitle"
           avatar="assets/images/player.png"
         />
         <CardActions>
-          <Link to="player">
+          <Link to={"player/" + this.props.player.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>
