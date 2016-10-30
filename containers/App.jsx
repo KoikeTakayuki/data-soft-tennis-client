@@ -30,7 +30,7 @@ export default class App extends React.Component {
     ];
 
     const drawerMenus = links.map((l) => (
-      <Link to={l.url}><MenuItem onTouchTap={this.toggleDrawer}>{l.name}</MenuItem></Link>
+      <Link to={l.url} eventName="onTouchTap"><MenuItem onTouchTap={this.toggleDrawer}>{l.name}</MenuItem></Link>
     ));
 
 
