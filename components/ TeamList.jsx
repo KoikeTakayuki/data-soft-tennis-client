@@ -5,7 +5,7 @@ import PlayerCard from './PlayerCard';
 import ServerConfig from '../config/server-config';
 import { CircularProgress } from 'material-ui';
 
-export default class PlayerList extends React.Component {
+export default class TeamList extends React.Component {
 
 
   constructor(props) {
@@ -18,10 +18,10 @@ export default class PlayerList extends React.Component {
     this.fetchPlayers();
   }
 
-  fetchPlayers() {
+  fetchTeams() {
 
     $.ajax({
-      url: ServerConfig.URL + 'player',
+      url: ServerConfig.URL + 'team',
       dataType: 'json',
       cache: true,
       success: function(players) {
