@@ -1,9 +1,10 @@
 import React from 'react';
 import DataList from '../DataList';
 import { Grid, Row, Col } from 'react-bootstrap';
-import CompetitionCard from './CompetitionCard';
+import CompetitionMatchList from './CompetitionMatchList';
 import Server from '../../config/server';
 import { CircularProgress } from 'material-ui';
+import CircularProgressCenter from '../util/CircularProgressCenter'
 
 export default class Competition extends React.Component {
 
@@ -11,15 +12,38 @@ export default class Competition extends React.Component {
   constructor(props) {
     super(props);
     const competitionId = props.params.competitionId;
+    this.url = Server.API.getCompetitionById(competitionId);
+
+    this.state = { competition: false };
+  }
+
+  componentDidMount() {
+    this.fetchCompetition(this.url);
+  }
+
+  fetchCompetition(url) {
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      cache: true,
+      success: (competition) => {
+        this.setState({ competition: competition });
+      }
+    });
   }
 
   render() {
+    if (this.state.competition) {
+      return (
+        <div>
+          <Grid>
+            <h2>{this.state.competition.name}</h2>
+          </Grid>
+          <CompetitionMatchList competition={this.state.competition} />
+        </div>
+      );
+    }
 
-    return (
-      <Grid>
-        <h2>大会詳細</h2>
-        <Row><Col md={12} style={{"text-align": "center", "margin-top": "30px"}}><CircularProgress mode="indeterminate" size={60} /></Col></Row>
-      </Grid>
-    );
+    return <CircularProgressCenter />
   }
 }

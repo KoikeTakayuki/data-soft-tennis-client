@@ -7,7 +7,7 @@ export default class CircularProgressCenter extends React.Component {
   render() {
 
     return (
-        <Row><Col md={12} style={{"text-align": "center", "margin-top": "30px"}}><CircularProgress mode="indeterminate" size={60} /></Col></Row>
+        <Row><Col md={12} style={{"textAlign": "center", "marginTop": "30px"}}><CircularProgress mode="indeterminate" size={60} /></Col></Row>
     );
   }
 }
