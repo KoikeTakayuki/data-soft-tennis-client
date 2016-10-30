@@ -1,15 +1,15 @@
 import React from 'react';
-import DataList from './DataList';
+import DataList from '../DataList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import PlayerCard from './PlayerCard';
-import ServerConfig from '../config/server-config';
-import { CircularProgress } from 'material-ui';
+import Server from '../../config/server';
+import CircularProgressCenter from '../util/CircularProgressCenter'
 
 export default class PlayerList extends DataList {
 
 
   constructor(props) {
-    const url = ServerConfig.URL + 'player';
+    const url = Server.API.getPlayers();
     super(props, url);
   }
 
@@ -26,7 +26,7 @@ export default class PlayerList extends DataList {
     return (
       <Grid>
         <h2>プレイヤー一覧</h2>
-        <CircularProgress mode="indeterminate" size={60} />
+        <CircularProgressCenter />
       </Grid>
     );
   }

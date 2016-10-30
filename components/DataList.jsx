@@ -1,9 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Grid, Row, Col } from 'react-bootstrap';
-import PlayerCard from './PlayerCard';
-import ServerConfig from '../config/server-config';
-import { CircularProgress } from 'material-ui';
 
 export default class DataList extends React.Component {
 

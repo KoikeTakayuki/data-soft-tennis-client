@@ -3,10 +3,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../containers/App';
 import Home from '../components/Home';
-import PlayerList from '../components/PlayerList';
-import TeamList from '../components/TeamList';
-import Match from '../components/Match';
-import Competition from '../components/Competition';
+import PlayerList from '../components/player/PlayerList';
+import TeamList from '../components/team/TeamList';
+import MatchList from '../components//match/MatchList';
+import Competition from '../components/competition/Competition';
+import CompetitionList from '../components/competition/CompetitionList';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {createHashHistory} from 'history';
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
@@ -25,8 +26,9 @@ ReactDOM.render((
         <Route path="/team/high-school" component="high-school" />
         <Route path="/team/junior-high" component="junior-high" />
       </Route>
-      <Route path="/match" component={Match} />
-      <Route path="/competition" component={Competition} />
+      <Route path="/match" component={MatchList} />
+      <Route path="/competition" component={CompetitionList} />
+      <Route path="/competition/:competitionId" component={Competition} />
     </Route>
   </Router>
 ), document.getElementById('root'))
