@@ -1,5 +1,4 @@
 import React from 'react';
-import DataList from '../DataList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import CompetitionMatchList from './CompetitionMatchList';
 import Server from '../../config/server';

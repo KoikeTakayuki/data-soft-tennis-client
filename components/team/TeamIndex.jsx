@@ -51,6 +51,7 @@ export default class TeamIndex extends React.Component {
           <Tab label="実業団" value="works-team" />
           <Tab label="大学" value="university" />
           <Tab label="高校" value="high-school" />
+          <Tab label="中学" value="junior-high" />
         </Tabs>
         {this.state.teams ? (
             <TeamList teams={this.state.teams} />

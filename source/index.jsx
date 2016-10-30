@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../containers/App';
 import Home from '../components/Home';
+import Player from '../components/player/Player';
 import PlayerIndex from '../components/player/PlayerIndex';
 import Team from '../components/team/Team';
 import TeamIndex from '../components/team/TeamIndex';
@@ -20,6 +21,7 @@ ReactDOM.render((
     <Route path="/" component={App}>
       <Route path="/home" component={Home} />
       <Route path="/player" component={PlayerIndex} />
+      <Route path="/player/:playerId" component={Player} />
       <Route path="/team" component={TeamIndex}>
         <IndexRoute component="works-team" />
         <Route path="/team/works-team" component="works-team" />

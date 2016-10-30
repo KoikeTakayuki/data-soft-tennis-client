@@ -1,5 +1,4 @@
 import React from 'react';
-import DataList from '../DataList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import MatchCard from '../match/MatchCard';
 import Server from '../../config/server';
@@ -34,7 +33,7 @@ export default class CompetitionMatchList extends React.Component {
     if (this.state.matches) {
       return (
         <Grid>
-          <h2>試合一覧</h2>
+          <h3>試合一覧</h3>
           <Row>{this.state.matches.map((m) => <Col xs={12} sm={12} md={6}><MatchCard match={m} /></Col>)}</Row>
         </Grid>
       );

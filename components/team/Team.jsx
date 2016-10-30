@@ -1,7 +1,7 @@
 import React from 'react';
-import DataList from '../DataList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import TeamPlayerList from './TeamPlayerList';
+import FormerTeamPlayerList from './FormerTeamPlayerList';
 import Server from '../../config/server';
 import { CircularProgress } from 'material-ui';
 import CircularProgressCenter from '../util/CircularProgressCenter'
@@ -39,6 +39,7 @@ export default class Team extends React.Component {
             <h2>{this.state.team.name}</h2>
           </Grid>
           <TeamPlayerList team={this.state.team} />
+          <FormerTeamPlayerList team={this.state.team} />
         </div>
       );
     }

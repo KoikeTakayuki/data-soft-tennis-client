@@ -9,7 +9,7 @@ export default class TeamList extends React.Component {
   render() {
     return (
       <Grid>
-        <h2>チーム一覧</h2>
+        <h3>チーム一覧</h3>
         <Row>{this.props.teams.map((t) => <Col xs={12} sm={6} md={6} lg={3}><TeamCard team={t} /></Col>)}</Row>
       </Grid>
     );

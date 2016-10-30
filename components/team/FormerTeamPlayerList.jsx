@@ -4,13 +4,13 @@ import PlayerCard from '../player/PlayerCard';
 import Server from '../../config/server';
 import CircularProgressCenter from '../util/CircularProgressCenter'
 
-export default class TeamPlayerList extends React.Component {
+export default class FormerTeamPlayerList extends React.Component {
 
 
   constructor(props) {
     super(props);
     const team = props.team;
-    this.url = Server.API.getPlayersByTeamId(team.id);
+    this.url = Server.API.getFormerPlayersByTeamId(team.id);
     this.state = { players: false };
   }
 
@@ -32,7 +32,7 @@ export default class TeamPlayerList extends React.Component {
     if (this.state.players) {
       return (
         <Grid>
-          <h3>所属プレイヤー一覧</h3>
+          <h3>過去に在籍していたプレイヤー</h3>
           <Row>{this.state.players.map((p) => <Col xs={12} sm={12} md={6}><PlayerCard player={p} /></Col>)}</Row>
         </Grid>
       );
