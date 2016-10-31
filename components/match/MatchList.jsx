@@ -2,7 +2,8 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import MatchCard from './MatchCard';
 import Server from '../../config/server';
-import CircularProgressCenter from '../util/CircularProgressCenter'
+import CircularProgressCenter from '../util/CircularProgressCenter';
+import ResponsiveBanner from '../adsense/ResponsiveBanner';
 
 export default class MatchList extends React.Component {
 
@@ -11,6 +12,7 @@ export default class MatchList extends React.Component {
         <Grid>
           <h3>試合一覧</h3>
           <Row>{this.props.matches.map((m) => <Col xs={12} sm={12} md={6}><MatchCard match={m} /></Col>)}</Row>
+          
         </Grid>
     );
   }
