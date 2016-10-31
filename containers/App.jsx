@@ -4,8 +4,12 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Link } from 'react-router'
-
+import { Link } from 'react-router';
+import GroupIcon from 'material-ui/svg-icons/social/group';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+import FaceIcon from 'material-ui/svg-icons/action/face';
+import CompareArrowsIcon from 'material-ui/svg-icons/action/compare-arrows';
+import PublicIcon from 'material-ui/svg-icons/social/public';
 
 export default class App extends React.Component {
 
@@ -22,15 +26,15 @@ export default class App extends React.Component {
   render() {
 
     const links = [
-      { url: 'home', name: 'HOME'},
-      { url: 'player', name: 'プレイヤーを探す'},
-      { url: 'team', name: 'チームを探す'},
-      { url: 'match', name: '試合を探す'},
-      { url: 'competition', name: '大会を探す'}
+      { url: 'home', name: 'HOME', icon: <HomeIcon /> },
+      { url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
+      { url: 'team', name: 'チームを探す', icon: <GroupIcon /> },
+      { url: 'match', name: '試合を探す', icon: <CompareArrowsIcon /> },
+      { url: 'competition', name: '大会を探す', icon: <PublicIcon /> }
     ];
 
     const drawerMenus = links.map((l) => (
-      <Link to={l.url} eventName="onTouchTap"><MenuItem onTouchTap={this.toggleDrawer}>{l.name}</MenuItem></Link>
+      <Link to={l.url} eventName="onTouchTap"><MenuItem onTouchTap={this.toggleDrawer} leftIcon={l.icon}>{l.name}</MenuItem></Link>
     ));
 
 
