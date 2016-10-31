@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import App from '../containers/App';
 import Home from '../components/Home';
 import Player from '../components/player/Player';
+import AgeFilteredPlayerIndex from '../components/player/AgeFilteredPlayerIndex';
 import PlayerIndex from '../components/player/PlayerIndex';
 import Team from '../components/team/Team';
 import TeamIndex from '../components/team/TeamIndex';
@@ -20,6 +21,7 @@ ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="/home" component={Home} />
+      <Route path="/player/birth-year/:birthYear" component={AgeFilteredPlayerIndex} />
       <Route path="/player" component={PlayerIndex} />
       <Route path="/player/:playerId" component={Player} />
       <Route path="/team" component={TeamIndex}>

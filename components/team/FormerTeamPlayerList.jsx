@@ -30,6 +30,9 @@ export default class FormerTeamPlayerList extends React.Component {
 
   render() {
     if (this.state.players) {
+      if (this.state.players.length <= 0) {
+        return null;
+      }
       return (
         <Grid>
           <h3>過去に在籍していたプレイヤー</h3>

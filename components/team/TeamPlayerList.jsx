@@ -30,9 +30,12 @@ export default class TeamPlayerList extends React.Component {
 
   render() {
     if (this.state.players) {
+      if (this.state.players.length <= 0) {
+        return null;
+      }
       return (
         <Grid>
-          <h3>所属プレイヤー一覧</h3>
+          <h3>所属プレイヤー</h3>
           <Row>{this.state.players.map((p) => <Col xs={12} sm={12} md={6}><PlayerCard player={p} /></Col>)}</Row>
         </Grid>
       );

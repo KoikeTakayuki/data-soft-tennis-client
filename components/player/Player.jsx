@@ -1,8 +1,11 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Server from '../../config/server';
-import { CircularProgress } from 'material-ui';
 import CircularProgressCenter from '../util/CircularProgressCenter'
+import DetailedPlayerCard from './DetailedPlayerCard';
+import PlayerMatchList from './PlayerMatchList';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import { Link } from 'react-router'
 
 export default class Player extends React.Component {
 
@@ -30,11 +33,14 @@ export default class Player extends React.Component {
 
   render() {
     if (this.state.player) {
+
       return (
         <div>
           <Grid>
             <h2>{this.state.player.name}</h2>
           </Grid>
+          <DetailedPlayerCard player={this.state.player} />
+          <PlayerMatchList player={this.state.player} />
         </div>
       );
     }
