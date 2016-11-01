@@ -106751,9 +106751,13 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
-	var _materialUiRaisedButton = __webpack_require__(866);
+	var _materialUiDropDownMenu = __webpack_require__(843);
 
-	var _materialUiRaisedButton2 = _interopRequireDefault(_materialUiRaisedButton);
+	var _materialUiDropDownMenu2 = _interopRequireDefault(_materialUiDropDownMenu);
+
+	var _materialUiMenuItem = __webpack_require__(410);
+
+	var _materialUiMenuItem2 = _interopRequireDefault(_materialUiMenuItem);
 
 	var TeamIndex = (function (_React$Component) {
 	  _inherits(TeamIndex, _React$Component);
@@ -106790,7 +106794,8 @@
 	    }
 	  }, {
 	    key: 'handleChange',
-	    value: function handleChange(teamDivision) {
+	    value: function handleChange(e, i, teamDivision) {
+
 	      this.setState({
 	        teamDivision: teamDivision
 	      });
@@ -106800,7 +106805,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
 
 	      var teamDivisions = [{ name: '実業団', id: 'works-team' }, { name: '大学', id: 'university' }, { name: '高校', id: 'high-school' }, { name: '中学', id: 'junior-high' }];
 
@@ -106817,12 +106821,14 @@
 	          ),
 	          _react2['default'].createElement(
 	            'div',
-	            { style: { textAlign: "center", marginBottom: "10px" } },
-	            teamDivisions.map(function (t) {
-	              return _react2['default'].createElement(_materialUiRaisedButton2['default'], { style: { margin: "3px" }, onTouchTap: function () {
-	                  return _this2.handleChange(t.id);
-	                }, key: t.id, label: t.name, labelStyle: { fontSize: "16px" }, secondary: _this2.state.teamDivision === t.id });
-	            })
+	            { style: { textAlign: "right", marginBottom: "10px" } },
+	            _react2['default'].createElement(
+	              _materialUiDropDownMenu2['default'],
+	              { value: this.state.teamDivision, onChange: this.handleChange, labelStyle: { fontSize: "18px" } },
+	              teamDivisions.map(function (t) {
+	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
+	              })
+	            )
 	          ),
 	          this.state.teams ? _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
 	        )

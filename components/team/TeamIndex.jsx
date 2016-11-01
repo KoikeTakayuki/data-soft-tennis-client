@@ -3,7 +3,8 @@ import TeamList from './TeamList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Server from '../../config/server';
 import CircularProgressCenter from '../util/CircularProgressCenter'
-import RaisedButton from 'material-ui/RaisedButton';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 export default class TeamIndex extends React.Component {
 
@@ -33,7 +34,8 @@ export default class TeamIndex extends React.Component {
     });
   }
 
-  handleChange(teamDivision) {
+  handleChange(e, i, teamDivision) {
+
     this.setState({
       teamDivision: teamDivision
     });
@@ -54,7 +56,11 @@ export default class TeamIndex extends React.Component {
       <div>
         <Grid>
           <h1>チーム一覧</h1>
-            <div style={{ textAlign: "center", marginBottom: "10px"}}>{teamDivisions.map((t) => <RaisedButton style={{ margin: "3px" }} onTouchTap={() => this.handleChange(t.id)} key={t.id} label={t.name} labelStyle={{fontSize: "16px"}} secondary={this.state.teamDivision === t.id}/>)}</div>
+          <div style={{textAlign: "right", marginBottom: "10px"}}>
+            <DropDownMenu value={this.state.teamDivision} onChange={this.handleChange} labelStyle={{fontSize: "18px"}}>
+              {teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
+            </DropDownMenu>
+          </div>
           {this.state.teams ? (
               <TeamList teams={this.state.teams} />
             ) : (
