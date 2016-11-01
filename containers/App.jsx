@@ -11,6 +11,7 @@ import FaceIcon from 'material-ui/svg-icons/action/face';
 import CompareArrowsIcon from 'material-ui/svg-icons/action/compare-arrows';
 import PublicIcon from 'material-ui/svg-icons/social/public';
 
+
 export default class App extends React.Component {
 
   constructor(props) {
@@ -34,7 +35,7 @@ export default class App extends React.Component {
     ];
 
     const drawerMenus = links.map((l) => (
-      <Link to={l.url} eventName="onTouchTap"><MenuItem onTouchTap={this.toggleDrawer} leftIcon={l.icon}>{l.name}</MenuItem></Link>
+      <Link to={l.url}><MenuItem onTouchTap={this.toggleDrawer} leftIcon={l.icon}>{l.name}</MenuItem></Link>
     ));
 
 
