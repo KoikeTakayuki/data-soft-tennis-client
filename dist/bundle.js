@@ -106819,9 +106819,9 @@
 	            'div',
 	            { style: { textAlign: "center", marginBottom: "10px" } },
 	            teamDivisions.map(function (t) {
-	              return _react2['default'].createElement(_materialUiRaisedButton2['default'], { style: { margin: "3px", width: "120px" }, onTouchTap: function () {
+	              return _react2['default'].createElement(_materialUiRaisedButton2['default'], { style: { margin: "3px" }, onTouchTap: function () {
 	                  return _this2.handleChange(t.id);
-	                }, key: t.id, label: t.name, labelStyle: { fontSize: "18px" }, secondary: _this2.state.teamDivision === t.id });
+	                }, key: t.id, label: t.name, labelStyle: { fontSize: "16px" }, secondary: _this2.state.teamDivision === t.id });
 	            })
 	          ),
 	          this.state.teams ? _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)

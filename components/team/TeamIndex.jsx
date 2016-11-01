@@ -54,7 +54,7 @@ export default class TeamIndex extends React.Component {
       <div>
         <Grid>
           <h1>チーム一覧</h1>
-            <div style={{ textAlign: "center", marginBottom: "10px"}}>{teamDivisions.map((t) => <RaisedButton style={{ margin: "3px", width: "120px" }} onTouchTap={() => this.handleChange(t.id)} key={t.id} label={t.name} labelStyle={{fontSize: "18px"}} secondary={this.state.teamDivision === t.id}/>)}</div>
+            <div style={{ textAlign: "center", marginBottom: "10px"}}>{teamDivisions.map((t) => <RaisedButton style={{ margin: "3px" }} onTouchTap={() => this.handleChange(t.id)} key={t.id} label={t.name} labelStyle={{fontSize: "16px"}} secondary={this.state.teamDivision === t.id}/>)}</div>
           {this.state.teams ? (
               <TeamList teams={this.state.teams} />
             ) : (
