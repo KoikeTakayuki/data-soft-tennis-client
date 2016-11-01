@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import GroupIcon from 'material-ui/svg-icons/social/group';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import FaceIcon from 'material-ui/svg-icons/action/face';
+import { hashHistory } from 'react-router'
 
 
 export default class App extends React.Component {
@@ -16,14 +17,19 @@ export default class App extends React.Component {
     super(props)
     this.state = { showDrawer: false };
     this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.onDrawerMenuItemClicked = this.onDrawerMenuItemClicked.bind(this);
   }
 
   toggleDrawer() {
     this.setState({ showDrawer: !this.state.showDrawer });
   }
 
-  render() {
+  onDrawerMenuItemClicked(url) {
+    hashHistory.push(url);
+    this.setState({showDrawer: false});
+  }
 
+  render() {
     const links = [
       { id: 1, url: 'home', name: 'HOME', icon: <HomeIcon /> },
       { id: 2, url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
@@ -33,7 +39,7 @@ export default class App extends React.Component {
     ];
 
     const drawerMenus = links.map((l) => (
-      <MenuItem key={l.id} onTouchTap={this.toggleDrawer} containerElement={<Link to={l.url} />} leftIcon={l.icon}>{l.name}</MenuItem>
+      <MenuItem key={l.id} onTouchTap={() => {this.onDrawerMenuItemClicked(l.url)}} leftIcon={l.icon}>{l.name}</MenuItem>
     ));
 
 
