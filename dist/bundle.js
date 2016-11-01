@@ -21885,12 +21885,19 @@
 	    _get(Object.getPrototypeOf(App.prototype), 'constructor', this).call(this, props);
 	    this.state = { showDrawer: false };
 	    this.toggleDrawer = this.toggleDrawer.bind(this);
+	    this.onDrawerMenuItemClicked = this.onDrawerMenuItemClicked.bind(this);
 	  }
 
 	  _createClass(App, [{
 	    key: 'toggleDrawer',
 	    value: function toggleDrawer() {
 	      this.setState({ showDrawer: !this.state.showDrawer });
+	    }
+	  }, {
+	    key: 'onDrawerMenuItemClicked',
+	    value: function onDrawerMenuItemClicked(url) {
+	      _reactRouter.hashHistory.push(url);
+	      this.setState({ showDrawer: false });
 	    }
 	  }, {
 	    key: 'render',
@@ -21902,7 +21909,9 @@
 	      var drawerMenus = links.map(function (l) {
 	        return _react2['default'].createElement(
 	          _materialUiMenuItem2['default'],
-	          { key: l.id, onTouchTap: _this.toggleDrawer, containerElement: _react2['default'].createElement(_reactRouter.Link, { to: l.url }), leftIcon: l.icon },
+	          { key: l.id, onTouchTap: function () {
+	              _this.onDrawerMenuItemClicked(l.url);
+	            }, leftIcon: l.icon },
 	          l.name
 	        );
 	      });
@@ -106797,7 +106806,8 @@
 	          _materialUiTabs.Tabs,
 	          {
 	            value: this.state.teamDivision,
-	            onChange: this.handleChange },
+	            onChange: this.handleChange,
+	            style: { "lineHeight": "48px" } },
 	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '実業団', value: 'works-team' }),
 	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '大学', value: 'university' }),
 	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '高校', value: 'high-school' }),

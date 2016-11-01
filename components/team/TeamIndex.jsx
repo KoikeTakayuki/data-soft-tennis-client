@@ -47,7 +47,8 @@ export default class TeamIndex extends React.Component {
       <div>
         <Tabs
           value={this.state.teamDivision}
-          onChange={this.handleChange} >
+          onChange={this.handleChange}
+          style={{"lineHeight": "48px"}} >
           <Tab label="実業団" value="works-team" />
           <Tab label="大学" value="university" />
           <Tab label="高校" value="high-school" />
