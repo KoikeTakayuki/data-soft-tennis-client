@@ -42,6 +42,6 @@ export default class Team extends React.Component {
       );
     }
 
-    return <CircularProgressCenter />
+    return null;
   }
 }

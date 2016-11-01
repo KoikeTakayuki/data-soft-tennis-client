@@ -41,6 +41,6 @@ export default class FormerTeamPlayerList extends React.Component {
       );
     }
 
-    return <CircularProgressCenter />
+    return null;
   }
 }

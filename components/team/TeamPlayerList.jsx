@@ -41,6 +41,6 @@ export default class TeamPlayerList extends React.Component {
       );
     }
 
-    return <CircularProgressCenter />
+    return null;
   }
 }

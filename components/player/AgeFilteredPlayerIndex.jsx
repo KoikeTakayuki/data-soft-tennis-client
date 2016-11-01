@@ -36,9 +36,7 @@ export default class AgeFilteredPlayerIndex extends React.Component {
         <h1>{this.props.params.birthYear}年度生まれのプレイヤー</h1>
         {this.state.players ? (
             <PlayerList players={this.state.players} />
-          ) : (
-            <CircularProgressCenter />
-          )
+          ) : null
         }
       </Grid>
     );

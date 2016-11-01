@@ -47,6 +47,6 @@ export default class Player extends React.Component {
       );
     }
 
-    return <CircularProgressCenter />
+    return null;
   }
 }

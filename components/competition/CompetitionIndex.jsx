@@ -34,9 +34,7 @@ export default class CompetitionIndex extends React.Component {
         <h1>大会一覧</h1>
         {this.state.competitions ? (
             <CompetitionList competitions={this.state.competitions} />
-          ) : (
-            <CircularProgressCenter />
-          )
+          ) : null
         }
       </Grid>
     );

@@ -44385,7 +44385,7 @@
 	        );
 	      }
 
-	      return _react2['default'].createElement(_utilCircularProgressCenter2['default'], null);
+	      return null;
 	    }
 	  }]);
 
@@ -106155,7 +106155,7 @@
 	          this.props.params.birthYear,
 	          '年度生まれのプレイヤー'
 	        ),
-	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
+	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : null
 	      );
 	    }
 	  }]);
@@ -106390,7 +106390,8 @@
 	          null,
 	          'プレイヤー一覧'
 	        ),
-	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
+	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : null,
+	        '        }'
 	      );
 	    }
 	  }]);
@@ -106497,7 +106498,7 @@
 	        );
 	      }
 
-	      return _react2['default'].createElement(_utilCircularProgressCenter2['default'], null);
+	      return null;
 	    }
 	  }]);
 
@@ -106598,7 +106599,7 @@
 	        );
 	      }
 
-	      return _react2['default'].createElement(_utilCircularProgressCenter2['default'], null);
+	      return null;
 	    }
 	  }]);
 
@@ -106699,7 +106700,7 @@
 	        );
 	      }
 
-	      return _react2['default'].createElement(_utilCircularProgressCenter2['default'], null);
+	      return null;
 	    }
 	  }]);
 
@@ -106824,13 +106825,13 @@
 	            { style: { textAlign: "right", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { value: this.state.teamDivision, onChange: this.handleChange, labelStyle: { fontSize: "18px" } },
+	              { value: this.state.teamDivision, onChange: this.handleChange, labelStyle: { fontSize: "24px" } },
 	              teamDivisions.map(function (t) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
 	              })
 	            )
 	          ),
-	          this.state.teams ? _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
+	          this.state.teams ? _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }) : null
 	        )
 	      );
 	    }
@@ -107217,8 +107218,6 @@
 	          _react2['default'].createElement(_CompetitionMatchList2['default'], { competition: this.state.competition })
 	        );
 	      }
-
-	      return _react2['default'].createElement(_utilCircularProgressCenter2['default'], null);
 	    }
 	  }]);
 
@@ -107405,7 +107404,7 @@
 	          null,
 	          '大会一覧'
 	        ),
-	        this.state.competitions ? _react2['default'].createElement(_CompetitionList2['default'], { competitions: this.state.competitions }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
+	        this.state.competitions ? _react2['default'].createElement(_CompetitionList2['default'], { competitions: this.state.competitions }) : null
 	      );
 	    }
 	  }]);
