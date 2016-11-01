@@ -9,10 +9,7 @@ export default class MatchList extends React.Component {
 
   render() {
     return (
-        <Grid>
-          <h3>試合一覧</h3>
-          <Row>{this.props.matches.map((m) => <Col xs={12} sm={12} md={6}><MatchCard match={m} /></Col>)}</Row>
-        </Grid>
+          <Row>{this.props.matches.map((m) => <Col key={m.id} xs={12} sm={12} md={6}><MatchCard match={m} /></Col>)}</Row>
     );
   }
 }

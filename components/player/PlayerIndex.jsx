@@ -30,14 +30,15 @@ export default class PlayerIndex extends React.Component {
   render() {
 
     return (
-      <div>
+      <Grid>
+        <h1>プレイヤー一覧</h1>
         {this.state.players ? (
             <PlayerList players={this.state.players} />
           ) : (
             <CircularProgressCenter />
           )
         }
-      </div>
+      </Grid>
     );
 
   }

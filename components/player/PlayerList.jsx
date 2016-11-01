@@ -6,10 +6,7 @@ export default class PlayerList extends React.Component {
 
   render() {
     return (
-        <Grid>
-          <h3>{this.props.title ? this.props.title : 'プレイヤー一覧'}</h3>
-          <Row>{this.props.players.map((p) => <Col xs={12} sm={6} md={3}><PlayerCard player={p} /></Col>)}</Row>
-        </Grid>
+       <Row>{this.props.players.map((p) => <Col key={p.id} xs={12} sm={6} md={3}><PlayerCard player={p} /></Col>)}</Row>
     );
   }
 }

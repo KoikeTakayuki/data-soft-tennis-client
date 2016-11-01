@@ -30,14 +30,15 @@ export default class MatchIndex extends React.Component {
   render() {
 
     return (
-      <div>
+      <Grid>
+        <h1>試合一覧</h1>
         {this.state.matches ? (
             <MatchList matches={this.state.matches} />
           ) : (
             <CircularProgressCenter />
           )
         }
-      </div>
+      </Grid>
     );
 
   }

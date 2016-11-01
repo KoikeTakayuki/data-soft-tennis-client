@@ -37,10 +37,12 @@ export default class Player extends React.Component {
       return (
         <div>
           <Grid>
-            <h2>{this.state.player.name}</h2>
+            <h1>{this.state.player.name}</h1>
+            <h2>プロフィール</h2>
+            <DetailedPlayerCard player={this.state.player} />
+            <h2>試合一覧</h2>
+            <PlayerMatchList player={this.state.player} />
           </Grid>
-          <DetailedPlayerCard player={this.state.player} />
-          <PlayerMatchList player={this.state.player} />
         </div>
       );
     }

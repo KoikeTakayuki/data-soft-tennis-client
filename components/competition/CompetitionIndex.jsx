@@ -2,6 +2,7 @@ import React from 'react';
 import CompetitionList from './CompetitionList';
 import Server from '../../config/server';
 import CircularProgressCenter from '../util/CircularProgressCenter'
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class CompetitionIndex extends React.Component {
 
@@ -29,14 +30,15 @@ export default class CompetitionIndex extends React.Component {
   render() {
 
     return (
-      <div>
+      <Grid>
+        <h1>大会一覧</h1>
         {this.state.competitions ? (
             <CompetitionList competitions={this.state.competitions} />
           ) : (
             <CircularProgressCenter />
           )
         }
-      </div>
+      </Grid>
     );
 
   }

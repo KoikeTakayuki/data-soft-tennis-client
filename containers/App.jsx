@@ -8,8 +8,6 @@ import { Link } from 'react-router';
 import GroupIcon from 'material-ui/svg-icons/social/group';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import FaceIcon from 'material-ui/svg-icons/action/face';
-import CompareArrowsIcon from 'material-ui/svg-icons/action/compare-arrows';
-import PublicIcon from 'material-ui/svg-icons/social/public';
 
 
 export default class App extends React.Component {
@@ -27,15 +25,15 @@ export default class App extends React.Component {
   render() {
 
     const links = [
-      { url: 'home', name: 'HOME', icon: <HomeIcon /> },
-      { url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
-      { url: 'team', name: 'チームを探す', icon: <GroupIcon /> },
-      { url: 'match', name: '試合を探す', icon: <CompareArrowsIcon /> },
-      { url: 'competition', name: '大会を探す', icon: <PublicIcon /> }
+      { id: 1, url: 'home', name: 'HOME', icon: <HomeIcon /> },
+      { id: 2, url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
+      { id: 3, url: 'team', name: 'チームを探す', icon: <GroupIcon /> },
+      { id: 4, url: 'match', name: '試合を探す', icon:  <img src="assets/images/racket.png" /> },
+      { id: 5, url: 'competition', name: '大会を探す', icon: <img src="assets/images/trophy.png" /> }
     ];
 
     const drawerMenus = links.map((l) => (
-      <Link to={l.url}><MenuItem onTouchTap={this.toggleDrawer} leftIcon={l.icon}>{l.name}</MenuItem></Link>
+      <MenuItem key={l.id} onTouchTap={this.toggleDrawer} containerElement={<Link to={l.url} />} leftIcon={l.icon}>{l.name}</MenuItem>
     ));
 
 

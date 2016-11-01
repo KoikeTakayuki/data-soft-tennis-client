@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import PlayerCard from '../player/PlayerCard';
+import PlayerList from '../player/PlayerList';
 import Server from '../../config/server';
 import CircularProgressCenter from '../util/CircularProgressCenter'
 
@@ -34,10 +34,10 @@ export default class FormerTeamPlayerList extends React.Component {
         return null;
       }
       return (
-        <Grid>
-          <h3>過去に在籍していたプレイヤー</h3>
-          <Row>{this.state.players.map((p) => <Col xs={12} sm={12} md={6}><PlayerCard player={p} /></Col>)}</Row>
-        </Grid>
+        <div>
+          <h2>過去に在籍していたプレイヤー</h2>
+          <PlayerList players={this.state.players} />
+        </div>
       );
     }
 

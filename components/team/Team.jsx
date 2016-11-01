@@ -34,13 +34,11 @@ export default class Team extends React.Component {
   render() {
     if (this.state.team) {
       return (
-        <div>
-          <Grid>
-            <h2>{this.state.team.name}</h2>
-          </Grid>
+        <Grid>
+          <h1>{this.state.team.name}</h1>
           <TeamPlayerList team={this.state.team} />
           <FormerTeamPlayerList team={this.state.team} />
-        </div>
+        </Grid>
       );
     }
 

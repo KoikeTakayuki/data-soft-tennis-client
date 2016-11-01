@@ -53,12 +53,15 @@ export default class TeamIndex extends React.Component {
           <Tab label="高校" value="high-school" />
           <Tab label="中学" value="junior-high" />
         </Tabs>
-        {this.state.teams ? (
-            <TeamList teams={this.state.teams} />
-          ) : (
-            <CircularProgressCenter />
-          )
-        }
+        <Grid>
+          <h1>チーム一覧</h1>
+          {this.state.teams ? (
+              <TeamList teams={this.state.teams} />
+            ) : (
+              <CircularProgressCenter />
+            )
+          }
+        </Grid>
       </div>
     );
 
