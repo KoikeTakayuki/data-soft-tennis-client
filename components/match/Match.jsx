@@ -33,6 +33,7 @@ export default class Match extends React.Component {
   render() {
     if (this.state.match) {
       const match = this.state.match;
+      const tableHeaderStyle = {width:"23%", textAlign:"center"};
 
       return (
         <Grid>
@@ -41,13 +42,13 @@ export default class Match extends React.Component {
             <ReactPlayer url={match.url} width="100%" height="300px" style={{maxWidth: "640"}} />
             <p>会場: {match.tennis_court_name}</p>
             <Table>
-              <TableHeader displaySelectAll={false}>
+              <TableHeader displaySelectAll={false} enableSelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
-                  <TableHeaderColumn><Link to={"player/" + match.player1_id}>{match.player1_name}</Link></TableHeaderColumn>
-                  <TableHeaderColumn><Link to={"player/" + match.player2_id}>{match.player2_name}</Link></TableHeaderColumn>
-                  <TableHeaderColumn>対</TableHeaderColumn>
-                  <TableHeaderColumn><Link to={"player/" + match.player3_id}>{match.player3_name}</Link></TableHeaderColumn>
-                  <TableHeaderColumn><Link to={"player/" + match.player4_id}>{match.player4_name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player1_id}>{match.player1_name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player2_id}>{match.player2_name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={{width:"8%", marginLeft:"-10px"}}><div>対</div></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player3_id}>{match.player3_name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player4_id}>{match.player4_name}</Link></TableHeaderColumn>
                 </TableRow>
               </TableHeader>
             </Table>

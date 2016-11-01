@@ -107113,6 +107113,7 @@
 	    value: function render() {
 	      if (this.state.match) {
 	        var match = this.state.match;
+	        var tableHeaderStyle = { width: "23%", textAlign: "center" };
 
 	        return _react2['default'].createElement(
 	          _reactBootstrap.Grid,
@@ -107137,13 +107138,13 @@
 	              null,
 	              _react2['default'].createElement(
 	                _materialUiTable.TableHeader,
-	                { displaySelectAll: false },
+	                { displaySelectAll: false, enableSelectAll: false, adjustForCheckbox: false },
 	                _react2['default'].createElement(
 	                  _materialUiTable.TableRow,
 	                  null,
 	                  _react2['default'].createElement(
 	                    _materialUiTable.TableHeaderColumn,
-	                    null,
+	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
 	                      { to: "player/" + match.player1_id },
@@ -107152,7 +107153,7 @@
 	                  ),
 	                  _react2['default'].createElement(
 	                    _materialUiTable.TableHeaderColumn,
-	                    null,
+	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
 	                      { to: "player/" + match.player2_id },
@@ -107161,12 +107162,16 @@
 	                  ),
 	                  _react2['default'].createElement(
 	                    _materialUiTable.TableHeaderColumn,
-	                    null,
-	                    '対'
+	                    { style: { width: "8%", marginLeft: "-10px" } },
+	                    _react2['default'].createElement(
+	                      'div',
+	                      null,
+	                      '対'
+	                    )
 	                  ),
 	                  _react2['default'].createElement(
 	                    _materialUiTable.TableHeaderColumn,
-	                    null,
+	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
 	                      { to: "player/" + match.player3_id },
@@ -107175,7 +107180,7 @@
 	                  ),
 	                  _react2['default'].createElement(
 	                    _materialUiTable.TableHeaderColumn,
-	                    null,
+	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
 	                      { to: "player/" + match.player4_id },
@@ -109010,6 +109015,8 @@
 	          _react2['default'].createElement(_CompetitionMatchList2['default'], { competition: this.state.competition })
 	        );
 	      }
+
+	      return null;
 	    }
 	  }]);
 

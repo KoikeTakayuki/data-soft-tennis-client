@@ -42,5 +42,7 @@ export default class Competition extends React.Component {
         </div>
       );
     }
+
+    return null;
   }
 }
