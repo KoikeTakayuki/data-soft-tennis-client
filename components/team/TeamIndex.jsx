@@ -3,7 +3,7 @@ import TeamList from './TeamList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Server from '../../config/server';
 import CircularProgressCenter from '../util/CircularProgressCenter'
-import {Tabs, Tab} from 'material-ui/Tabs';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export default class TeamIndex extends React.Component {
 
@@ -43,19 +43,18 @@ export default class TeamIndex extends React.Component {
 
   render() {
 
+    const teamDivisions = [
+      { name: '実業団', id: 'works-team' },
+      { name: '大学', id: 'university' },
+      { name: '高校', id: 'high-school' },
+      { name: '中学', id: 'junior-high' }
+    ];
+
     return (
       <div>
-        <Tabs
-          value={this.state.teamDivision}
-          onChange={this.handleChange}
-          style={{"lineHeight": "48px"}} >
-          <Tab label="実業団" value="works-team" />
-          <Tab label="大学" value="university" />
-          <Tab label="高校" value="high-school" />
-          <Tab label="中学" value="junior-high" />
-        </Tabs>
         <Grid>
           <h1>チーム一覧</h1>
+            <div style={{ textAlign: "center", marginBottom: "10px"}}>{teamDivisions.map((t) => <RaisedButton style={{ margin: "3px", width: "120px" }} onTouchTap={() => this.handleChange(t.id)} key={t.id} label={t.name} labelStyle={{fontSize: "18px"}} secondary={this.state.teamDivision === t.id}/>)}</div>
           {this.state.teams ? (
               <TeamList teams={this.state.teams} />
             ) : (

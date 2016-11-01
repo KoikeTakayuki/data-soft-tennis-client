@@ -106751,7 +106751,9 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
-	var _materialUiTabs = __webpack_require__(895);
+	var _materialUiRaisedButton = __webpack_require__(866);
+
+	var _materialUiRaisedButton2 = _interopRequireDefault(_materialUiRaisedButton);
 
 	var TeamIndex = (function (_React$Component) {
 	  _inherits(TeamIndex, _React$Component);
@@ -106798,21 +106800,13 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
+	      var teamDivisions = [{ name: '実業団', id: 'works-team' }, { name: '大学', id: 'university' }, { name: '高校', id: 'high-school' }, { name: '中学', id: 'junior-high' }];
 
 	      return _react2['default'].createElement(
 	        'div',
 	        null,
-	        _react2['default'].createElement(
-	          _materialUiTabs.Tabs,
-	          {
-	            value: this.state.teamDivision,
-	            onChange: this.handleChange,
-	            style: { "lineHeight": "48px" } },
-	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '実業団', value: 'works-team' }),
-	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '大学', value: 'university' }),
-	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '高校', value: 'high-school' }),
-	          _react2['default'].createElement(_materialUiTabs.Tab, { label: '中学', value: 'junior-high' })
-	        ),
 	        _react2['default'].createElement(
 	          _reactBootstrap.Grid,
 	          null,
@@ -106820,6 +106814,15 @@
 	            'h1',
 	            null,
 	            'チーム一覧'
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            { style: { textAlign: "center", marginBottom: "10px" } },
+	            teamDivisions.map(function (t) {
+	              return _react2['default'].createElement(_materialUiRaisedButton2['default'], { style: { margin: "3px", width: "120px" }, onTouchTap: function () {
+	                  return _this2.handleChange(t.id);
+	                }, key: t.id, label: t.name, labelStyle: { fontSize: "18px" }, secondary: _this2.state.teamDivision === t.id });
+	            })
 	          ),
 	          this.state.teams ? _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
 	        )
