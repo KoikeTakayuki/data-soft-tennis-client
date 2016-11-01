@@ -8,6 +8,7 @@ import AgeFilteredPlayerIndex from '../components/player/AgeFilteredPlayerIndex'
 import PlayerIndex from '../components/player/PlayerIndex';
 import Team from '../components/team/Team';
 import TeamIndex from '../components/team/TeamIndex';
+import Match from '../components//match/Match';
 import MatchIndex from '../components//match/MatchIndex';
 import Competition from '../components/competition/Competition';
 import CompetitionIndex from '../components/competition/CompetitionIndex';
@@ -33,6 +34,7 @@ ReactDOM.render((
       </Route>
       <Route path="/team/:teamId" component={Team} />
       <Route path="/match" component={MatchIndex} />
+      <Route path="/match/:matchId" component={Match} />
       <Route path="/competition" component={CompetitionIndex} />
       <Route path="/competition/:competitionId" component={Competition} />
     </Route>

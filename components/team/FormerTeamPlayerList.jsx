@@ -35,7 +35,7 @@ export default class FormerTeamPlayerList extends React.Component {
       }
       return (
         <div>
-          <h2>過去に在籍していたプレイヤー</h2>
+          <h2>卒業生</h2>
           <PlayerList players={this.state.players} />
         </div>
       );
