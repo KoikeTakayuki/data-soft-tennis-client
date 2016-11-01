@@ -39,7 +39,7 @@ export default class Match extends React.Component {
         <Grid>
           <h1 style={{fontSize: "14px"}}>{match.title}</h1>
           <div>
-            <ReactPlayer url={match.url} width="100%" height="300px" style={{maxWidth: "640"}} />
+            <ReactPlayer url={match.url} width="100%" height="300px" style={{maxWidth: 640}} />
             <p>会場: {match.tennis_court_name}</p>
             <Table>
               <TableHeader displaySelectAll={false} enableSelectAll={false} adjustForCheckbox={false}>

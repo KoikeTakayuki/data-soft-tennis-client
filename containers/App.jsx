@@ -31,15 +31,15 @@ export default class App extends React.Component {
 
   render() {
     const links = [
-      { id: 1, url: 'home', name: 'HOME', icon: <HomeIcon /> },
-      { id: 2, url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
-      { id: 3, url: 'team', name: 'チームを探す', icon: <GroupIcon /> },
-      { id: 4, url: 'match', name: '試合を探す', icon:  <img src="assets/images/racket.png" /> },
-      { id: 5, url: 'competition', name: '大会を探す', icon: <img src="assets/images/trophy.png" /> }
+      { url: 'home', name: 'HOME', icon: <HomeIcon /> },
+      { url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
+      { url: 'team', name: 'チームを探す', icon: <GroupIcon /> },
+      { url: 'match', name: '試合を探す', icon:  <img src="assets/images/racket.png" /> },
+      { url: 'competition', name: '大会を探す', icon: <img src="assets/images/trophy.png" /> }
     ];
 
     const drawerMenus = links.map((l) => (
-      <MenuItem key={l.id} onTouchTap={() => {this.onDrawerMenuItemClicked(l.url)}} leftIcon={l.icon}>{l.name}</MenuItem>
+      <MenuItem key={l.url} onTouchTap={() => {this.onDrawerMenuItemClicked(l.url)}} leftIcon={l.icon}>{l.name}</MenuItem>
     ));
 
 

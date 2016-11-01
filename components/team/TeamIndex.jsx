@@ -57,7 +57,7 @@ export default class TeamIndex extends React.Component {
         <Grid>
           <h1>チーム一覧</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
-            <DropDownMenu value={this.state.teamDivision} onChange={this.handleChange} labelStyle={{fontSize: "24px"}}>
+            <DropDownMenu value={this.state.teamDivision} onChange={this.handleChange} style={{width: 150}} autoWidth={false} labelStyle={{fontSize: "20px"}}>
               {teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
             </DropDownMenu>
           </div>

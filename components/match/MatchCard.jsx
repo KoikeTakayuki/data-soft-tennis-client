@@ -14,10 +14,9 @@ export default class MatchCard extends React.Component {
 
     return (
       <Card>
-        <CardHeader
-          title={match.title}
-          subtitle=""
-        />
+        <CardText>
+          {match.title}
+        </CardText>
         <CardMedia>
           <img src={thumbnailUrl} />
         </CardMedia>
