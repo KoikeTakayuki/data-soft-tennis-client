@@ -14,7 +14,7 @@ export default class MatchCard extends React.Component {
 
     return (
       <Card>
-        <CardText>
+        <CardText style={{ height: 60 }}>
           {match.title}
         </CardText>
         <CardMedia>
