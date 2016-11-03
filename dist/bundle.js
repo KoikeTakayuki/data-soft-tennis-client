@@ -64477,8 +64477,8 @@
 	var _Promise = __webpack_require__(794)['default'];
 
 	var Server = {
-	  /*HOST_NAME: 'http://ec2-52-10-137-77.us-west-2.compute.amazonaws.com'*/
-	  HOST_NAME: 'http://localhost'
+	  HOST_NAME: 'http://ec2-52-10-137-77.us-west-2.compute.amazonaws.com'
+	  /*HOST_NAME: 'http://localhost'*/
 	};
 
 	var fetchData = function fetchData(url, data) {
