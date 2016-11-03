@@ -13,7 +13,9 @@ export default class AgeFilteredPlayerIndex extends React.Component {
   }
 
   componentDidMount() {
-    Server.Proxy.getPlayersByBirthYear(this.props.params.birthYear);
+    Server.Proxy.getPlayersByBirthYear(this.props.params.birthYear).then(players =>
+      this.setState({ players: players });
+    );
   }
 
   render() {

@@ -72,11 +72,11 @@
 
 	var _componentsPlayerPlayer2 = _interopRequireDefault(_componentsPlayerPlayer);
 
-	var _componentsPlayerAgeFilteredPlayerIndex = __webpack_require__(972);
+	var _componentsPlayerAgeFilteredPlayerIndex = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../components/player/AgeFilteredPlayerIndex\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var _componentsPlayerAgeFilteredPlayerIndex2 = _interopRequireDefault(_componentsPlayerAgeFilteredPlayerIndex);
 
-	var _componentsPlayerPlayerIndex = __webpack_require__(975);
+	var _componentsPlayerPlayerIndex = __webpack_require__(973);
 
 	var _componentsPlayerPlayerIndex2 = _interopRequireDefault(_componentsPlayerPlayerIndex);
 
@@ -107860,87 +107860,7 @@
 
 
 /***/ },
-/* 972 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	var _get = __webpack_require__(193)['default'];
-
-	var _inherits = __webpack_require__(209)['default'];
-
-	var _createClass = __webpack_require__(218)['default'];
-
-	var _classCallCheck = __webpack_require__(221)['default'];
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _react = __webpack_require__(21);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _PlayerList = __webpack_require__(973);
-
-	var _PlayerList2 = _interopRequireDefault(_PlayerList);
-
-	var _reactBootstrap = __webpack_require__(531);
-
-	var _configServer = __webpack_require__(793);
-
-	var _configServer2 = _interopRequireDefault(_configServer);
-
-	var _utilCircularProgressCenter = __webpack_require__(824);
-
-	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
-
-	var AgeFilteredPlayerIndex = (function (_React$Component) {
-	  _inherits(AgeFilteredPlayerIndex, _React$Component);
-
-	  function AgeFilteredPlayerIndex(props) {
-	    _classCallCheck(this, AgeFilteredPlayerIndex);
-
-	    _get(Object.getPrototypeOf(AgeFilteredPlayerIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { players: false };
-	  }
-
-	  _createClass(AgeFilteredPlayerIndex, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      _configServer2['default'].Proxy.getPlayersByBirthYear(this.props.params.birthYear);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-
-	      return _react2['default'].createElement(
-	        _reactBootstrap.Grid,
-	        null,
-	        _react2['default'].createElement(
-	          'h1',
-	          null,
-	          this.props.params.birthYear,
-	          '年度生まれのプレイヤー'
-	        ),
-	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : null
-	      );
-	    }
-	  }]);
-
-	  return AgeFilteredPlayerIndex;
-	})(_react2['default'].Component);
-
-	exports['default'] = AgeFilteredPlayerIndex;
-	module.exports = exports['default'];
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "AgeFilteredPlayerIndex.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
+/* 972 */,
 /* 973 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -107966,9 +107886,94 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _PlayerList = __webpack_require__(974);
+
+	var _PlayerList2 = _interopRequireDefault(_PlayerList);
+
 	var _reactBootstrap = __webpack_require__(531);
 
-	var _PlayerCard = __webpack_require__(974);
+	var _configServer = __webpack_require__(793);
+
+	var _configServer2 = _interopRequireDefault(_configServer);
+
+	var _utilCircularProgressCenter = __webpack_require__(824);
+
+	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
+
+	var PlayerIndex = (function (_React$Component) {
+	  _inherits(PlayerIndex, _React$Component);
+
+	  function PlayerIndex(props) {
+	    _classCallCheck(this, PlayerIndex);
+
+	    _get(Object.getPrototypeOf(PlayerIndex.prototype), 'constructor', this).call(this, props);
+	    this.state = { players: false };
+	    this.componentDidMount.bind(this);
+	  }
+
+	  _createClass(PlayerIndex, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this = this;
+
+	      _configServer2['default'].Proxy.getPlayers().then(function (players) {
+	        _this.setState({ players: players });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+
+	      return _react2['default'].createElement(
+	        _reactBootstrap.Grid,
+	        null,
+	        _react2['default'].createElement(
+	          'h1',
+	          null,
+	          'プレイヤー一覧'
+	        ),
+	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : null
+	      );
+	    }
+	  }]);
+
+	  return PlayerIndex;
+	})(_react2['default'].Component);
+
+	exports['default'] = PlayerIndex;
+	module.exports = exports['default'];
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "PlayerIndex.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 974 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	var _get = __webpack_require__(193)['default'];
+
+	var _inherits = __webpack_require__(209)['default'];
+
+	var _createClass = __webpack_require__(218)['default'];
+
+	var _classCallCheck = __webpack_require__(221)['default'];
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _react = __webpack_require__(21);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(531);
+
+	var _PlayerCard = __webpack_require__(975);
 
 	var _PlayerCard2 = _interopRequireDefault(_PlayerCard);
 
@@ -108007,7 +108012,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "PlayerList.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 974 */
+/* 975 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108083,91 +108088,6 @@
 	module.exports = exports['default'];
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "PlayerCard.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 975 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	var _get = __webpack_require__(193)['default'];
-
-	var _inherits = __webpack_require__(209)['default'];
-
-	var _createClass = __webpack_require__(218)['default'];
-
-	var _classCallCheck = __webpack_require__(221)['default'];
-
-	var _interopRequireDefault = __webpack_require__(1)['default'];
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	var _react = __webpack_require__(21);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _PlayerList = __webpack_require__(973);
-
-	var _PlayerList2 = _interopRequireDefault(_PlayerList);
-
-	var _reactBootstrap = __webpack_require__(531);
-
-	var _configServer = __webpack_require__(793);
-
-	var _configServer2 = _interopRequireDefault(_configServer);
-
-	var _utilCircularProgressCenter = __webpack_require__(824);
-
-	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
-
-	var PlayerIndex = (function (_React$Component) {
-	  _inherits(PlayerIndex, _React$Component);
-
-	  function PlayerIndex(props) {
-	    _classCallCheck(this, PlayerIndex);
-
-	    _get(Object.getPrototypeOf(PlayerIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { players: false };
-	    this.componentDidMount.bind(this);
-	  }
-
-	  _createClass(PlayerIndex, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this = this;
-
-	      _configServer2['default'].Proxy.getPlayers().then(function (players) {
-	        _this.setState({ players: players });
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-
-	      return _react2['default'].createElement(
-	        _reactBootstrap.Grid,
-	        null,
-	        _react2['default'].createElement(
-	          'h1',
-	          null,
-	          'プレイヤー一覧'
-	        ),
-	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : null
-	      );
-	    }
-	  }]);
-
-	  return PlayerIndex;
-	})(_react2['default'].Component);
-
-	exports['default'] = PlayerIndex;
-	module.exports = exports['default'];
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "PlayerIndex.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 976 */
@@ -108301,7 +108221,7 @@
 
 	var _reactBootstrap = __webpack_require__(531);
 
-	var _playerPlayerList = __webpack_require__(973);
+	var _playerPlayerList = __webpack_require__(974);
 
 	var _playerPlayerList2 = _interopRequireDefault(_playerPlayerList);
 
@@ -108391,7 +108311,7 @@
 
 	var _reactBootstrap = __webpack_require__(531);
 
-	var _playerPlayerList = __webpack_require__(973);
+	var _playerPlayerList = __webpack_require__(974);
 
 	var _playerPlayerList2 = _interopRequireDefault(_playerPlayerList);
 
