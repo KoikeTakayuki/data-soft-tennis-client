@@ -128,6 +128,7 @@
 	  _react2['default'].createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _containersApp2['default'] },
+	    _react2['default'].createElement(_reactRouter.IndexRoute, { component: _componentsHome2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: '/home', component: _componentsHome2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: '/player/birth-year/:birthYear', component: _componentsPlayerAgeFilteredPlayerIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: '/player', component: _componentsPlayerPlayerIndex2['default'] }),
