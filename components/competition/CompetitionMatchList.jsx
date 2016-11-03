@@ -33,6 +33,7 @@ export default class CompetitionMatchList extends React.Component {
     if (this.state.matches) {
       return (
         <Grid>
+          <h2>試合一覧</h2>
           <MatchList matches={this.state.matches} />
         </Grid>
       );

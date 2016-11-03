@@ -6,6 +6,7 @@ import DetailedPlayerCard from './DetailedPlayerCard';
 import PlayerMatchList from './PlayerMatchList';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import { Link } from 'react-router'
+import DocumentMeta from 'react-document-meta';
 
 export default class Player extends React.Component {
 
@@ -32,12 +33,26 @@ export default class Player extends React.Component {
   }
 
   render() {
+
     if (this.state.player) {
 
+      const player = this.state.player;
+
+      const meta = {
+        title: player.name + 'のデータ - DataSoftTennis',
+        description: player.current_team_name + ' ' + player.name + '選手のデータならDataSoftTennis!所属するチーム、試合、スコアなど、ソフトテニスの選手に関するデータが充実しています!',
+        meta: {
+          charset: 'utf-8',
+          name: {
+              keywords: 'test'
+          }
+        }
+      };
       return (
         <div>
           <Grid>
-            <h1>{this.state.player.name}</h1>
+            <DocumentMeta {...meta} extends/>
+            <h1>{player.name}</h1>
             <h2>プロフィール</h2>
             <DetailedPlayerCard player={this.state.player} />
             <h2>試合一覧</h2>

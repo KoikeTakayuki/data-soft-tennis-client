@@ -37,7 +37,7 @@ export default class Home extends React.Component {
         <p>DataSoftTennisはソフトテニスの試合やプレイヤーのデータを集めたサイトです。</p>
         <h2>Menu</h2>
         <ul>
-          {links.map((l) => <li><Link to={l.url} >{l.name}</Link></li>)}
+          {links.map((l) => <li key={l.url}><Link to={l.url} >{l.name}</Link></li>)}
         </ul>
       </Card>
     );

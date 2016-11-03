@@ -14,16 +14,19 @@ export default class CompetitionCard extends React.Component {
 
     let dateText;
     if (!duration || duration <= 1) {
-      dateText = date.getFullYear() + '年' + date.getMonth() + '月' + date.getDate() + '日';
+      dateText = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
     } else {
       const endDate = new Date(competition.date);
       endDate.setDate(endDate.getDate() + duration - 1);
-      dateText = date.getFullYear() + '年' + date.getMonth() + '月' + date.getDate() + '日〜' + (endDate.getMonth() + 1) + '月' + endDate.getDate() + '日';
+      dateText = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日〜' + (endDate.getMonth() + 1) + '月' + endDate.getDate() + '日';
     }
+
+    const subtitle = competition.tennis_court_name ?
+      (dateText + '  ' + competition.tennis_court_name) : dateText;
 
     return (
       <Card>
-        <CardTitle title={competition.name} subtitle={dateText + '  ' + competition.tennis_court_name} />
+        <CardTitle title={competition.name} subtitle={subtitle} />
         <CardActions>
           <Link to={"competition/" + competition.id}>
             <FlatButton label="詳細を見る" />

@@ -13,6 +13,7 @@ export default class PlayerCard extends React.Component {
           title={this.props.player.name}
           subtitle={this.props.player.team_name}
           avatar="assets/images/player.png"
+          style={{height: 70}}
         />
         <CardActions>
           <Link to={"player/" + this.props.player.id}>

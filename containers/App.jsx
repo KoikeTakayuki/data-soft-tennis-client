@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import GroupIcon from 'material-ui/svg-icons/social/group';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import FaceIcon from 'material-ui/svg-icons/action/face';
+import RoomIcon from 'material-ui/svg-icons/action/room';
 import { hashHistory } from 'react-router'
 
 
@@ -35,7 +36,8 @@ export default class App extends React.Component {
       { url: 'player', name: 'プレイヤーを探す', icon: <FaceIcon /> },
       { url: 'team', name: 'チームを探す', icon: <GroupIcon /> },
       { url: 'match', name: '試合を探す', icon:  <img src="assets/images/racket.png" /> },
-      { url: 'competition', name: '大会を探す', icon: <img src="assets/images/trophy.png" /> }
+      { url: 'competition', name: '大会を探す', icon: <img src="assets/images/trophy.png" /> },
+      { url: 'tennis-court', name: '会場を探す', icon:  <RoomIcon /> }
     ];
 
     const drawerMenus = links.map((l) => (

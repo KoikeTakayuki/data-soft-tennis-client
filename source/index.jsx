@@ -12,6 +12,8 @@ import Match from '../components//match/Match';
 import MatchIndex from '../components//match/MatchIndex';
 import Competition from '../components/competition/Competition';
 import CompetitionIndex from '../components/competition/CompetitionIndex';
+import TennisCourt from '../components/tennis-court/TennisCourt';
+import TennisCourtIndex from '../components/tennis-court/TennisCourtIndex';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {createHashHistory} from 'history';
 import { Router, Route, hashHistory, IndexRoute } from 'react-router'
@@ -37,6 +39,8 @@ ReactDOM.render((
       <Route path="/match/:matchId" component={Match} />
       <Route path="/competition" component={CompetitionIndex} />
       <Route path="/competition/:competitionId" component={Competition} />
+      <Route path="/tennis-court" component={TennisCourtIndex} />
+      <Route path="/tennis-court/:tennisCourtId" component={TennisCourt} />
     </Route>
   </Router>
 ), document.getElementById('root'))
