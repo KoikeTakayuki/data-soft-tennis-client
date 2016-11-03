@@ -13,17 +13,8 @@ export default class MatchIndex extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchMatches(Server.API.getMatches());
-  }
-
-  fetchMatches(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (matches) => {
-        this.setState({ matches: matches });
-      }
+    Server.Proxy.getMatches().then(matches => {
+      this.setState({ matches: matches });
     });
   }
 

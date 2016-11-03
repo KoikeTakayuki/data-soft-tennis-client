@@ -11,33 +11,26 @@ export default class Team extends React.Component {
 
   constructor(props) {
     super(props);
-    const teamId = props.params.teamId;
-    this.url = Server.API.getTeamById(teamId);
-
     this.state = { team: false };
   }
 
   componentDidMount() {
-    this.fetchTeam(this.url);
-  }
-
-  fetchTeam(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: (team) => {
-        this.setState({ team: team });
-      }
+    Server.Proxy.getTeamById(this.props.params.teamId).then(team => {
+      this.setState({ team: team });
     });
   }
 
   render() {
     if (this.state.team) {
+
+      const team = this.state.team;
+
       return (
         <Grid>
-          <h1>{this.state.team.name}</h1>
-          <TeamPlayerList team={this.state.team} />
-          <FormerTeamPlayerList team={this.state.team} />
+          <h1>{team.name}</h1>
+          <div style={{ marginLeft: 10 }}>{team.prefecture.name}/{team.team_division.name}</div>
+          <TeamPlayerList team={team} />
+          <FormerTeamPlayerList team={team} />
         </Grid>
       );
     }

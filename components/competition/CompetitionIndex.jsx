@@ -13,17 +13,8 @@ export default class CompetitionIndex extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchCompetitions(Server.API.getCompetitions());
-  }
-
-  fetchCompetitions(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (competitions) => {
-        this.setState({ competitions: competitions });
-      }
+    Server.Proxy.getCompetitions().then(competitions => {
+      this.setState({ competitions: competitions });
     });
   }
 

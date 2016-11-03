@@ -10,20 +10,12 @@ export default class PlayerIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = { players: false };
+    this.componentDidMount.bind(this);
   }
 
   componentDidMount() {
-    this.fetchPlayers(Server.API.getPlayers());
-  }
-
-  fetchPlayers(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (players) => {
-        this.setState({ players: players });
-      }
+    Server.Proxy.getPlayers().then(players => {
+      this.setState({players: players});
     });
   }
 

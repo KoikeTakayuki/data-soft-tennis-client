@@ -14,7 +14,7 @@ export default class DetailedTennisCourtCard extends React.Component {
         <TableBody displayRowCheckbox={false} selectable={false}>
           <TableRow selectable={false}>
             <TableRowColumn>住所</TableRowColumn>
-            <TableRowColumn>{tennisCourt.prefecture_name + tennisCourt.address}</TableRowColumn>
+            <TableRowColumn>{tennisCourt.prefecture.name + tennisCourt.address}</TableRowColumn>
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>電話番号</TableRowColumn>

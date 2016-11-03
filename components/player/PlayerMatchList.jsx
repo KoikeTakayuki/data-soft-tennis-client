@@ -10,30 +10,19 @@ export default class PlayerMatchList extends React.Component {
 
   constructor(props) {
     super(props);
-    const playerId = this.props.player.id;
-    this.url = Server.API.getMatchesByPlayerId(playerId);
     this.state = { matches: false };
   }
 
   componentDidMount() {
-    this.fetchMatches(this.url);
-  }
-
-  fetchMatches(url) {
-
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (matches) => {
-        this.setState({ matches: matches });
-      }
+    Server.Proxy.getMatchesByPlayerId(this.props.player.id).then(matches => {
+      this.setState({ matches: matches });
     });
   }
 
   render() {
 
     if (this.state.matches) {
+
       if (this.state.matches.length <= 0) {
         return null;
       }

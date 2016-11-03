@@ -13,22 +13,12 @@ export default class Player extends React.Component {
 
   constructor(props) {
     super(props);
-    const playerId = props.params.playerId;
-    this.url = Server.API.getPlayerById(playerId);
     this.state = { player: false };
   }
 
   componentDidMount() {
-    this.fetchPlayer(this.url);
-  }
-
-  fetchPlayer(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: (player) => {
-        this.setState({ player: player });
-      }
+    Server.Proxy.getPlayerById(this.props.params.playerId).then(player => {
+      this.setState({ player: player });
     });
   }
 
@@ -38,20 +28,9 @@ export default class Player extends React.Component {
 
       const player = this.state.player;
 
-      const meta = {
-        title: player.name + 'のデータ - DataSoftTennis',
-        description: player.current_team_name + ' ' + player.name + '選手のデータならDataSoftTennis!所属するチーム、試合、スコアなど、ソフトテニスの選手に関するデータが充実しています!',
-        meta: {
-          charset: 'utf-8',
-          name: {
-              keywords: 'test'
-          }
-        }
-      };
       return (
         <div>
           <Grid>
-            <DocumentMeta {...meta} extends/>
             <h1>{player.name}</h1>
             <h2>プロフィール</h2>
             <DetailedPlayerCard player={this.state.player} />

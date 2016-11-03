@@ -9,22 +9,12 @@ export default class TeamPlayerList extends React.Component {
 
   constructor(props) {
     super(props);
-    const team = props.team;
-    this.url = Server.API.getPlayersByTeamId(team.id);
     this.state = { players: false };
   }
 
   componentDidMount() {
-    this.fetchPlayers(this.url);
-  }
-
-  fetchPlayers(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: (players) => {
-        this.setState({ players: players });
-      }
+    Server.Proxy.getPlayersByTeamId(this.props.team.id).then(players => {
+      this.setState({ players: players });
     });
   }
 

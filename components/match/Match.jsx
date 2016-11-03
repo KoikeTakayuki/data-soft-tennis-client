@@ -11,22 +11,12 @@ export default class Match extends React.Component {
 
   constructor(props) {
     super(props);
-    const matchId = props.params.matchId;
-    this.url = Server.API.getMatchById(matchId);
     this.state = { match: false };
   }
 
   componentDidMount() {
-    this.fetchMatch(this.url);
-  }
-
-  fetchMatch(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: (match) => {
-        this.setState({ match: match });
-      }
+    Server.Proxy.getMatchById(this.props.params.matchId).then(match => {
+      this.setState({ match: match });
     });
   }
 
@@ -40,15 +30,15 @@ export default class Match extends React.Component {
           <h1 style={{fontSize: "14px"}}>{match.title}</h1>
           <div>
             <ReactPlayer url={match.url} width="100%" height="300px" style={{maxWidth: 640}} />
-            <p>会場: {match.tennis_court_name}</p>
+            <p>会場: <Link to={"tennis-court/" + match.tennis_court.id}>{match.tennis_court.name}</Link></p>
             <Table>
               <TableHeader displaySelectAll={false} enableSelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
-                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player1_id}>{match.player1_name}</Link></TableHeaderColumn>
-                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player2_id}>{match.player2_name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player1.id}>{match.player1.name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player2.id}>{match.player2.name}</Link></TableHeaderColumn>
                   <TableHeaderColumn style={{width:"8%", marginLeft:"-10px"}}><div>対</div></TableHeaderColumn>
-                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player3_id}>{match.player3_name}</Link></TableHeaderColumn>
-                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player4_id}>{match.player4_name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player3.id}>{match.player3.name}</Link></TableHeaderColumn>
+                  <TableHeaderColumn style={tableHeaderStyle}><Link to={"player/" + match.player4.id}>{match.player4.name}</Link></TableHeaderColumn>
                 </TableRow>
               </TableHeader>
             </Table>

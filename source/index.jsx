@@ -27,13 +27,7 @@ ReactDOM.render((
       <Route path="/player/birth-year/:birthYear" component={AgeFilteredPlayerIndex} />
       <Route path="/player" component={PlayerIndex} />
       <Route path="/player/:playerId" component={Player} />
-      <Route path="/team" component={TeamIndex}>
-        <IndexRoute component="works-team" />
-        <Route path="/team/works-team" component="works-team" />
-        <Route path="/team/university" component="university" />
-        <Route path="/team/high-school" component="high-school" />
-        <Route path="/team/junior-high" component="junior-high" />
-      </Route>
+      <Route path="/team" component={TeamIndex} />
       <Route path="/team/:teamId" component={Team} />
       <Route path="/match" component={MatchIndex} />
       <Route path="/match/:matchId" component={Match} />

@@ -9,23 +9,12 @@ export default class CompetitionMatchList extends React.Component {
 
   constructor(props) {
     super(props);
-    const competition = props.competition;
-    this.url = Server.API.getMatchesByCompetitionId(competition.id);
     this.state = { matches: false };
   }
 
   componentDidMount() {
-    this.fetchMatches(this.url);
-  }
-
-  fetchMatches(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (matches) => {
-        this.setState({ matches: matches });
-      }
+    Server.Proxy.getMatchesByCompetitionId(this.props.competition.id).then(matches => {
+      this.setState({ matches: matches });
     });
   }
 

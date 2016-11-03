@@ -13,22 +13,12 @@ export default class TennisCourt extends React.Component {
 
   constructor(props) {
     super(props);
-    const tennisCourtId = props.params.tennisCourtId;
-    this.url = Server.API.getTennisCourtById(tennisCourtId);
     this.state = { tennisCourt: false };
   }
 
   componentDidMount() {
-    this.fetchTennisCourt(this.url);
-  }
-
-  fetchTennisCourt(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      success: (tennisCourt) => {
-        this.setState({ tennisCourt: tennisCourt });
-      }
+    Server.Proxy.getTennisCourtById(this.props.params.tennisCourtId).then(tennisCourt => {
+      this.setState({ tennisCourt: tennisCourt });
     });
   }
 

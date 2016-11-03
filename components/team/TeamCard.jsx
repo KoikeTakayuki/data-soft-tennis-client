@@ -8,15 +8,17 @@ import DomainIcon from 'material-ui/svg-icons/social/domain';
 export default class TeamCard extends React.Component {
 
   render() {
+    const team = this.props.team;
+
     return (
       <Card>
         <CardHeader
-          title={this.props.team.name}
-          subtitle={this.props.team.prefecture_name}
+          title={team.name}
+          subtitle={team.prefecture.name}
           avatar={<DomainIcon />}
         />
         <CardActions>
-          <Link to={"team/" + this.props.team.id}>
+          <Link to={"team/" + team.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>

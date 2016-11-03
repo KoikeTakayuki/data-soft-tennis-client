@@ -10,24 +10,12 @@ export default class Competition extends React.Component {
 
   constructor(props) {
     super(props);
-    const competitionId = props.params.competitionId;
-    this.url = Server.API.getCompetitionById(competitionId);
-
     this.state = { competition: false };
   }
 
   componentDidMount() {
-    this.fetchCompetition(this.url);
-  }
-
-  fetchCompetition(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (competition) => {
-        this.setState({ competition: competition });
-      }
+    Server.Proxy.getCompetitionById(this.props.params.competitionId).then(competition => {
+      this.setState({ competition: competition });
     });
   }
 

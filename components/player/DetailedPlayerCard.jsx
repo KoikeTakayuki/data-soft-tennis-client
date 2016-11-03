@@ -17,7 +17,7 @@ export default class DetailedPlayerCard extends React.Component {
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>所属</TableRowColumn>
-            <TableRowColumn><Link to={"team/" + player.current_team_id}>{player.current_team_name}</Link></TableRowColumn>
+            <TableRowColumn><Link to={"team/" + player.current_team.id}>{player.current_team.name}</Link></TableRowColumn>
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>世代</TableRowColumn>
@@ -25,15 +25,15 @@ export default class DetailedPlayerCard extends React.Component {
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>中学校</TableRowColumn>
-            <TableRowColumn><Link to={"team/" + player.junior_high_team_id}>{player.junior_high_team_name}</Link></TableRowColumn>
+            <TableRowColumn><Link to={"team/" + player.junior_high_team.id}>{player.junior_high_team.name}</Link></TableRowColumn>
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>高校</TableRowColumn>
-            <TableRowColumn><Link to={"team/" + player.high_school_team_id}>{player.high_school_team_name}</Link></TableRowColumn>
+            <TableRowColumn><Link to={"team/" + player.high_school_team.id}>{player.high_school_team.name}</Link></TableRowColumn>
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>大学</TableRowColumn>
-            <TableRowColumn><Link to={"team/" + player.university_team_id}>{player.university_team_name}</Link></TableRowColumn>
+            <TableRowColumn><Link to={"team/" + player.university_team.id}>{player.university_team.name}</Link></TableRowColumn>
           </TableRow>
         </TableBody>
       </Table>

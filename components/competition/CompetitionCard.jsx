@@ -21,8 +21,8 @@ export default class CompetitionCard extends React.Component {
       dateText = date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日〜' + (endDate.getMonth() + 1) + '月' + endDate.getDate() + '日';
     }
 
-    const subtitle = competition.tennis_court_name ?
-      (dateText + '  ' + competition.tennis_court_name) : dateText;
+    const subtitle = competition.tennis_court ?
+      (dateText + '  ' + competition.tennis_court.name) : dateText;
 
     return (
       <Card>

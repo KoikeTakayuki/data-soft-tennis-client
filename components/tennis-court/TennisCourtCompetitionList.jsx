@@ -9,24 +9,12 @@ export default class TennisCourtCompetitionList extends React.Component {
 
   constructor(props) {
     super(props);
-    const tennisCourtId = this.props.tennisCourt.id;
-    this.url = Server.API.getCompetitionsByPlayerTennisCourtId(tennisCourtId);
     this.state = { competitions: false };
   }
 
   componentDidMount() {
-    this.fetchCompetitions(this.url);
-  }
-
-  fetchCompetitions(url) {
-
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (competitions) => {
-        this.setState({ competitions: competitions });
-      }
+    Server.Proxy.getCompetitionsByPlayerTennisCourtId(this.props.tennisCourt.id).then(competitions => {
+      this.setState({ competitions: competitions });
     });
   }
 

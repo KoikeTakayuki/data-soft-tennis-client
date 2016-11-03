@@ -11,56 +11,53 @@ export default class TeamIndex extends React.Component {
 
   constructor(props) {
     super(props);
-
-    const teamDivision = props.children.type;
-    this.url = Server.API.getTeamByTeamDivision(teamDivision);
-    this.state = { teamDivision: teamDivision };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = { teamDivisionId: false, teamDivisions: false };
+    this.onTeamDivisionChanged = this.onTeamDivisionChanged.bind(this);
+    this.fetchTeams = this.fetchTeams.bind(this);
   }
 
   componentDidMount() {
-    this.fetchTeams(this.url);
-  }
-
-  fetchTeams(url) {
-
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (teams) => {
-        this.setState({ teams: teams });
-      }
+    Server.Proxy.getTeamDivisions().then(teamDivisions => {
+      this.setState({ teamDivisions: teamDivisions });
     });
   }
 
-  handleChange(e, i, teamDivision) {
+  fetchTeams(condition) {
+
+    this.previousRequestPromise = Server.Proxy.getTeams(condition).then(teams => {
+      this.setState({teams: teams});
+    });
+  }
+
+  onTeamDivisionChanged(e, i, teamDivisionId) {
 
     this.setState({
-      teamDivision: teamDivision
+      teamDivisionId: teamDivisionId
     });
 
-    this.fetchTeams(Server.API.getTeamByTeamDivision(teamDivision));
+    this.fetchTeams({team_division_id: teamDivisionId});
+  }
+
+  onPrefectureChanged(e) {
+
   }
 
   render() {
-
-    const teamDivisions = [
-      { name: '実業団', id: 'works-team' },
-      { name: '大学', id: 'university' },
-      { name: '高校', id: 'high-school' },
-      { name: '中学', id: 'junior-high' }
-    ];
 
     return (
       <div>
         <Grid>
           <h1>チーム一覧</h1>
-          <div style={{textAlign: "right", marginBottom: "10px"}}>
-            <DropDownMenu value={this.state.teamDivision} onChange={this.handleChange} style={{width: 150}} autoWidth={false} labelStyle={{fontSize: "20px"}}>
-              {teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
-            </DropDownMenu>
-          </div>
+          
+            {this.state.teamDivisions ? (
+              <div style={{textAlign: "right", marginBottom: "10px"}}>
+                <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChanged} style={{width: 150}} autoWidth={false} labelStyle={{fontSize: "20px"}}>
+                  {this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
+                </DropDownMenu>
+              </div>
+            ) : (
+              null
+            )}
           {this.state.teams ? (
               <TeamList teams={this.state.teams} />
             ) : null

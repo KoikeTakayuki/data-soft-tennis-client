@@ -12,17 +12,8 @@ export default class TennisCourtIndex extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchTennisCourts(Server.API.getTennisCourts());
-  }
-
-  fetchTennisCourts(url) {
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      cache: true,
-      success: (tennisCourts) => {
-        this.setState({ tennisCourts: tennisCourts });
-      }
+    Server.Proxy.getTennisCourts().then(tennisCourts => {
+      this.setState({ tennisCourts: tennisCourts });
     });
   }
 
