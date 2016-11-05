@@ -29,7 +29,7 @@ export default class TeamIndex extends React.Component {
     });
   }
 
-  onTeamDivisionChanged(e, i, teamDivisionId) {
+  onTeamDivisionChange(e, i, teamDivisionId) {
 
     this.setState({
       teamDivisionId: teamDivisionId
@@ -51,7 +51,7 @@ export default class TeamIndex extends React.Component {
           
             {this.state.teamDivisions ? (
               <div style={{textAlign: "right", marginBottom: "10px"}}>
-                <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChanged} style={{width: 150}} autoWidth={false} labelStyle={{fontSize: "20px"}}>
+                <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChange} style={{width: 150}} autoWidth={false} labelStyle={{fontSize: "20px"}}>
                   {this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
                 </DropDownMenu>
               </div>

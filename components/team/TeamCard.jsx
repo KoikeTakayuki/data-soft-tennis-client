@@ -16,6 +16,7 @@ export default class TeamCard extends React.Component {
           title={team.name}
           subtitle={team.prefecture.name}
           avatar={<DomainIcon />}
+          style={{ height: 70 }}
         />
         <CardActions>
           <Link to={"team/" + team.id}>

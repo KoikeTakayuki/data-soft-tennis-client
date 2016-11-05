@@ -64523,8 +64523,8 @@
 	  getCompetitions: function getCompetitions() {
 	    return fetchData('/competition');
 	  },
-	  getMatches: function getMatches() {
-	    return fetchData('/match');
+	  getMatches: function getMatches(condition) {
+	    return fetchData('/match', condition);
 	  },
 	  getCompetitionById: function getCompetitionById(competitionId) {
 	    return fetchData('/competition/' + competitionId);
@@ -64561,6 +64561,12 @@
 	  },
 	  getCompetitionsByPlayerTennisCourtId: function getCompetitionsByPlayerTennisCourtId(tennisCourtId) {
 	    return fetchData('/tennis-court/' + tennisCourtId + '/competition');
+	  },
+	  getCompetitionTypes: function getCompetitionTypes() {
+	    return fetchData('/competition-type');
+	  },
+	  getCompetitionTags: function getCompetitionTags() {
+	    return fetchData('/competition-tag');
 	  }
 	};
 
@@ -108536,8 +108542,8 @@
 	      });
 	    }
 	  }, {
-	    key: 'onTeamDivisionChanged',
-	    value: function onTeamDivisionChanged(e, i, teamDivisionId) {
+	    key: 'onTeamDivisionChange',
+	    value: function onTeamDivisionChange(e, i, teamDivisionId) {
 
 	      this.setState({
 	        teamDivisionId: teamDivisionId
@@ -108568,7 +108574,7 @@
 	            { style: { textAlign: "right", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChanged, style: { width: 150 }, autoWidth: false, labelStyle: { fontSize: "20px" } },
+	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChange, style: { width: 150 }, autoWidth: false, labelStyle: { fontSize: "20px" } },
 	              this.state.teamDivisions.map(function (t) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
 	              })
@@ -108716,7 +108722,8 @@
 	        _react2['default'].createElement(_materialUiCard.CardHeader, {
 	          title: team.name,
 	          subtitle: team.prefecture.name,
-	          avatar: _react2['default'].createElement(_materialUiSvgIconsSocialDomain2['default'], null)
+	          avatar: _react2['default'].createElement(_materialUiSvgIconsSocialDomain2['default'], null),
+	          style: { height: 70 }
 	        }),
 	        _react2['default'].createElement(
 	          _materialUiCard.CardActions,
@@ -110595,6 +110602,14 @@
 
 	var _configServer2 = _interopRequireDefault(_configServer);
 
+	var _materialUiDropDownMenu = __webpack_require__(874);
+
+	var _materialUiDropDownMenu2 = _interopRequireDefault(_materialUiDropDownMenu);
+
+	var _materialUiMenuItem = __webpack_require__(410);
+
+	var _materialUiMenuItem2 = _interopRequireDefault(_materialUiMenuItem);
+
 	var _utilCircularProgressCenter = __webpack_require__(824);
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
@@ -110606,7 +110621,17 @@
 	    _classCallCheck(this, MatchIndex);
 
 	    _get(Object.getPrototypeOf(MatchIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { matches: false };
+	    this.state = {
+	      year: 2016,
+	      competitionTagId: 1,
+	      competitionTypeId: 1,
+	      competitionTags: [],
+	      competitionTypes: [],
+	      matches: false
+	    };
+
+	    this.onYearChange = this.onYearChange.bind(this);
+	    this.onCompetitionTagChange = this.onCompetitionTagChange.bind(this);
 	  }
 
 	  _createClass(MatchIndex, [{
@@ -110614,8 +110639,45 @@
 	    value: function componentDidMount() {
 	      var _this = this;
 
+	      _configServer2['default'].Proxy.getCompetitionTags().then(function (competitionTags) {
+	        _this.setState({ competitionTags: competitionTags });
+	      });
+
+	      /*Server.Proxy.getCompetitionTypes().then(competitionTypes => {
+	        console.log(competitionTypes);
+	        this.setState({ competitionTypes: competitionTypes });
+	      });*/
+
 	      _configServer2['default'].Proxy.getMatches().then(function (matches) {
 	        _this.setState({ matches: matches });
+	      });
+	    }
+	  }, {
+	    key: 'onYearChange',
+	    value: function onYearChange(e, i, year) {
+	      this.setState({ year: year });
+	      this.fetchMatches({
+	        "competition.year": year,
+	        "competition.competition_tag_id": this.state.competitionTagId
+	      });
+	    }
+	  }, {
+	    key: 'onCompetitionTagChange',
+	    value: function onCompetitionTagChange(e, i, competitionTagId) {
+
+	      this.setState({ competitionTagId: competitionTagId });
+	      this.fetchMatches({
+	        "competition.year": this.state.year,
+	        "competition.competition_tag_id": competitionTagId
+	      });
+	    }
+	  }, {
+	    key: 'fetchMatches',
+	    value: function fetchMatches(condition) {
+	      var _this2 = this;
+
+	      _configServer2['default'].Proxy.getMatches(condition).then(function (matches) {
+	        _this2.setState({ matches: matches });
 	      });
 	    }
 	  }, {
@@ -110629,6 +110691,24 @@
 	          'h1',
 	          null,
 	          '試合一覧'
+	        ),
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { marginBottom: "10px" } },
+	          _react2['default'].createElement(
+	            _materialUiDropDownMenu2['default'],
+	            { value: this.state.year, onChange: this.onYearChange, style: { width: 140 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
+	            [2014, 2015, 2016].map(function (y) {
+	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: y, value: y, primaryText: y + '年' });
+	            })
+	          ),
+	          _react2['default'].createElement(
+	            _materialUiDropDownMenu2['default'],
+	            { value: this.state.competitionTagId, onChange: this.onCompetitionTagChange, style: { width: 170 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
+	            this.state.competitionTags.map(function (t) {
+	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
+	            })
+	          )
 	        ),
 	        this.state.matches ? _react2['default'].createElement(_MatchList2['default'], { matches: this.state.matches }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
 	      );
