@@ -11,14 +11,23 @@ export default class TeamIndex extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { teamDivisionId: false, teamDivisions: false };
-    this.onTeamDivisionChanged = this.onTeamDivisionChanged.bind(this);
+    this.state = {
+      teamDivisionId: false,
+      teamDivisions: [],
+      prefectureId: false,
+      prefectures: []
+    };
+    this.onTeamDivisionChange = this.onTeamDivisionChange.bind(this);
+    this.onPrefectureChange = this.onPrefectureChange.bind(this);
     this.fetchTeams = this.fetchTeams.bind(this);
   }
 
   componentDidMount() {
     Server.Proxy.getTeamDivisions().then(teamDivisions => {
       this.setState({ teamDivisions: teamDivisions });
+    });
+    Server.Proxy.getPrefectures().then(prefectures => {
+      this.setState({ prefectures: prefectures });
     });
   }
 
@@ -30,16 +39,20 @@ export default class TeamIndex extends React.Component {
   }
 
   onTeamDivisionChange(e, i, teamDivisionId) {
+    this.setState({ teamDivisionId: teamDivisionId });
 
-    this.setState({
-      teamDivisionId: teamDivisionId
+    this.fetchTeams({
+      team_division_id: teamDivisionId,
+      prefecture_id: this.state.prefectureId
     });
-
-    this.fetchTeams({team_division_id: teamDivisionId});
   }
 
-  onPrefectureChanged(e) {
-
+  onPrefectureChange(e, i, prefectureId) {
+    this.setState({ prefectureId: prefectureId });
+    this.fetchTeams({
+      team_division_id: this.state.teamDivisionId,
+      prefecture_id: prefectureId
+    });
   }
 
   render() {
@@ -49,15 +62,14 @@ export default class TeamIndex extends React.Component {
         <Grid>
           <h1>チーム一覧</h1>
           
-            {this.state.teamDivisions ? (
-              <div style={{textAlign: "right", marginBottom: "10px"}}>
-                <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChange} style={{width: 150}} autoWidth={false} labelStyle={{fontSize: "20px"}}>
-                  {this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
-                </DropDownMenu>
-              </div>
-            ) : (
-              null
-            )}
+          <div style={{textAlign: "left", marginBottom: "10px"}}>
+            <DropDownMenu value={this.state.prefectureId} onChange={this.onPrefectureChange} style={{width: 140}} autoWidth={true} labelStyle={{fontSize: "16px"}}>
+              {this.state.prefectures.map((p) => <MenuItem key={p.id} value={p.id} primaryText={p.name}/>)}
+            </DropDownMenu>
+            <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChange} style={{width: 240}} autoWidth={true} labelStyle={{fontSize: "16px"}}>
+              {this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
+            </DropDownMenu>
+          </div>
           {this.state.teams ? (
               <TeamList teams={this.state.teams} />
             ) : null

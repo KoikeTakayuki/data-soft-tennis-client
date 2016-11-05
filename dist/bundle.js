@@ -64567,6 +64567,9 @@
 	  },
 	  getCompetitionTags: function getCompetitionTags() {
 	    return fetchData('/competition-tag');
+	  },
+	  getPrefectures: function getPrefectures() {
+	    return fetchData('/prefecture');
 	  }
 	};
 
@@ -108518,8 +108521,14 @@
 	    _classCallCheck(this, TeamIndex);
 
 	    _get(Object.getPrototypeOf(TeamIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { teamDivisionId: false, teamDivisions: false };
-	    this.onTeamDivisionChanged = this.onTeamDivisionChanged.bind(this);
+	    this.state = {
+	      teamDivisionId: false,
+	      teamDivisions: [],
+	      prefectureId: false,
+	      prefectures: []
+	    };
+	    this.onTeamDivisionChange = this.onTeamDivisionChange.bind(this);
+	    this.onPrefectureChange = this.onPrefectureChange.bind(this);
 	    this.fetchTeams = this.fetchTeams.bind(this);
 	  }
 
@@ -108530,6 +108539,9 @@
 
 	      _configServer2['default'].Proxy.getTeamDivisions().then(function (teamDivisions) {
 	        _this.setState({ teamDivisions: teamDivisions });
+	      });
+	      _configServer2['default'].Proxy.getPrefectures().then(function (prefectures) {
+	        _this.setState({ prefectures: prefectures });
 	      });
 	    }
 	  }, {
@@ -108544,16 +108556,22 @@
 	  }, {
 	    key: 'onTeamDivisionChange',
 	    value: function onTeamDivisionChange(e, i, teamDivisionId) {
+	      this.setState({ teamDivisionId: teamDivisionId });
 
-	      this.setState({
-	        teamDivisionId: teamDivisionId
+	      this.fetchTeams({
+	        team_division_id: teamDivisionId,
+	        prefecture_id: this.state.prefectureId
 	      });
-
-	      this.fetchTeams({ team_division_id: teamDivisionId });
 	    }
 	  }, {
-	    key: 'onPrefectureChanged',
-	    value: function onPrefectureChanged(e) {}
+	    key: 'onPrefectureChange',
+	    value: function onPrefectureChange(e, i, prefectureId) {
+	      this.setState({ prefectureId: prefectureId });
+	      this.fetchTeams({
+	        team_division_id: this.state.teamDivisionId,
+	        prefecture_id: prefectureId
+	      });
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -108569,17 +108587,24 @@
 	            null,
 	            'チーム一覧'
 	          ),
-	          this.state.teamDivisions ? _react2['default'].createElement(
+	          _react2['default'].createElement(
 	            'div',
-	            { style: { textAlign: "right", marginBottom: "10px" } },
+	            { style: { textAlign: "left", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChange, style: { width: 150 }, autoWidth: false, labelStyle: { fontSize: "20px" } },
+	              { value: this.state.prefectureId, onChange: this.onPrefectureChange, style: { width: 140 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
+	              this.state.prefectures.map(function (p) {
+	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
+	              })
+	            ),
+	            _react2['default'].createElement(
+	              _materialUiDropDownMenu2['default'],
+	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChange, style: { width: 240 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
 	              this.state.teamDivisions.map(function (t) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
 	              })
 	            )
-	          ) : null,
+	          ),
 	          this.state.teams ? _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }) : null
 	        )
 	      );
