@@ -16,12 +16,12 @@ import TennisCourt from '../components/tennis-court/TennisCourt';
 import TennisCourtIndex from '../components/tennis-court/TennisCourtIndex';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {createHashHistory} from 'history';
-import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 injectTapEventPlugin();
 
 ReactDOM.render((
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
       <Route path="/home" component={Home} />

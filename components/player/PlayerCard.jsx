@@ -14,7 +14,7 @@ export default class PlayerCard extends React.Component {
         <CardHeader
           title={player.name}
           subtitle={player.current_team.name}
-          avatar="assets/images/player.png"
+          avatar="/assets/images/player.png"
           style={{height: 70}}
         />
         <CardActions>

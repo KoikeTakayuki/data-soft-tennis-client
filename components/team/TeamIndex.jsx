@@ -60,12 +60,12 @@ export default class TeamIndex extends React.Component {
     return (
       <div>
         <Grid>
-          <h1>チーム一覧</h1>
-          
-          <div style={{textAlign: "left", marginBottom: "10px"}}>
-            <DropDownMenu value={this.state.prefectureId} onChange={this.onPrefectureChange} style={{width: 140}} autoWidth={true} labelStyle={{fontSize: "16px"}}>
+          <h1>チームを探す</h1>
+          <div style={{textAlign: "right", marginBottom: "10px"}}>
+            <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChange} style={{width: 140}} autoWidth={true} labelStyle={{fontSize: "16px"}}>
               {this.state.prefectures.map((p) => <MenuItem key={p.id} value={p.id} primaryText={p.name}/>)}
             </DropDownMenu>
+            <br/ >
             <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChange} style={{width: 240}} autoWidth={true} labelStyle={{fontSize: "16px"}}>
               {this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
             </DropDownMenu>

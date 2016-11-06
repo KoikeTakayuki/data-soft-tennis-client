@@ -124,7 +124,7 @@
 
 	_reactDom2['default'].render(_react2['default'].createElement(
 	  _reactRouter.Router,
-	  { history: _reactRouter.hashHistory },
+	  { history: _reactRouter.browserHistory },
 	  _react2['default'].createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _containersApp2['default'] },
@@ -21908,7 +21908,7 @@
 	  }, {
 	    key: 'onDrawerMenuItemClicked',
 	    value: function onDrawerMenuItemClicked(url) {
-	      _reactRouter.hashHistory.push(url);
+	      _reactRouter.browserHistory.push(url);
 	      this.setState({ showDrawer: false });
 	    }
 	  }, {
@@ -21916,7 +21916,7 @@
 	    value: function render() {
 	      var _this = this;
 
-	      var links = [{ url: 'home', name: 'HOME', icon: _react2['default'].createElement(_materialUiSvgIconsActionHome2['default'], null) }, { url: 'player', name: 'プレイヤーを探す', icon: _react2['default'].createElement(_materialUiSvgIconsActionFace2['default'], null) }, { url: 'team', name: 'チームを探す', icon: _react2['default'].createElement(_materialUiSvgIconsSocialGroup2['default'], null) }, { url: 'match', name: '試合を探す', icon: _react2['default'].createElement('img', { src: 'assets/images/racket.png' }) }, { url: 'competition', name: '大会を探す', icon: _react2['default'].createElement('img', { src: 'assets/images/trophy.png' }) }, { url: 'tennis-court', name: '会場を探す', icon: _react2['default'].createElement(_materialUiSvgIconsActionRoom2['default'], null) }];
+	      var links = [{ url: '/home', name: 'HOME', icon: _react2['default'].createElement(_materialUiSvgIconsActionHome2['default'], null) }, { url: '/player', name: 'プレイヤーを探す', icon: _react2['default'].createElement(_materialUiSvgIconsActionFace2['default'], null) }, { url: '/team', name: 'チームを探す', icon: _react2['default'].createElement(_materialUiSvgIconsSocialGroup2['default'], null) }, { url: '/match', name: '試合を探す', icon: _react2['default'].createElement('img', { src: '/assets/images/racket.png' }) }, { url: '/competition', name: '大会を探す', icon: _react2['default'].createElement('img', { src: '/assets/images/trophy.png' }) }, { url: '/tennis-court', name: '会場を探す', icon: _react2['default'].createElement(_materialUiSvgIconsActionRoom2['default'], null) }];
 
 	      var drawerMenus = links.map(function (l) {
 	        return _react2['default'].createElement(
@@ -108073,7 +108073,7 @@
 	        _react2['default'].createElement(_materialUiCard.CardHeader, {
 	          title: player.name,
 	          subtitle: player.current_team.name,
-	          avatar: 'assets/images/player.png',
+	          avatar: '/assets/images/player.png',
 	          style: { height: 70 }
 	        }),
 	        _react2['default'].createElement(
@@ -108585,18 +108585,19 @@
 	          _react2['default'].createElement(
 	            'h1',
 	            null,
-	            'チーム一覧'
+	            'チームを探す'
 	          ),
 	          _react2['default'].createElement(
 	            'div',
-	            { style: { textAlign: "left", marginBottom: "10px" } },
+	            { style: { textAlign: "right", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { value: this.state.prefectureId, onChange: this.onPrefectureChange, style: { width: 140 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
+	              { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChange, style: { width: 140 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
 	              this.state.prefectures.map(function (p) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
 	              })
 	            ),
+	            _react2['default'].createElement('br', null),
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
 	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChange, style: { width: 240 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
@@ -110715,11 +110716,11 @@
 	        _react2['default'].createElement(
 	          'h1',
 	          null,
-	          '試合一覧'
+	          '試合を探す'
 	        ),
 	        _react2['default'].createElement(
 	          'div',
-	          { style: { marginBottom: "10px" } },
+	          { style: { marginBottom: "10px", textAlign: "right" } },
 	          _react2['default'].createElement(
 	            _materialUiDropDownMenu2['default'],
 	            { value: this.state.year, onChange: this.onYearChange, style: { width: 140 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
@@ -110727,6 +110728,7 @@
 	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: y, value: y, primaryText: y + '年' });
 	            })
 	          ),
+	          _react2['default'].createElement('br', null),
 	          _react2['default'].createElement(
 	            _materialUiDropDownMenu2['default'],
 	            { value: this.state.competitionTagId, onChange: this.onCompetitionTagChange, style: { width: 170 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
