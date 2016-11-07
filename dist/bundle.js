@@ -87077,7 +87077,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "../team/" + player.high_school_team.id },
+	                { to: '../team/' + player.high_school_team.id },
 	                player.high_school_team.name
 	              )
 	            )

@@ -29,7 +29,7 @@ export default class DetailedPlayerCard extends React.Component {
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>高校</TableRowColumn>
-            <TableRowColumn><Link to={"../team/" + player.high_school_team.id}>{player.high_school_team.name}</Link></TableRowColumn>
+            <TableRowColumn><Link to={'../team/' + player.high_school_team.id}>{player.high_school_team.name}</Link></TableRowColumn>
           </TableRow>
           <TableRow selectable={false}>
             <TableRowColumn>大学</TableRowColumn>
