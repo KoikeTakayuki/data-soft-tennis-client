@@ -129,18 +129,18 @@
 	    _reactRouter.Route,
 	    { path: '/', component: _containersApp2['default'] },
 	    _react2['default'].createElement(_reactRouter.IndexRoute, { component: _componentsHome2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/home', component: _componentsHome2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/player/birth-year/:birthYear', component: _componentsPlayerAgeFilteredPlayerIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/player', component: _componentsPlayerPlayerIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/player/:playerId', component: _componentsPlayerPlayer2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/team', component: _componentsTeamTeamIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/team/:teamId', component: _componentsTeamTeam2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/match', component: _componentsMatchMatchIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/match/:matchId', component: _componentsMatchMatch2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/competition', component: _componentsCompetitionCompetitionIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/competition/:competitionId', component: _componentsCompetitionCompetition2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/tennis-court', component: _componentsTennisCourtTennisCourtIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '/tennis-court/:tennisCourtId', component: _componentsTennisCourtTennisCourt2['default'] })
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'home', component: _componentsHome2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/birth-year/:birthYear', component: _componentsPlayerAgeFilteredPlayerIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'player', component: _componentsPlayerPlayerIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/:playerId', component: _componentsPlayerPlayer2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'team', component: _componentsTeamTeamIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'team/:teamId', component: _componentsTeamTeam2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'match', component: _componentsMatchMatchIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/:matchId', component: _componentsMatchMatch2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition', component: _componentsCompetitionCompetitionIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition/:competitionId', component: _componentsCompetitionCompetition2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court', component: _componentsTennisCourtTennisCourtIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court/:tennisCourtId', component: _componentsTennisCourtTennisCourt2['default'] })
 	  )
 	), document.getElementById('root'));
 
@@ -87059,7 +87059,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "team/" + player.junior_high_team.id },
+	                { to: "/team/" + player.junior_high_team.id },
 	                player.junior_high_team.name
 	              )
 	            )
@@ -87077,7 +87077,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "team/" + player.high_school_team.id },
+	                { to: "../team/" + player.high_school_team.id },
 	                player.high_school_team.name
 	              )
 	            )

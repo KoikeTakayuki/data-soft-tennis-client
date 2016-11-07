@@ -24,18 +24,18 @@ ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
-      <Route path="/home" component={Home} />
-      <Route path="/player/birth-year/:birthYear" component={AgeFilteredPlayerIndex} />
-      <Route path="/player" component={PlayerIndex} />
-      <Route path="/player/:playerId" component={Player} />
-      <Route path="/team" component={TeamIndex} />
-      <Route path="/team/:teamId" component={Team} />
-      <Route path="/match" component={MatchIndex} />
-      <Route path="/match/:matchId" component={Match} />
-      <Route path="/competition" component={CompetitionIndex} />
-      <Route path="/competition/:competitionId" component={Competition} />
-      <Route path="/tennis-court" component={TennisCourtIndex} />
-      <Route path="/tennis-court/:tennisCourtId" component={TennisCourt} />
+      <Route path="home" component={Home} />
+      <Route path="player/birth-year/:birthYear" component={AgeFilteredPlayerIndex} />
+      <Route path="player" component={PlayerIndex} />
+      <Route path="player/:playerId" component={Player} />
+      <Route path="team" component={TeamIndex} />
+      <Route path="team/:teamId" component={Team} />
+      <Route path="match" component={MatchIndex} />
+      <Route path="match/:matchId" component={Match} />
+      <Route path="competition" component={CompetitionIndex} />
+      <Route path="competition/:competitionId" component={Competition} />
+      <Route path="tennis-court" component={TennisCourtIndex} />
+      <Route path="tennis-court/:tennisCourtId" component={TennisCourt} />
     </Route>
   </Router>
 ), document.getElementById('root'))
