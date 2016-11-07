@@ -19,7 +19,7 @@ export default class TeamCard extends React.Component {
           style={{ height: 70 }}
         />
         <CardActions>
-          <Link to={"team/" + team.id}>
+          <Link to={"/team/" + team.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>

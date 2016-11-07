@@ -12,7 +12,7 @@ export default class DetailedPlayerCard extends React.Component {
       <Table>
         <TableBody displayRowCheckbox={false} selectable={false}>
           <TableRow selectable={false}>
-            <TableRowColumn>利き</TableRowColumn>
+            <TableRowColumn>利き腕</TableRowColumn>
             <TableRowColumn>{player.is_lefty ? '左' : '右'}</TableRowColumn>
           </TableRow>
           <TableRow selectable={false}>

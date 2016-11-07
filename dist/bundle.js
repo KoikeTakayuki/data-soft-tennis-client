@@ -87001,7 +87001,7 @@
 	            _react2['default'].createElement(
 	              _materialUiTable.TableRowColumn,
 	              null,
-	              '利き'
+	              '利き腕'
 	            ),
 	            _react2['default'].createElement(
 	              _materialUiTable.TableRowColumn,
@@ -87350,7 +87350,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            _reactRouter.Link,
-	            { to: "match/" + match.id },
+	            { to: "/match/" + match.id },
 	            _react2['default'].createElement(_materialUiFlatButton2['default'], { label: '詳細を見る' })
 	          )
 	        )
@@ -108081,7 +108081,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            _reactRouter.Link,
-	            { to: "player/" + player.id },
+	            { to: "/player/" + player.id },
 	            _react2['default'].createElement(_materialUiFlatButton2['default'], { label: '詳細を見る' })
 	          )
 	        )
@@ -108756,7 +108756,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            _reactRouter.Link,
-	            { to: "team/" + team.id },
+	            { to: "/team/" + team.id },
 	            _react2['default'].createElement(_materialUiFlatButton2['default'], { label: '詳細を見る' })
 	          )
 	        )
@@ -108893,7 +108893,7 @@
 	              '会場: ',
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "tennis-court/" + match.tennis_court.id },
+	                { to: "/tennis-court/" + match.tennis_court.id },
 	                match.tennis_court.name
 	              )
 	            ),
@@ -108911,7 +108911,7 @@
 	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
-	                      { to: "player/" + match.player1.id },
+	                      { to: "/player/" + match.player1.id },
 	                      match.player1.name
 	                    )
 	                  ),
@@ -108920,7 +108920,7 @@
 	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
-	                      { to: "player/" + match.player2.id },
+	                      { to: "/player/" + match.player2.id },
 	                      match.player2.name
 	                    )
 	                  ),
@@ -108938,7 +108938,7 @@
 	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
-	                      { to: "player/" + match.player3.id },
+	                      { to: "/player/" + match.player3.id },
 	                      match.player3.name
 	                    )
 	                  ),
@@ -108947,7 +108947,7 @@
 	                    { style: tableHeaderStyle },
 	                    _react2['default'].createElement(
 	                      _reactRouter.Link,
-	                      { to: "player/" + match.player4.id },
+	                      { to: "/player/" + match.player4.id },
 	                      match.player4.name
 	                    )
 	                  )
@@ -111155,7 +111155,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            _reactRouter.Link,
-	            { to: "competition/" + competition.id },
+	            { to: "/competition/" + competition.id },
 	            _react2['default'].createElement(_materialUiFlatButton2['default'], { label: '詳細を見る' })
 	          )
 	        )
@@ -111770,7 +111770,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            _reactRouter.Link,
-	            { to: "tennis-court/" + tennisCourt.id },
+	            { to: "/tennis-court/" + tennisCourt.id },
 	            _react2['default'].createElement(_materialUiFlatButton2['default'], { label: '詳細を見る' })
 	          )
 	        )

@@ -28,7 +28,7 @@ export default class CompetitionCard extends React.Component {
       <Card>
         <CardTitle title={competition.name} subtitle={subtitle} />
         <CardActions>
-          <Link to={"competition/" + competition.id}>
+          <Link to={"/competition/" + competition.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>

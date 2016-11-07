@@ -21,7 +21,7 @@ export default class MatchCard extends React.Component {
           <img src={thumbnailUrl} />
         </CardMedia>
         <CardActions>
-          <Link to={"match/" + match.id}>
+          <Link to={"/match/" + match.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>

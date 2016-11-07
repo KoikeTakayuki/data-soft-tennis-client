@@ -14,7 +14,7 @@ export default class TennisCourtCard extends React.Component {
       <Card>
         <CardTitle title={tennisCourt.name} subtitle={tennisCourt.prefecture.name + tennisCourt.address} />
         <CardActions>
-          <Link to={"tennis-court/" + tennisCourt.id}>
+          <Link to={"/tennis-court/" + tennisCourt.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>

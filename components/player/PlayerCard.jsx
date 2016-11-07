@@ -18,7 +18,7 @@ export default class PlayerCard extends React.Component {
           style={{height: 70}}
         />
         <CardActions>
-          <Link to={"player/" + player.id}>
+          <Link to={"/player/" + player.id}>
             <FlatButton label="詳細を見る" />
           </Link>
         </CardActions>
