@@ -87001,7 +87001,7 @@
 	            _react2['default'].createElement(
 	              _materialUiTable.TableRowColumn,
 	              null,
-	              '利き腕'
+	              '利き'
 	            ),
 	            _react2['default'].createElement(
 	              _materialUiTable.TableRowColumn,
@@ -87022,7 +87022,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "team/" + player.current_team.id },
+	                { to: "/team/" + player.current_team.id },
 	                player.current_team.name
 	              )
 	            )
@@ -87040,7 +87040,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "player/birth-year/" + player.birth_year },
+	                { to: "/player/birth-year/" + player.birth_year },
 	                player.birth_year,
 	                '年生まれ'
 	              )
@@ -87077,7 +87077,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: '../team/' + player.high_school_team.id },
+	                { to: '/team/' + player.high_school_team.id },
 	                player.high_school_team.name
 	              )
 	            )
@@ -87095,7 +87095,7 @@
 	              null,
 	              _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "team/" + player.university_team.id },
+	                { to: "/team/" + player.university_team.id },
 	                player.university_team.name
 	              )
 	            )
