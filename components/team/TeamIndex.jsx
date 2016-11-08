@@ -22,6 +22,7 @@ export default class TeamIndex extends React.Component {
       prefectures: [],
       pageNumber: 0,
       maxPageNumber: 1,
+      count: 0,
       prefectureName: '全国',
       teamDivisionName: 'チーム'
     };
@@ -82,7 +83,10 @@ export default class TeamIndex extends React.Component {
         prefecture_id: prefectureId,
         team_division_id: teamDivisionId
       }).then(count => {
-        this.setState({ maxPageNumber: (count / 12) });
+        this.setState({
+          count: count,
+          maxPageNumber: (count / 12)
+        });
       });
     }
 
@@ -116,30 +120,38 @@ export default class TeamIndex extends React.Component {
 
   render() {
 
+    let count = this.state.count,
+        start = this.state.pageNumber * 12 + 1,
+        end = Math.min(count, start + 11);
+
     return (
       <div>
         <Grid>
-          <h1>{this.state.prefectureName}の{this.state.teamDivisionName}を探す</h1>
+          <h1 style={{fontSize: "16px"}}>{this.state.prefectureName}の{this.state.teamDivisionName}を探す</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
-            <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChanged} labelStyle={{fontSize: "16px"}}>
+            <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChanged} labelStyle={{fontSize: "14px"}}>
               <MenuItem value={undefined}  primaryText="都道府県" />{this.state.prefectures.map((p) => <MenuItem key={p.id} value={p.id} primaryText={p.name} />)}
             </DropDownMenu>
-            <br/ >
-            <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChanged} labelStyle={{fontSize: "16px"}}>
+            <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChanged} labelStyle={{fontSize: "14px"}}>
               <MenuItem value={undefined}  primaryText="チーム区分" />{this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
             </DropDownMenu>
           </div>
-          {this.state.teams ? (
-            <div style={{ textAlign: "center" }}>
+          {(this.state.teams && this.state.teams.length > 0) ? (
+            <div>
+              <div style={{ margin: 4 }}>
+                {count} 中 {start}件 ~ {end}件 を表示
+              </div>
               <TeamList teams={this.state.teams} />
               {(this.state.maxPageNumber > 1) ? (
-                <Pager
-                  total={this.state.maxPageNumber}
-                  current={this.state.pageNumber}
-                  visiblePages={8}
-                  titles={{ first: '<<', last: '>>' }}
-                  onPageChanged={this.onPageChanged}
-                />
+                <div style={{ textAlign: "center" }}>
+                  <Pager
+                    total={this.state.maxPageNumber}
+                    current={this.state.pageNumber}
+                    visiblePages={5}
+                    titles={{ first: '<<', last: '>>' }}
+                    onPageChanged={this.onPageChanged}
+                  />
+                </div>
               ) : null}
             </div>
             ) : null

@@ -108598,6 +108598,7 @@
 	      prefectures: [],
 	      pageNumber: 0,
 	      maxPageNumber: 1,
+	      count: 0,
 	      prefectureName: '全国',
 	      teamDivisionName: 'チーム'
 	    };
@@ -108660,7 +108661,10 @@
 	          prefecture_id: prefectureId,
 	          team_division_id: teamDivisionId
 	        }).then(function (count) {
-	          _this2.setState({ maxPageNumber: count / 12 });
+	          _this2.setState({
+	            count: count,
+	            maxPageNumber: count / 12
+	          });
 	        });
 	      }
 
@@ -108699,6 +108703,10 @@
 	    key: 'render',
 	    value: function render() {
 
+	      var count = this.state.count,
+	          start = this.state.pageNumber * 12 + 1,
+	          end = Math.min(count, start + 11);
+
 	      return _react2['default'].createElement(
 	        'div',
 	        null,
@@ -108707,7 +108715,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            'h1',
-	            null,
+	            { style: { fontSize: "16px" } },
 	            this.state.prefectureName,
 	            'の',
 	            this.state.teamDivisionName,
@@ -108718,33 +108726,46 @@
 	            { style: { textAlign: "right", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChanged, labelStyle: { fontSize: "16px" } },
+	              { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChanged, labelStyle: { fontSize: "14px" } },
 	              _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '都道府県' }),
 	              this.state.prefectures.map(function (p) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
 	              })
 	            ),
-	            _react2['default'].createElement('br', null),
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChanged, labelStyle: { fontSize: "16px" } },
+	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChanged, labelStyle: { fontSize: "14px" } },
 	              _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: 'チーム区分' }),
 	              this.state.teamDivisions.map(function (t) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
 	              })
 	            )
 	          ),
-	          this.state.teams ? _react2['default'].createElement(
+	          this.state.teams && this.state.teams.length > 0 ? _react2['default'].createElement(
 	            'div',
-	            { style: { textAlign: "center" } },
+	            null,
+	            _react2['default'].createElement(
+	              'div',
+	              { style: { margin: 4 } },
+	              count,
+	              ' 中 ',
+	              start,
+	              '件 ~ ',
+	              end,
+	              '件 を表示'
+	            ),
 	            _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }),
-	            this.state.maxPageNumber > 1 ? _react2['default'].createElement(_reactPager2['default'], {
-	              total: this.state.maxPageNumber,
-	              current: this.state.pageNumber,
-	              visiblePages: 8,
-	              titles: { first: '<<', last: '>>' },
-	              onPageChanged: this.onPageChanged
-	            }) : null
+	            this.state.maxPageNumber > 1 ? _react2['default'].createElement(
+	              'div',
+	              { style: { textAlign: "center" } },
+	              _react2['default'].createElement(_reactPager2['default'], {
+	                total: this.state.maxPageNumber,
+	                current: this.state.pageNumber,
+	                visiblePages: 5,
+	                titles: { first: '<<', last: '>>' },
+	                onPageChanged: this.onPageChanged
+	              })
+	            ) : null
 	          ) : null
 	        )
 	      );
