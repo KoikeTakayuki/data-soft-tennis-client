@@ -28,11 +28,11 @@ ReactDOM.render((
       <Route path="player/birth-year/:birthYear" component={AgeFilteredPlayerIndex} />
       <Route path="player" component={PlayerIndex} />
       <Route path="player/:playerId" component={Player} />
-      <Route path="/team" component={TeamIndex} />
-      <Route path="/team/prefecture-:prefectureId" component={TeamIndex} />
-      <Route path="/team/prefecture-:prefectureId/team-division-:teamDivisionId" component={TeamIndex} />
-      <Route path="/team/team-division-:teamDivisionId" component={TeamIndex} />
-      <Route path="/team/:teamId" component={Team} />
+      <Route path="team" component={TeamIndex} />
+      <Route path="team/prefecture-:prefectureId" component={TeamIndex} />
+      <Route path="team/prefecture-:prefectureId/team-division-:teamDivisionId" component={TeamIndex} />
+      <Route path="team/team-division-:teamDivisionId" component={TeamIndex} />
+      <Route path="team/:teamId" component={Team} />
       <Route path="match" component={MatchIndex} />
       <Route path="match/:matchId" component={Match} />
       <Route path="competition" component={CompetitionIndex} />
