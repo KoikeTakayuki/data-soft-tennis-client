@@ -108535,6 +108535,7 @@
 
 	    this.onTeamDivisionChange = this.onTeamDivisionChange.bind(this);
 	    this.onPrefectureChange = this.onPrefectureChange.bind(this);
+	    this.onParameterChange = this.onParameterChange.bind(this);
 	    this.fetchTeams = this.fetchTeams.bind(this);
 	  }
 
@@ -108561,29 +108562,24 @@
 	    value: function fetchTeams(condition) {
 	      var _this2 = this;
 
-	      this.previousRequestPromise = _configServer2['default'].Proxy.getTeams(condition).then(function (teams) {
+	      _configServer2['default'].Proxy.getTeams(condition).then(function (teams) {
 	        _this2.setState({ teams: teams });
 	      });
 	    }
 	  }, {
 	    key: 'onTeamDivisionChange',
 	    value: function onTeamDivisionChange(e, i, teamDivisionId) {
-	      if (this.props.params.prefectureId) {
-	        _reactRouter.browserHistory.push("/team/prefecture-" + this.props.params.prefectureId + "/team-division-" + teamDivisionId);
-	      } else {
-	        _reactRouter.browserHistory.push("/team/team-division-" + teamDivisionId);
-	      }
+	      this.onParameterChange(this.props.params.prefectureId, teamDivisionId);
 	    }
 	  }, {
 	    key: 'onPrefectureChange',
 	    value: function onPrefectureChange(e, i, prefectureId) {
-	      if (this.props.params.teamDivisionId) {
-	        _reactRouter.browserHistory.push("/team/prefecture-" + prefectureId + "/team-division-" + this.props.params.teamDivisionId);
-	      } else {
-	        _reactRouter.browserHistory.push("/team/prefecture-" + prefectureId);
-	      }
-
-	      this.setState({ pageNumber: 1 });
+	      this.onParameterChange(prefectureId, this.props.params.teamDivisionId);
+	    }
+	  }, {
+	    key: 'onParameterChange',
+	    value: function onParameterChange(prefectureId, teamDivisionId) {
+	      _reactRouter.browserHistory.push("/team" + (prefectureId ? "/prefecture-" + prefectureId : "") + (teamDivisionId ? "/team-division-" + teamDivisionId : ""));
 	    }
 	  }, {
 	    key: 'render',

@@ -21,6 +21,7 @@ export default class TeamIndex extends React.Component {
 
     this.onTeamDivisionChange = this.onTeamDivisionChange.bind(this);
     this.onPrefectureChange = this.onPrefectureChange.bind(this);
+    this.onParameterChange = this.onParameterChange.bind(this);
     this.fetchTeams = this.fetchTeams.bind(this);
   }
 
@@ -40,27 +41,21 @@ export default class TeamIndex extends React.Component {
   }
 
   fetchTeams(condition) {
-    this.previousRequestPromise = Server.Proxy.getTeams(condition).then(teams => {
+    Server.Proxy.getTeams(condition).then(teams => {
       this.setState({teams: teams});
     });
   }
 
   onTeamDivisionChange(e, i, teamDivisionId) {
-    if (this.props.params.prefectureId) {
-      browserHistory.push("/team/prefecture-" + this.props.params.prefectureId + "/team-division-" + teamDivisionId);      
-    } else {
-      browserHistory.push("/team/team-division-" + teamDivisionId);      
-    }
+    this.onParameterChange(this.props.params.prefectureId, teamDivisionId);
   }
 
   onPrefectureChange(e, i, prefectureId) {
-    if (this.props.params.teamDivisionId) {
-      browserHistory.push("/team/prefecture-" + prefectureId + "/team-division-" + this.props.params.teamDivisionId);      
-    } else {
-      browserHistory.push("/team/prefecture-" + prefectureId);      
-    }
+    this.onParameterChange(prefectureId, this.props.params.teamDivisionId);
+  }
 
-    this.setState({pageNumber: 1});
+  onParameterChange(prefectureId, teamDivisionId) {
+    browserHistory.push("/team" + (prefectureId ? "/prefecture-" + prefectureId : "") + (teamDivisionId ? "/team-division-" + teamDivisionId : ""));
   }
 
   render() {
