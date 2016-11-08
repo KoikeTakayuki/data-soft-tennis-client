@@ -27,7 +27,7 @@ export default class App extends React.Component {
 
   onDrawerMenuItemClicked(url) {
     browserHistory.push(url);
-    this.setState({showDrawer: false});
+    this.setState({ showDrawer: false });
   }
 
   render() {
