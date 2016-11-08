@@ -133,8 +133,11 @@
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/birth-year/:birthYear', component: _componentsPlayerAgeFilteredPlayerIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'player', component: _componentsPlayerPlayerIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/:playerId', component: _componentsPlayerPlayer2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'team', component: _componentsTeamTeamIndex2['default'] }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'team/:teamId', component: _componentsTeamTeam2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/team', component: _componentsTeamTeamIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/team/prefecture-:prefectureId', component: _componentsTeamTeamIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/team/prefecture-:prefectureId/team-division-:teamDivisionId', component: _componentsTeamTeamIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/team/team-division-:teamDivisionId', component: _componentsTeamTeamIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: '/team/:teamId', component: _componentsTeamTeam2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'match', component: _componentsMatchMatchIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/:matchId', component: _componentsMatchMatch2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition', component: _componentsCompetitionCompetitionIndex2['default'] }),
@@ -108514,6 +108517,8 @@
 
 	var _materialUiMenuItem2 = _interopRequireDefault(_materialUiMenuItem);
 
+	var _reactRouter = __webpack_require__(472);
+
 	var TeamIndex = (function (_React$Component) {
 	  _inherits(TeamIndex, _React$Component);
 
@@ -108521,12 +108526,13 @@
 	    _classCallCheck(this, TeamIndex);
 
 	    _get(Object.getPrototypeOf(TeamIndex.prototype), 'constructor', this).call(this, props);
+	    console.log(props.params);
 	    this.state = {
-	      teamDivisionId: false,
 	      teamDivisions: [],
-	      prefectureId: false,
-	      prefectures: []
+	      prefectures: [],
+	      pageNumber: 1
 	    };
+
 	    this.onTeamDivisionChange = this.onTeamDivisionChange.bind(this);
 	    this.onPrefectureChange = this.onPrefectureChange.bind(this);
 	    this.fetchTeams = this.fetchTeams.bind(this);
@@ -108536,6 +108542,12 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this = this;
+
+	      this.fetchTeams({
+	        prefecture_id: this.props.params.prefectureId,
+	        team_division_id: this.props.params.teamDivisionId,
+	        pageNumber: this.state.pageNumber
+	      });
 
 	      _configServer2['default'].Proxy.getTeamDivisions().then(function (teamDivisions) {
 	        _this.setState({ teamDivisions: teamDivisions });
@@ -108556,21 +108568,22 @@
 	  }, {
 	    key: 'onTeamDivisionChange',
 	    value: function onTeamDivisionChange(e, i, teamDivisionId) {
-	      this.setState({ teamDivisionId: teamDivisionId });
-
-	      this.fetchTeams({
-	        team_division_id: teamDivisionId,
-	        prefecture_id: this.state.prefectureId
-	      });
+	      if (this.props.params.prefectureId) {
+	        _reactRouter.browserHistory.push("/team/prefecture-" + this.props.params.prefectureId + "/team-division-" + teamDivisionId);
+	      } else {
+	        _reactRouter.browserHistory.push("/team/team-division-" + teamDivisionId);
+	      }
 	    }
 	  }, {
 	    key: 'onPrefectureChange',
 	    value: function onPrefectureChange(e, i, prefectureId) {
-	      this.setState({ prefectureId: prefectureId });
-	      this.fetchTeams({
-	        team_division_id: this.state.teamDivisionId,
-	        prefecture_id: prefectureId
-	      });
+	      if (this.props.params.teamDivisionId) {
+	        _reactRouter.browserHistory.push("/team/prefecture-" + prefectureId + "/team-division-" + this.props.params.teamDivisionId);
+	      } else {
+	        _reactRouter.browserHistory.push("/team/prefecture-" + prefectureId);
+	      }
+
+	      this.setState({ pageNumber: 1 });
 	    }
 	  }, {
 	    key: 'render',
@@ -108592,7 +108605,8 @@
 	            { style: { textAlign: "right", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChange, style: { width: 140 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
+	              { maxHeight: 300, value: this.props.params.prefectureId, onChange: this.onPrefectureChange, style: { width: 140 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
+	              _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '都道府県' }),
 	              this.state.prefectures.map(function (p) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
 	              })
@@ -108600,7 +108614,8 @@
 	            _react2['default'].createElement('br', null),
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChange, style: { width: 240 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
+	              { value: this.props.params.teamDivisionId, onChange: this.onTeamDivisionChange, style: { width: 240 }, autoWidth: true, labelStyle: { fontSize: "16px" } },
+	              _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: 'チーム区分' }),
 	              this.state.teamDivisions.map(function (t) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
 	              })
