@@ -122,14 +122,15 @@ export default class TeamIndex extends React.Component {
 
     let count = this.state.count,
         start = this.state.pageNumber * 12 + 1,
-        end = Math.min(count, start + 11);
+        end = Math.min(count, start + 11),
+        countStyle={ fontSize: 16, fontWeight: 700};
 
     return (
       <div>
         <Grid>
-          <h1 style={{fontSize: "16px"}}>{this.state.prefectureName}の{this.state.teamDivisionName}を探す</h1>
+          <h1>{this.state.prefectureName}の{this.state.teamDivisionName}を探す</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
-            <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChanged} labelStyle={{fontSize: "14px"}}>
+            <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChanged} style={{margin: -20}} labelStyle={{fontSize: "14px"}}>
               <MenuItem value={undefined}  primaryText="都道府県" />{this.state.prefectures.map((p) => <MenuItem key={p.id} value={p.id} primaryText={p.name} />)}
             </DropDownMenu>
             <DropDownMenu value={this.state.teamDivisionId} onChange={this.onTeamDivisionChanged} labelStyle={{fontSize: "14px"}}>
@@ -138,12 +139,12 @@ export default class TeamIndex extends React.Component {
           </div>
           {(this.state.teams && this.state.teams.length > 0) ? (
             <div>
-              <div style={{ margin: 4 }}>
-                {count} 中 {start}件 ~ {end}件 を表示
+              <div style={{ margin: 12 }}>
+                <span style={countStyle}>{count}</span>件中 <span style={countStyle}>{start}</span>件 ~ <span style={countStyle}>{end}</span>件 を表示
               </div>
               <TeamList teams={this.state.teams} />
               {(this.state.maxPageNumber > 1) ? (
-                <div style={{ textAlign: "center" }}>
+                <div style={{ textAlign: "center", marginTop: 20 }}>
                   <Pager
                     total={this.state.maxPageNumber}
                     current={this.state.pageNumber}

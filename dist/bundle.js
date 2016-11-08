@@ -108705,7 +108705,8 @@
 
 	      var count = this.state.count,
 	          start = this.state.pageNumber * 12 + 1,
-	          end = Math.min(count, start + 11);
+	          end = Math.min(count, start + 11),
+	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
 	        'div',
@@ -108715,7 +108716,7 @@
 	          null,
 	          _react2['default'].createElement(
 	            'h1',
-	            { style: { fontSize: "16px" } },
+	            null,
 	            this.state.prefectureName,
 	            'の',
 	            this.state.teamDivisionName,
@@ -108726,7 +108727,7 @@
 	            { style: { textAlign: "right", marginBottom: "10px" } },
 	            _react2['default'].createElement(
 	              _materialUiDropDownMenu2['default'],
-	              { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChanged, labelStyle: { fontSize: "14px" } },
+	              { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChanged, style: { margin: -20 }, labelStyle: { fontSize: "14px" } },
 	              _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '都道府県' }),
 	              this.state.prefectures.map(function (p) {
 	                return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
@@ -108746,18 +108747,30 @@
 	            null,
 	            _react2['default'].createElement(
 	              'div',
-	              { style: { margin: 4 } },
-	              count,
-	              ' 中 ',
-	              start,
+	              { style: { margin: 12 } },
+	              _react2['default'].createElement(
+	                'span',
+	                { style: countStyle },
+	                count
+	              ),
+	              '件中 ',
+	              _react2['default'].createElement(
+	                'span',
+	                { style: countStyle },
+	                start
+	              ),
 	              '件 ~ ',
-	              end,
+	              _react2['default'].createElement(
+	                'span',
+	                { style: countStyle },
+	                end
+	              ),
 	              '件 を表示'
 	            ),
 	            _react2['default'].createElement(_TeamList2['default'], { teams: this.state.teams }),
 	            this.state.maxPageNumber > 1 ? _react2['default'].createElement(
 	              'div',
-	              { style: { textAlign: "center" } },
+	              { style: { textAlign: "center", marginTop: 20 } },
 	              _react2['default'].createElement(_reactPager2['default'], {
 	                total: this.state.maxPageNumber,
 	                current: this.state.pageNumber,
