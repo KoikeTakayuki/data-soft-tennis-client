@@ -17,6 +17,7 @@ body {
 
 .footer {
   position: absolute;
+  margin-top: 20px;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
@@ -26,6 +27,10 @@ body {
 
 .footer-text {
   font-size: 22px;
-  line-height: 60px;
+  line-height: 55px;
   color: #ffffff;
+}
+
+.root {
+  padding-bottom: 20px;
 }
