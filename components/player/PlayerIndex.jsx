@@ -150,7 +150,7 @@ export default class PlayerIndex extends React.Component {
               <MenuItem value={undefined}  primaryText="チーム区分" />{this.state.teamDivisions.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
             </DropDownMenu>
           </div>
-        {this.state.players ? (
+        {(this.state.players && this.state.players.length > 0)? (
           <div>
             <div style={{ margin: 12 }}>
               <span style={countStyle}>{count}</span>件中 <span style={countStyle}>{start}</span>件 ~ <span style={countStyle}>{end}</span>件 を表示

@@ -3,28 +3,98 @@ import CompetitionList from './CompetitionList';
 import Server from '../../config/server';
 import CircularProgressCenter from '../util/CircularProgressCenter'
 import { Grid, Row, Col } from 'react-bootstrap';
+import Pager from 'react-pager';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import { browserHistory } from 'react-router'
 
 export default class CompetitionIndex extends React.Component {
 
 
   constructor(props) {
     super(props);
-    this.state = { competitions: false };
+    this.state = {
+      competitions: false,
+      competitionTagId: undefined,
+      competitionTags: [],
+      pageNumber: 0,
+      maxPageNumber: 0,
+      count: 0
+    };
+
+    this.onCompetitionTagChanged = this.onCompetitionTagChanged.bind(this);
+    this.onPageChanged = this.onPageChanged.bind(this);
   }
 
   componentDidMount() {
     Server.Proxy.getCompetitions().then(competitions => {
       this.setState({ competitions: competitions });
     });
+    Server.Proxy.getCompetitionCount().then(count => {
+      this.setState({
+        count: count,
+        maxPageNumber: (count / 12)
+      });
+    });
+    Server.Proxy.getCompetitionTags().then(competitionTags => {
+      this.setState({ competitionTags: competitionTags });
+    });
+  }
+
+  onCompetitionTagChanged(i, e, competitionTagId) {
+    this.setState({competitionTagId: competitionTagId });;
+    Server.Proxy.getCompetitions({
+      competition_tag_id: competitionTagId,
+      pageNumber: this.state.pageNumber
+    }).then(competitions => {
+      this.setState({ competitions: competitions });
+    });
+    Server.Proxy.getCompetitionCount({ competition_tag_id: competitionTagId }).then(count => {
+      this.setState({
+        count: count,
+        maxPageNumber: (count / 12)
+      });
+    });
+  }
+
+  onPageChanged(pageNumber) {
+    this.setState({pageNumber: pageNumber });
+
+    Server.Proxy.getCompetitions({
+      competition_tag_id: this.state.competitionTagId,
+      pageNumber: pageNumber
+    }).then(competitions => {
+      this.setState({ competitions: competitions });
+    });
+
   }
 
   render() {
 
     return (
       <Grid>
-        <h1>大会一覧</h1>
-        {this.state.competitions ? (
-            <CompetitionList competitions={this.state.competitions} />
+        <h1>大会を探す</h1>
+          <div style={{textAlign: "right", marginBottom: "10px"}}>
+            <DropDownMenu maxHeight={300} value={this.state.competitionTagId} onChange={this.onCompetitionTagChanged} labelStyle={{fontSize: "14px"}}>
+              <MenuItem value={undefined}  primaryText="大会名" />{this.state.competitionTags.map((c) => <MenuItem key={c.id} value={c.id} primaryText={c.name} />)}
+            </DropDownMenu>
+          </div>
+        {(this.state.competitions && this.state.competitions.length > 0) ? (
+            <div>
+              <CompetitionList competitions={this.state.competitions} />
+              {this.state.maxPageNumber > 1 ? (
+                <div style={{ textAlign: "center", marginTop: 20 }}>
+                  <Pager
+                    total={this.state.maxPageNumber}
+                    current={this.state.pageNumber}
+                    visiblePages={5}
+                    titles={{ first: '<<|', last: '|>>︎' }}
+                    onPageChanged={this.onPageChanged}
+                  />
+                </div>
+              ) : null
+            }
+            </div>
           ) : null
         }
       </Grid>

@@ -64586,8 +64586,11 @@
 	  getTeamDivisions: function getTeamDivisions() {
 	    return fetchData('/team-division');
 	  },
-	  getCompetitions: function getCompetitions() {
-	    return fetchData('/competition');
+	  getCompetitions: function getCompetitions(condition) {
+	    return fetchData('/competition', condition);
+	  },
+	  getCompetitionCount: function getCompetitionCount(condition) {
+	    return fetchData('/competition/count', condition);
 	  },
 	  getMatches: function getMatches(condition) {
 	    return fetchData('/match', condition);
@@ -108389,7 +108392,7 @@
 	            })
 	          )
 	        ),
-	        this.state.players ? _react2['default'].createElement(
+	        this.state.players && this.state.players.length > 0 ? _react2['default'].createElement(
 	          'div',
 	          null,
 	          _react2['default'].createElement(
@@ -111347,6 +111350,20 @@
 
 	var _reactBootstrap = __webpack_require__(531);
 
+	var _reactPager = __webpack_require__(977);
+
+	var _reactPager2 = _interopRequireDefault(_reactPager);
+
+	var _materialUiDropDownMenu = __webpack_require__(875);
+
+	var _materialUiDropDownMenu2 = _interopRequireDefault(_materialUiDropDownMenu);
+
+	var _materialUiMenuItem = __webpack_require__(410);
+
+	var _materialUiMenuItem2 = _interopRequireDefault(_materialUiMenuItem);
+
+	var _reactRouter = __webpack_require__(472);
+
 	var CompetitionIndex = (function (_React$Component) {
 	  _inherits(CompetitionIndex, _React$Component);
 
@@ -111354,7 +111371,17 @@
 	    _classCallCheck(this, CompetitionIndex);
 
 	    _get(Object.getPrototypeOf(CompetitionIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { competitions: false };
+	    this.state = {
+	      competitions: false,
+	      competitionTagId: undefined,
+	      competitionTags: [],
+	      pageNumber: 0,
+	      maxPageNumber: 0,
+	      count: 0
+	    };
+
+	    this.onCompetitionTagChanged = this.onCompetitionTagChanged.bind(this);
+	    this.onPageChanged = this.onPageChanged.bind(this);
 	  }
 
 	  _createClass(CompetitionIndex, [{
@@ -111364,6 +111391,48 @@
 
 	      _configServer2['default'].Proxy.getCompetitions().then(function (competitions) {
 	        _this.setState({ competitions: competitions });
+	      });
+	      _configServer2['default'].Proxy.getCompetitionCount().then(function (count) {
+	        _this.setState({
+	          count: count,
+	          maxPageNumber: count / 12
+	        });
+	      });
+	      _configServer2['default'].Proxy.getCompetitionTags().then(function (competitionTags) {
+	        _this.setState({ competitionTags: competitionTags });
+	      });
+	    }
+	  }, {
+	    key: 'onCompetitionTagChanged',
+	    value: function onCompetitionTagChanged(i, e, competitionTagId) {
+	      var _this2 = this;
+
+	      this.setState({ competitionTagId: competitionTagId });;
+	      _configServer2['default'].Proxy.getCompetitions({
+	        competition_tag_id: competitionTagId,
+	        pageNumber: this.state.pageNumber
+	      }).then(function (competitions) {
+	        _this2.setState({ competitions: competitions });
+	      });
+	      _configServer2['default'].Proxy.getCompetitionCount({ competition_tag_id: competitionTagId }).then(function (count) {
+	        _this2.setState({
+	          count: count,
+	          maxPageNumber: count / 12
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'onPageChanged',
+	    value: function onPageChanged(pageNumber) {
+	      var _this3 = this;
+
+	      this.setState({ pageNumber: pageNumber });
+
+	      _configServer2['default'].Proxy.getCompetitions({
+	        competition_tag_id: this.state.competitionTagId,
+	        pageNumber: pageNumber
+	      }).then(function (competitions) {
+	        _this3.setState({ competitions: competitions });
 	      });
 	    }
 	  }, {
@@ -111376,9 +111445,36 @@
 	        _react2['default'].createElement(
 	          'h1',
 	          null,
-	          '大会一覧'
+	          '大会を探す'
 	        ),
-	        this.state.competitions ? _react2['default'].createElement(_CompetitionList2['default'], { competitions: this.state.competitions }) : null
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { textAlign: "right", marginBottom: "10px" } },
+	          _react2['default'].createElement(
+	            _materialUiDropDownMenu2['default'],
+	            { maxHeight: 300, value: this.state.competitionTagId, onChange: this.onCompetitionTagChanged, labelStyle: { fontSize: "14px" } },
+	            _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '大会名' }),
+	            this.state.competitionTags.map(function (c) {
+	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: c.id, value: c.id, primaryText: c.name });
+	            })
+	          )
+	        ),
+	        this.state.competitions && this.state.competitions.length > 0 ? _react2['default'].createElement(
+	          'div',
+	          null,
+	          _react2['default'].createElement(_CompetitionList2['default'], { competitions: this.state.competitions }),
+	          this.state.maxPageNumber > 1 ? _react2['default'].createElement(
+	            'div',
+	            { style: { textAlign: "center", marginTop: 20 } },
+	            _react2['default'].createElement(_reactPager2['default'], {
+	              total: this.state.maxPageNumber,
+	              current: this.state.pageNumber,
+	              visiblePages: 5,
+	              titles: { first: '<<|', last: '|>>︎' },
+	              onPageChanged: this.onPageChanged
+	            })
+	          ) : null
+	        ) : null
 	      );
 	    }
 	  }]);
