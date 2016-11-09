@@ -146,6 +146,7 @@
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition', component: _componentsCompetitionCompetitionIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition/:competitionId', component: _componentsCompetitionCompetition2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court', component: _componentsTennisCourtTennisCourtIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court/prefecture-:prefectureId', component: _componentsTennisCourtTennisCourtIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court/:tennisCourtId', component: _componentsTennisCourtTennisCourt2['default'] })
 	  )
 	), document.getElementById('root'));
@@ -64622,8 +64623,11 @@
 	  getMatchById: function getMatchById(matchId) {
 	    return fetchData('/match/' + matchId);
 	  },
-	  getTennisCourts: function getTennisCourts() {
-	    return fetchData('/tennis-court');
+	  getTennisCourts: function getTennisCourts(condition) {
+	    return fetchData('/tennis-court', condition);
+	  },
+	  getTennisCourtCount: function getTennisCourtCount(condition) {
+	    return fetchData('/tennis-court/count', condition);
 	  },
 	  getTennisCourtById: function getTennisCourtById(tennisCourtId) {
 	    return fetchData('/tennis-court/' + tennisCourtId);
@@ -108301,7 +108305,7 @@
 
 	          _this.setState({
 	            count: count,
-	            maxPageNumber: count / 12
+	            maxPageNumber: count / 4
 	          });
 	        });
 
@@ -108357,8 +108361,8 @@
 	    value: function render() {
 
 	      var count = this.state.count,
-	          start = this.state.pageNumber * 12 + 1,
-	          end = Math.min(count, start + 11),
+	          start = this.state.pageNumber * 4 + 1,
+	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
@@ -108869,7 +108873,7 @@
 	        }).then(function (count) {
 	          _this2.setState({
 	            count: count,
-	            maxPageNumber: count / 12
+	            maxPageNumber: count / 4
 	          });
 	        });
 
@@ -108911,8 +108915,8 @@
 	    value: function render() {
 
 	      var count = this.state.count,
-	          start = this.state.pageNumber * 12 + 1,
-	          end = Math.min(count, start + 11),
+	          start = this.state.pageNumber * 4 + 1,
+	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
@@ -111395,7 +111399,7 @@
 	      _configServer2['default'].Proxy.getCompetitionCount().then(function (count) {
 	        _this.setState({
 	          count: count,
-	          maxPageNumber: count / 12
+	          maxPageNumber: count / 4
 	        });
 	      });
 	      _configServer2['default'].Proxy.getCompetitionTags().then(function (competitionTags) {
@@ -111407,7 +111411,10 @@
 	    value: function onCompetitionTagChanged(i, e, competitionTagId) {
 	      var _this2 = this;
 
-	      this.setState({ competitionTagId: competitionTagId });;
+	      this.setState({
+	        competitionTagId: competitionTagId,
+	        pageNumber: 0
+	      });
 	      _configServer2['default'].Proxy.getCompetitions({
 	        competition_tag_id: competitionTagId,
 	        pageNumber: this.state.pageNumber
@@ -111417,7 +111424,7 @@
 	      _configServer2['default'].Proxy.getCompetitionCount({ competition_tag_id: competitionTagId }).then(function (count) {
 	        _this2.setState({
 	          count: count,
-	          maxPageNumber: count / 12
+	          maxPageNumber: count / 4
 	        });
 	      });
 	    }
@@ -111438,6 +111445,11 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var count = this.state.count,
+	          start = this.state.pageNumber * 4 + 1,
+	          end = Math.min(count, start + 4 - 1),
+	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
@@ -111462,6 +111474,28 @@
 	        this.state.competitions && this.state.competitions.length > 0 ? _react2['default'].createElement(
 	          'div',
 	          null,
+	          _react2['default'].createElement(
+	            'div',
+	            { style: { margin: 12 } },
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              count
+	            ),
+	            '件中 ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              start
+	            ),
+	            '件 ~ ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              end
+	            ),
+	            '件 を表示'
+	          ),
 	          _react2['default'].createElement(_CompetitionList2['default'], { competitions: this.state.competitions }),
 	          this.state.maxPageNumber > 1 ? _react2['default'].createElement(
 	            'div',
@@ -112071,6 +112105,20 @@
 
 	var _reactBootstrap = __webpack_require__(531);
 
+	var _reactPager = __webpack_require__(977);
+
+	var _reactPager2 = _interopRequireDefault(_reactPager);
+
+	var _materialUiDropDownMenu = __webpack_require__(875);
+
+	var _materialUiDropDownMenu2 = _interopRequireDefault(_materialUiDropDownMenu);
+
+	var _materialUiMenuItem = __webpack_require__(410);
+
+	var _materialUiMenuItem2 = _interopRequireDefault(_materialUiMenuItem);
+
+	var _reactRouter = __webpack_require__(472);
+
 	var TennisCourtIndex = (function (_React$Component) {
 	  _inherits(TennisCourtIndex, _React$Component);
 
@@ -112078,21 +112126,95 @@
 	    _classCallCheck(this, TennisCourtIndex);
 
 	    _get(Object.getPrototypeOf(TennisCourtIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { tennisCourts: false };
+	    this.state = {
+	      tennisCourts: false,
+	      prefectureId: props.params.prefectureId ? Number(props.params.prefectureId) : undefined,
+	      prefectures: [],
+	      pageNumber: 0,
+	      maxPageNumber: 1,
+	      count: 0,
+	      prefectureName: '全国'
+	    };
+
+	    this.onPrefectureChanged = this.onPrefectureChanged.bind(this);
+	    this.onPageChanged = this.onPageChanged.bind(this);
+	    this.fetchTennisCourts = this.fetchTennisCourts.bind(this);
+	    this.setPrefecture = this.setPrefecture.bind(this);
 	  }
 
 	  _createClass(TennisCourtIndex, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'setPrefecture',
+	    value: function setPrefecture(prefectureId) {
+	      var prefecture = this.state.prefectures.find(function (p) {
+	        return p.id === Number(prefectureId);
+	      });
+
+	      this.setState({ prefectureName: prefecture ? prefecture.name : '全国' });
+	    }
+	  }, {
+	    key: 'fetchTennisCourts',
+	    value: function fetchTennisCourts(prefectureId, pageNumber, updateRecordCount) {
 	      var _this = this;
 
-	      _configServer2['default'].Proxy.getTennisCourts().then(function (tennisCourts) {
+	      _configServer2['default'].Proxy.getTennisCourts({
+	        "prefecture_id": prefectureId,
+	        pageNumber: pageNumber
+	      }).then(function (tennisCourts) {
 	        _this.setState({ tennisCourts: tennisCourts });
 	      });
+
+	      if (updateRecordCount) {
+	        _configServer2['default'].Proxy.getTennisCourtCount({
+	          "prefecture_id": prefectureId
+	        }).then(function (count) {
+
+	          _this.setState({
+	            count: count,
+	            maxPageNumber: count / 4
+	          });
+	        });
+
+	        this.setPrefecture(prefectureId);
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      _configServer2['default'].Proxy.getPrefectures().then(function (prefectures) {
+	        _this2.setState({ prefectures: prefectures });
+	      }).then(function () {
+	        _this2.fetchTennisCourts(_this2.state.prefectureId, _this2.state.pageNumber, true);
+	      });
+	    }
+	  }, {
+	    key: 'onPrefectureChanged',
+	    value: function onPrefectureChanged(e, i, prefectureId) {
+	      _reactRouter.browserHistory.push("/tennis-court" + (prefectureId ? "/prefecture-" + prefectureId : ""));
+
+	      this.setState({
+	        prefectureId: prefectureId,
+	        pageNumber: 0
+	      });
+
+	      this.fetchTennisCourts(prefectureId, 0, true);
+	    }
+	  }, {
+	    key: 'onPageChanged',
+	    value: function onPageChanged(pageNumber) {
+	      pageNumber = Math.ceil(pageNumber);
+	      this.setState({ pageNumber: pageNumber });
+	      this.fetchTennisCourts(this.state.prefectureId, pageNumber, false);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var count = this.state.count,
+	          start = this.state.pageNumber * 4 + 1,
+	          end = Math.min(count, start + 4 - 1),
+	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
@@ -112100,9 +112222,58 @@
 	        _react2['default'].createElement(
 	          'h1',
 	          null,
-	          '会場一覧'
+	          this.state.prefectureName,
+	          'の会場を探す'
 	        ),
-	        this.state.tennisCourts ? _react2['default'].createElement(_TennisCourtList2['default'], { tennisCourts: this.state.tennisCourts }) : null
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { textAlign: "right", marginBottom: "10px" } },
+	          _react2['default'].createElement(
+	            _materialUiDropDownMenu2['default'],
+	            { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChanged, style: { margin: -20 }, labelStyle: { fontSize: "14px" } },
+	            _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '都道府県' }),
+	            this.state.prefectures.map(function (p) {
+	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
+	            })
+	          )
+	        ),
+	        this.state.tennisCourts && this.state.tennisCourts.length > 0 ? _react2['default'].createElement(
+	          'div',
+	          null,
+	          _react2['default'].createElement(
+	            'div',
+	            { style: { margin: 12 } },
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              count
+	            ),
+	            '件中 ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              start
+	            ),
+	            '件 ~ ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              end
+	            ),
+	            '件 を表示'
+	          ),
+	          _react2['default'].createElement(_TennisCourtList2['default'], { tennisCourts: this.state.tennisCourts }),
+	          this.state.maxPageNumber > 1 ? _react2['default'].createElement(
+	            'div',
+	            { style: { textAlign: "center", marginTop: 20 } },
+	            _react2['default'].createElement(_reactPager2['default'], {
+	              total: this.state.maxPageNumber,
+	              current: this.state.pageNumber,
+	              visiblePages: 3,
+	              titles: { first: '<<|', last: '|>>︎' },
+	              onPageChanged: this.onPageChanged })
+	          ) : null
+	        ) : null
 	      );
 	    }
 	  }]);

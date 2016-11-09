@@ -86,7 +86,7 @@ export default class TeamIndex extends React.Component {
       }).then(count => {
         this.setState({
           count: count,
-          maxPageNumber: (count / 12)
+          maxPageNumber: (count / 4)
         });
       });
 
@@ -123,8 +123,8 @@ export default class TeamIndex extends React.Component {
   render() {
 
     let count = this.state.count,
-        start = this.state.pageNumber * 12 + 1,
-        end = Math.min(count, start + 11),
+        start = this.state.pageNumber * 4 + 1,
+        end = Math.min(count, start + 4 - 1),
         countStyle={ fontSize: 16, fontWeight: 700};
 
     return (

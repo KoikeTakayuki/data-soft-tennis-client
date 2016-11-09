@@ -33,7 +33,7 @@ export default class CompetitionIndex extends React.Component {
     Server.Proxy.getCompetitionCount().then(count => {
       this.setState({
         count: count,
-        maxPageNumber: (count / 12)
+        maxPageNumber: (count / 4)
       });
     });
     Server.Proxy.getCompetitionTags().then(competitionTags => {
@@ -42,7 +42,10 @@ export default class CompetitionIndex extends React.Component {
   }
 
   onCompetitionTagChanged(i, e, competitionTagId) {
-    this.setState({competitionTagId: competitionTagId });;
+    this.setState({
+      competitionTagId: competitionTagId,
+      pageNumber: 0
+    });
     Server.Proxy.getCompetitions({
       competition_tag_id: competitionTagId,
       pageNumber: this.state.pageNumber
@@ -52,7 +55,7 @@ export default class CompetitionIndex extends React.Component {
     Server.Proxy.getCompetitionCount({ competition_tag_id: competitionTagId }).then(count => {
       this.setState({
         count: count,
-        maxPageNumber: (count / 12)
+        maxPageNumber: (count / 4)
       });
     });
   }
@@ -71,6 +74,12 @@ export default class CompetitionIndex extends React.Component {
 
   render() {
 
+    let count = this.state.count,
+        start = this.state.pageNumber * 4 + 1,
+        end = Math.min(count, start + 4 - 1),
+        countStyle={ fontSize: 16, fontWeight: 700};
+
+
     return (
       <Grid>
         <h1>大会を探す</h1>
@@ -81,6 +90,9 @@ export default class CompetitionIndex extends React.Component {
           </div>
         {(this.state.competitions && this.state.competitions.length > 0) ? (
             <div>
+              <div style={{ margin: 12 }}>
+                <span style={countStyle}>{count}</span>件中 <span style={countStyle}>{start}</span>件 ~ <span style={countStyle}>{end}</span>件 を表示
+              </div>
               <CompetitionList competitions={this.state.competitions} />
               {this.state.maxPageNumber > 1 ? (
                 <div style={{ textAlign: "center", marginTop: 20 }}>
