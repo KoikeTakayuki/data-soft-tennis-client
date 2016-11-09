@@ -33,6 +33,7 @@ export default class TeamIndex extends React.Component {
     this.onPageChanged = this.onPageChanged.bind(this);
     this.fetchTeams = this.fetchTeams.bind(this);
     this.setPrefecture = this.setPrefecture.bind(this);
+    this.setTeamDivision = this.setTeamDivision.bind(this);
   }
 
   componentDidMount() {
@@ -88,10 +89,10 @@ export default class TeamIndex extends React.Component {
           maxPageNumber: (count / 12)
         });
       });
-    }
 
-    this.setPrefecture(prefectureId);
-    this.setTeamDivision(teamDivisionId);
+      this.setPrefecture(prefectureId);
+      this.setTeamDivision(teamDivisionId);
+    }
   }
 
   onTeamDivisionChanged(e, i, teamDivisionId) {
@@ -114,6 +115,7 @@ export default class TeamIndex extends React.Component {
   }
 
   onPageChanged(pageNumber) {
+    pageNumber = Math.ceil(pageNumber);
     this.setState({ pageNumber: pageNumber});
     this.fetchTeams(this.state.prefectureId, this.state.teamDivisionId, pageNumber, false);
   }
@@ -149,7 +151,7 @@ export default class TeamIndex extends React.Component {
                     total={this.state.maxPageNumber}
                     current={this.state.pageNumber}
                     visiblePages={5}
-                    titles={{ first: '<<', last: '>>' }}
+                    titles={{ first: '<<|', last: '|>>︎' }}
                     onPageChanged={this.onPageChanged}
                   />
                 </div>

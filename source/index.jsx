@@ -27,6 +27,9 @@ ReactDOM.render((
       <Route path="home" component={Home} />
       <Route path="player/birth-year/:birthYear" component={AgeFilteredPlayerIndex} />
       <Route path="player" component={PlayerIndex} />
+      <Route path="player/prefecture-:prefectureId" component={PlayerIndex} />
+      <Route path="player/prefecture-:prefectureId/team-division-:teamDivisionId" component={PlayerIndex} />
+      <Route path="player/team-division-:teamDivisionId" component={PlayerIndex} />
       <Route path="player/:playerId" component={Player} />
       <Route path="team" component={TeamIndex} />
       <Route path="team/prefecture-:prefectureId" component={TeamIndex} />

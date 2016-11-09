@@ -80,11 +80,11 @@
 
 	var _componentsPlayerPlayerIndex2 = _interopRequireDefault(_componentsPlayerPlayerIndex);
 
-	var _componentsTeamTeam = __webpack_require__(977);
+	var _componentsTeamTeam = __webpack_require__(978);
 
 	var _componentsTeamTeam2 = _interopRequireDefault(_componentsTeamTeam);
 
-	var _componentsTeamTeamIndex = __webpack_require__(980);
+	var _componentsTeamTeamIndex = __webpack_require__(981);
 
 	var _componentsTeamTeamIndex2 = _interopRequireDefault(_componentsTeamTeamIndex);
 
@@ -132,6 +132,9 @@
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'home', component: _componentsHome2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/birth-year/:birthYear', component: _componentsPlayerAgeFilteredPlayerIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'player', component: _componentsPlayerPlayerIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/prefecture-:prefectureId', component: _componentsPlayerPlayerIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/prefecture-:prefectureId/team-division-:teamDivisionId', component: _componentsPlayerPlayerIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/team-division-:teamDivisionId', component: _componentsPlayerPlayerIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'player/:playerId', component: _componentsPlayerPlayer2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'team', component: _componentsTeamTeamIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'team/prefecture-:prefectureId', component: _componentsTeamTeamIndex2['default'] }),
@@ -64568,8 +64571,11 @@
 
 	Server.Proxy = {
 
-	  getPlayers: function getPlayers() {
-	    return fetchData('/player');
+	  getPlayers: function getPlayers(condition) {
+	    return fetchData('/player', condition);
+	  },
+	  getPlayerCount: function getPlayerCount(condition) {
+	    return fetchData('/player/count', condition);
 	  },
 	  getTeams: function getTeams(condition) {
 	    return fetchData('/team', condition);
@@ -108173,6 +108179,8 @@
 
 	var _classCallCheck = __webpack_require__(221)['default'];
 
+	var _Promise = __webpack_require__(795)['default'];
+
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
@@ -108197,6 +108205,20 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
+	var _reactPager = __webpack_require__(977);
+
+	var _reactPager2 = _interopRequireDefault(_reactPager);
+
+	var _materialUiDropDownMenu = __webpack_require__(875);
+
+	var _materialUiDropDownMenu2 = _interopRequireDefault(_materialUiDropDownMenu);
+
+	var _materialUiMenuItem = __webpack_require__(410);
+
+	var _materialUiMenuItem2 = _interopRequireDefault(_materialUiMenuItem);
+
+	var _reactRouter = __webpack_require__(472);
+
 	var PlayerIndex = (function (_React$Component) {
 	  _inherits(PlayerIndex, _React$Component);
 
@@ -108204,22 +108226,137 @@
 	    _classCallCheck(this, PlayerIndex);
 
 	    _get(Object.getPrototypeOf(PlayerIndex.prototype), 'constructor', this).call(this, props);
-	    this.state = { players: false };
-	    this.componentDidMount.bind(this);
+	    this.state = {
+	      players: [],
+	      prefectureId: props.params.prefectureId ? Number(props.params.prefectureId) : undefined,
+	      teamDivisionId: props.params.teamDivisionId ? Number(props.params.teamDivisionId) : undefined,
+	      teamDivisions: [],
+	      prefectures: [],
+	      pageNumber: 0,
+	      maxPageNumber: 1,
+	      count: 0,
+	      prefectureName: '全国',
+	      teamDivisionName: ''
+	    };
+
+	    this.onTeamDivisionChanged = this.onTeamDivisionChanged.bind(this);
+	    this.onPrefectureChanged = this.onPrefectureChanged.bind(this);
+	    this.onParameterChanged = this.onParameterChanged.bind(this);
+	    this.onPageChanged = this.onPageChanged.bind(this);
+	    this.fetchPlayers = this.fetchPlayers.bind(this);
+	    this.setPrefecture = this.setPrefecture.bind(this);
+	    this.setTeamDivision = this.setTeamDivision.bind(this);
 	  }
 
 	  _createClass(PlayerIndex, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'setPrefecture',
+	    value: function setPrefecture(prefectureId) {
+	      var prefecture = this.state.prefectures.find(function (p) {
+	        return p.id === Number(prefectureId);
+	      });
+
+	      this.setState({ prefectureName: prefecture ? prefecture.name : '全国' });
+	    }
+	  }, {
+	    key: 'setTeamDivision',
+	    value: function setTeamDivision(teamDivisionId) {
+	      var teamDivision = this.state.teamDivisions.find(function (t) {
+	        return t.id === Number(teamDivisionId);
+	      });
+
+	      if (teamDivision && teamDivision.name) {
+
+	        if (teamDivision.name === "中学校") {
+	          this.setState({ teamDivisionName: '中学生' });
+	        } else if (teamDivision.name === "高校" || teamDivision.name === "大学") {
+	          this.setState({ teamDivisionName: teamDivision.name + '生' });
+	        } else {
+	          this.setState({ teamDivisionName: teamDivision.name });
+	        }
+	      } else {
+	        this.setState({ teamDivisionName: '' });
+	      }
+	    }
+	  }, {
+	    key: 'fetchPlayers',
+	    value: function fetchPlayers(prefectureId, teamDivisionId, pageNumber, updateRecordCount) {
 	      var _this = this;
 
-	      _configServer2['default'].Proxy.getPlayers().then(function (players) {
+	      _configServer2['default'].Proxy.getPlayers({
+	        "current_team.prefecture_id": prefectureId,
+	        "current_team.team_division_id": teamDivisionId,
+	        pageNumber: pageNumber
+	      }).then(function (players) {
 	        _this.setState({ players: players });
 	      });
+
+	      if (updateRecordCount) {
+	        _configServer2['default'].Proxy.getPlayerCount({
+	          "current_team.prefecture_id": prefectureId,
+	          "current_team.team_division_id": teamDivisionId
+	        }).then(function (count) {
+
+	          _this.setState({
+	            count: count,
+	            maxPageNumber: count / 12
+	          });
+	        });
+
+	        this.setPrefecture(prefectureId);
+	        this.setTeamDivision(teamDivisionId);
+	      }
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      _Promise.all([_configServer2['default'].Proxy.getTeamDivisions().then(function (teamDivisions) {
+	        _this2.setState({ teamDivisions: teamDivisions });
+	      }), _configServer2['default'].Proxy.getPrefectures().then(function (prefectures) {
+	        _this2.setState({ prefectures: prefectures });
+	      })]).then(function () {
+
+	        _this2.fetchPlayers(_this2.state.prefectureId, _this2.state.teamDivisionId, _this2.state.pageNumber, true);
+	      });
+	    }
+	  }, {
+	    key: 'onTeamDivisionChanged',
+	    value: function onTeamDivisionChanged(e, i, teamDivisionId) {
+	      this.onParameterChanged(this.state.prefectureId, teamDivisionId);
+	    }
+	  }, {
+	    key: 'onPrefectureChanged',
+	    value: function onPrefectureChanged(e, i, prefectureId) {
+	      this.onParameterChanged(prefectureId, this.state.teamDivisionId);
+	    }
+	  }, {
+	    key: 'onParameterChanged',
+	    value: function onParameterChanged(prefectureId, teamDivisionId) {
+	      _reactRouter.browserHistory.push("/player" + (prefectureId ? "/prefecture-" + prefectureId : "") + (teamDivisionId ? "/team-division-" + teamDivisionId : ""));
+	      this.setState({
+	        prefectureId: prefectureId,
+	        teamDivisionId: teamDivisionId,
+	        pageNumber: 0
+	      });
+
+	      this.fetchPlayers(prefectureId, teamDivisionId, 0, true);
+	    }
+	  }, {
+	    key: 'onPageChanged',
+	    value: function onPageChanged(pageNumber) {
+	      pageNumber = Math.ceil(pageNumber);
+	      this.setState({ pageNumber: pageNumber });
+	      this.fetchPlayers(this.state.prefectureId, this.state.teamDivisionId, pageNumber, false);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var count = this.state.count,
+	          start = this.state.pageNumber * 12 + 1,
+	          end = Math.min(count, start + 11),
+	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
@@ -108227,9 +108364,68 @@
 	        _react2['default'].createElement(
 	          'h1',
 	          null,
-	          'プレイヤー一覧'
+	          this.state.prefectureName,
+	          'の',
+	          this.state.teamDivisionName,
+	          'プレイヤーを探す'
 	        ),
-	        this.state.players ? _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }) : null
+	        _react2['default'].createElement(
+	          'div',
+	          { style: { textAlign: "right", marginBottom: "10px" } },
+	          _react2['default'].createElement(
+	            _materialUiDropDownMenu2['default'],
+	            { maxHeight: 300, value: this.state.prefectureId, onChange: this.onPrefectureChanged, style: { margin: -20 }, labelStyle: { fontSize: "14px" } },
+	            _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '都道府県' }),
+	            this.state.prefectures.map(function (p) {
+	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: p.id, value: p.id, primaryText: p.name });
+	            })
+	          ),
+	          _react2['default'].createElement(
+	            _materialUiDropDownMenu2['default'],
+	            { value: this.state.teamDivisionId, onChange: this.onTeamDivisionChanged, labelStyle: { fontSize: "14px" } },
+	            _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: 'チーム区分' }),
+	            this.state.teamDivisions.map(function (t) {
+	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
+	            })
+	          )
+	        ),
+	        this.state.players ? _react2['default'].createElement(
+	          'div',
+	          null,
+	          _react2['default'].createElement(
+	            'div',
+	            { style: { margin: 12 } },
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              count
+	            ),
+	            '件中 ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              start
+	            ),
+	            '件 ~ ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              end
+	            ),
+	            '件 を表示'
+	          ),
+	          _react2['default'].createElement(_PlayerList2['default'], { players: this.state.players }),
+	          this.state.maxPageNumber > 1 ? _react2['default'].createElement(
+	            'div',
+	            { style: { textAlign: "center", marginTop: 20 } },
+	            _react2['default'].createElement(_reactPager2['default'], {
+	              total: this.state.maxPageNumber,
+	              current: this.state.pageNumber,
+	              visiblePages: 5,
+	              titles: { first: '<<|', last: '|>>︎' },
+	              onPageChanged: this.onPageChanged })
+	          ) : null
+	        ) : null
 	      );
 	    }
 	  }]);
@@ -108244,6 +108440,12 @@
 
 /***/ },
 /* 977 */
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(e,t){ true?module.exports=t(__webpack_require__(21)):"function"==typeof define&&define.amd?define(["react"],t):"object"==typeof exports?exports.Pager=t(require("react")):e.Pager=t(e.react)}(this,function(e){return function(e){function t(n){if(a[n])return a[n].exports;var r=a[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var a={};return t.m=e,t.c=a,t.p="",t(0)}([function(e,t,a){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function s(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function l(e,t){for(var a=[],n=e;n<t;n++)a.push(n);return a}Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(e,t){for(var a=0;a<t.length;a++){var n=t[a];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,a,n){return a&&e(t.prototype,a),n&&e(t,n),t}}(),u=a(1),c=n(u),d=0,p=1,h={first:"First",prev:"«",prevSet:"...",nextSet:"...",next:"»",last:"Last"},f=function(e){function t(e){r(this,t);var a=i(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return a.handleFirstPage=a.handleFirstPage.bind(a),a.handlePreviousPage=a.handlePreviousPage.bind(a),a.handleNextPage=a.handleNextPage.bind(a),a.handleLastPage=a.handleLastPage.bind(a),a.handleMorePrevPages=a.handleMorePrevPages.bind(a),a.handleMoreNextPages=a.handleMoreNextPages.bind(a),a.handlePageChanged=a.handlePageChanged.bind(a),a}return s(t,e),o(t,[{key:"getTitles",value:function(e){return this.props.titles[e]||h[e]}},{key:"calcBlocks",value:function(){var e=this.props,t=e.total,a=e.visiblePages,n=e.current+p,r=Math.ceil(t/a),i=Math.ceil(n/a)-p;return{total:r,current:i,size:a}}},{key:"isPrevDisabled",value:function(){return this.props.current<=d}},{key:"isNextDisabled",value:function(){return this.props.current>=this.props.total-p}},{key:"isPrevMoreHidden",value:function(){var e=this.calcBlocks();return e.total===p||e.current===d}},{key:"isNextMoreHidden",value:function(){var e=this.calcBlocks();return e.total===p||e.current===e.total-p}},{key:"visibleRange",value:function(){var e=this.calcBlocks(),t=e.current*e.size,a=this.props.total-t,n=t+(a>e.size?e.size:a);return[t+p,n+p]}},{key:"handleFirstPage",value:function(){this.isPrevDisabled()||this.handlePageChanged(d)}},{key:"handlePreviousPage",value:function(){this.isPrevDisabled()||this.handlePageChanged(this.props.current-p)}},{key:"handleNextPage",value:function(){this.isNextDisabled()||this.handlePageChanged(this.props.current+p)}},{key:"handleLastPage",value:function(){this.isNextDisabled()||this.handlePageChanged(this.props.total-p)}},{key:"handleMorePrevPages",value:function(){var e=this.calcBlocks();this.handlePageChanged(e.current*e.size-p)}},{key:"handleMoreNextPages",value:function(){var e=this.calcBlocks();this.handlePageChanged((e.current+p)*e.size)}},{key:"handlePageChanged",value:function(e){var t=this.props.onPageChanged;t&&t(e)}},{key:"renderPages",value:function(e){var t=this;return l(e[0],e[1]).map(function(e,a){var n=e-p,r=t.handlePageChanged.bind(t,n),i=t.props.current===n;return c["default"].createElement(g,{key:a,index:a,isActive:i,className:"btn-numbered-page",onClick:r},e)})}},{key:"render",value:function(){var e=this.getTitles.bind(this);return c["default"].createElement("nav",null,c["default"].createElement("ul",{className:"pagination"},c["default"].createElement(g,{className:"btn-first-page",key:"btn-first-page",isDisabled:this.isPrevDisabled(),onClick:this.handleFirstPage},e("first")),c["default"].createElement(g,{className:"btn-prev-page",key:"btn-prev-page",isDisabled:this.isPrevDisabled(),onClick:this.handlePreviousPage},e("prev")),c["default"].createElement(g,{className:"btn-prev-more",key:"btn-prev-more",isHidden:this.isPrevMoreHidden(),onClick:this.handleMorePrevPages},e("prevSet")),this.renderPages(this.visibleRange()),c["default"].createElement(g,{className:"btn-next-more",key:"btn-next-more",isHidden:this.isNextMoreHidden(),onClick:this.handleMoreNextPages},e("nextSet")),c["default"].createElement(g,{className:"btn-next-page",key:"btn-next-page",isDisabled:this.isNextDisabled(),onClick:this.handleNextPage},e("next")),c["default"].createElement(g,{className:"btn-last-page",key:"btn-last-page",isDisabled:this.isNextDisabled(),onClick:this.handleLastPage},e("last"))))}}]),t}(c["default"].Component);f.propTypes={current:c["default"].PropTypes.number.isRequired,total:c["default"].PropTypes.number.isRequired,visiblePages:c["default"].PropTypes.number.isRequired,titles:c["default"].PropTypes.object,onPageChanged:c["default"].PropTypes.func},f.defaultProps={titles:h};var g=function(e){if(e.isHidden)return null;var t=e.className?e.className+" ":"",a=""+t+(e.isActive?" active":"")+(e.isDisabled?" disabled":"");return c["default"].createElement("li",{key:e.index,className:a},c["default"].createElement("a",{onClick:e.onClick},e.children))};g.propTypes={isHidden:c["default"].PropTypes.bool,isActive:c["default"].PropTypes.bool,isDisabled:c["default"].PropTypes.bool,className:c["default"].PropTypes.string,onClick:c["default"].PropTypes.func},t["default"]=f},function(t,a){t.exports=e}])});
+
+/***/ },
+/* 978 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108270,11 +108472,11 @@
 
 	var _reactBootstrap = __webpack_require__(531);
 
-	var _TeamPlayerList = __webpack_require__(978);
+	var _TeamPlayerList = __webpack_require__(979);
 
 	var _TeamPlayerList2 = _interopRequireDefault(_TeamPlayerList);
 
-	var _FormerTeamPlayerList = __webpack_require__(979);
+	var _FormerTeamPlayerList = __webpack_require__(980);
 
 	var _FormerTeamPlayerList2 = _interopRequireDefault(_FormerTeamPlayerList);
 
@@ -108347,7 +108549,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Team.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 978 */
+/* 979 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108437,7 +108639,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "TeamPlayerList.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 979 */
+/* 980 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108527,7 +108729,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "FormerTeamPlayerList.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 980 */
+/* 981 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108554,7 +108756,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TeamList = __webpack_require__(981);
+	var _TeamList = __webpack_require__(982);
 
 	var _TeamList2 = _interopRequireDefault(_TeamList);
 
@@ -108578,7 +108780,7 @@
 
 	var _reactRouter = __webpack_require__(472);
 
-	var _reactPager = __webpack_require__(984);
+	var _reactPager = __webpack_require__(977);
 
 	var _reactPager2 = _interopRequireDefault(_reactPager);
 
@@ -108609,6 +108811,7 @@
 	    this.onPageChanged = this.onPageChanged.bind(this);
 	    this.fetchTeams = this.fetchTeams.bind(this);
 	    this.setPrefecture = this.setPrefecture.bind(this);
+	    this.setTeamDivision = this.setTeamDivision.bind(this);
 	  }
 
 	  _createClass(TeamIndex, [{
@@ -108666,10 +108869,10 @@
 	            maxPageNumber: count / 12
 	          });
 	        });
-	      }
 
-	      this.setPrefecture(prefectureId);
-	      this.setTeamDivision(teamDivisionId);
+	        this.setPrefecture(prefectureId);
+	        this.setTeamDivision(teamDivisionId);
+	      }
 	    }
 	  }, {
 	    key: 'onTeamDivisionChanged',
@@ -108696,6 +108899,7 @@
 	  }, {
 	    key: 'onPageChanged',
 	    value: function onPageChanged(pageNumber) {
+	      pageNumber = Math.ceil(pageNumber);
 	      this.setState({ pageNumber: pageNumber });
 	      this.fetchTeams(this.state.prefectureId, this.state.teamDivisionId, pageNumber, false);
 	    }
@@ -108775,7 +108979,7 @@
 	                total: this.state.maxPageNumber,
 	                current: this.state.pageNumber,
 	                visiblePages: 5,
-	                titles: { first: '<<', last: '>>' },
+	                titles: { first: '<<|', last: '|>>︎' },
 	                onPageChanged: this.onPageChanged
 	              })
 	            ) : null
@@ -108794,7 +108998,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "TeamIndex.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 981 */
+/* 982 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108819,7 +109023,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _TeamCard = __webpack_require__(982);
+	var _TeamCard = __webpack_require__(983);
 
 	var _TeamCard2 = _interopRequireDefault(_TeamCard);
 
@@ -108864,7 +109068,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "TeamList.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 982 */
+/* 983 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -108897,7 +109101,7 @@
 
 	var _reactRouter = __webpack_require__(472);
 
-	var _materialUiSvgIconsSocialDomain = __webpack_require__(983);
+	var _materialUiSvgIconsSocialDomain = __webpack_require__(984);
 
 	var _materialUiSvgIconsSocialDomain2 = _interopRequireDefault(_materialUiSvgIconsSocialDomain);
 
@@ -108946,7 +109150,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/koiketakayuki/Desktop/data-soft-tennis-client/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "TeamCard.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 983 */
+/* 984 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108981,12 +109185,6 @@
 	SocialDomain.muiName = 'SvgIcon';
 
 	exports.default = SocialDomain;
-
-/***/ },
-/* 984 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(e,t){ true?module.exports=t(__webpack_require__(21)):"function"==typeof define&&define.amd?define(["react"],t):"object"==typeof exports?exports.Pager=t(require("react")):e.Pager=t(e.react)}(this,function(e){return function(e){function t(n){if(a[n])return a[n].exports;var r=a[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var a={};return t.m=e,t.c=a,t.p="",t(0)}([function(e,t,a){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function s(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function l(e,t){for(var a=[],n=e;n<t;n++)a.push(n);return a}Object.defineProperty(t,"__esModule",{value:!0});var o=function(){function e(e,t){for(var a=0;a<t.length;a++){var n=t[a];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,a,n){return a&&e(t.prototype,a),n&&e(t,n),t}}(),u=a(1),c=n(u),d=0,p=1,h={first:"First",prev:"«",prevSet:"...",nextSet:"...",next:"»",last:"Last"},f=function(e){function t(e){r(this,t);var a=i(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return a.handleFirstPage=a.handleFirstPage.bind(a),a.handlePreviousPage=a.handlePreviousPage.bind(a),a.handleNextPage=a.handleNextPage.bind(a),a.handleLastPage=a.handleLastPage.bind(a),a.handleMorePrevPages=a.handleMorePrevPages.bind(a),a.handleMoreNextPages=a.handleMoreNextPages.bind(a),a.handlePageChanged=a.handlePageChanged.bind(a),a}return s(t,e),o(t,[{key:"getTitles",value:function(e){return this.props.titles[e]||h[e]}},{key:"calcBlocks",value:function(){var e=this.props,t=e.total,a=e.visiblePages,n=e.current+p,r=Math.ceil(t/a),i=Math.ceil(n/a)-p;return{total:r,current:i,size:a}}},{key:"isPrevDisabled",value:function(){return this.props.current<=d}},{key:"isNextDisabled",value:function(){return this.props.current>=this.props.total-p}},{key:"isPrevMoreHidden",value:function(){var e=this.calcBlocks();return e.total===p||e.current===d}},{key:"isNextMoreHidden",value:function(){var e=this.calcBlocks();return e.total===p||e.current===e.total-p}},{key:"visibleRange",value:function(){var e=this.calcBlocks(),t=e.current*e.size,a=this.props.total-t,n=t+(a>e.size?e.size:a);return[t+p,n+p]}},{key:"handleFirstPage",value:function(){this.isPrevDisabled()||this.handlePageChanged(d)}},{key:"handlePreviousPage",value:function(){this.isPrevDisabled()||this.handlePageChanged(this.props.current-p)}},{key:"handleNextPage",value:function(){this.isNextDisabled()||this.handlePageChanged(this.props.current+p)}},{key:"handleLastPage",value:function(){this.isNextDisabled()||this.handlePageChanged(this.props.total-p)}},{key:"handleMorePrevPages",value:function(){var e=this.calcBlocks();this.handlePageChanged(e.current*e.size-p)}},{key:"handleMoreNextPages",value:function(){var e=this.calcBlocks();this.handlePageChanged((e.current+p)*e.size)}},{key:"handlePageChanged",value:function(e){var t=this.props.onPageChanged;t&&t(e)}},{key:"renderPages",value:function(e){var t=this;return l(e[0],e[1]).map(function(e,a){var n=e-p,r=t.handlePageChanged.bind(t,n),i=t.props.current===n;return c["default"].createElement(g,{key:a,index:a,isActive:i,className:"btn-numbered-page",onClick:r},e)})}},{key:"render",value:function(){var e=this.getTitles.bind(this);return c["default"].createElement("nav",null,c["default"].createElement("ul",{className:"pagination"},c["default"].createElement(g,{className:"btn-first-page",key:"btn-first-page",isDisabled:this.isPrevDisabled(),onClick:this.handleFirstPage},e("first")),c["default"].createElement(g,{className:"btn-prev-page",key:"btn-prev-page",isDisabled:this.isPrevDisabled(),onClick:this.handlePreviousPage},e("prev")),c["default"].createElement(g,{className:"btn-prev-more",key:"btn-prev-more",isHidden:this.isPrevMoreHidden(),onClick:this.handleMorePrevPages},e("prevSet")),this.renderPages(this.visibleRange()),c["default"].createElement(g,{className:"btn-next-more",key:"btn-next-more",isHidden:this.isNextMoreHidden(),onClick:this.handleMoreNextPages},e("nextSet")),c["default"].createElement(g,{className:"btn-next-page",key:"btn-next-page",isDisabled:this.isNextDisabled(),onClick:this.handleNextPage},e("next")),c["default"].createElement(g,{className:"btn-last-page",key:"btn-last-page",isDisabled:this.isNextDisabled(),onClick:this.handleLastPage},e("last"))))}}]),t}(c["default"].Component);f.propTypes={current:c["default"].PropTypes.number.isRequired,total:c["default"].PropTypes.number.isRequired,visiblePages:c["default"].PropTypes.number.isRequired,titles:c["default"].PropTypes.object,onPageChanged:c["default"].PropTypes.func},f.defaultProps={titles:h};var g=function(e){if(e.isHidden)return null;var t=e.className?e.className+" ":"",a=""+t+(e.isActive?" active":"")+(e.isDisabled?" disabled":"");return c["default"].createElement("li",{key:e.index,className:a},c["default"].createElement("a",{onClick:e.onClick},e.children))};g.propTypes={isHidden:c["default"].PropTypes.bool,isActive:c["default"].PropTypes.bool,isDisabled:c["default"].PropTypes.bool,className:c["default"].PropTypes.string,onClick:c["default"].PropTypes.func},t["default"]=f},function(t,a){t.exports=e}])});
 
 /***/ },
 /* 985 */
