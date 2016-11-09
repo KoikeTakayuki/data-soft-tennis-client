@@ -108424,7 +108424,7 @@
 	            _react2['default'].createElement(_reactPager2['default'], {
 	              total: this.state.maxPageNumber,
 	              current: this.state.pageNumber,
-	              visiblePages: 5,
+	              visiblePages: 3,
 	              titles: { first: '<<|', last: '|>>︎' },
 	              onPageChanged: this.onPageChanged })
 	          ) : null
@@ -108981,7 +108981,7 @@
 	              _react2['default'].createElement(_reactPager2['default'], {
 	                total: this.state.maxPageNumber,
 	                current: this.state.pageNumber,
-	                visiblePages: 5,
+	                visiblePages: 3,
 	                titles: { first: '<<|', last: '|>>︎' },
 	                onPageChanged: this.onPageChanged
 	              })
@@ -111469,7 +111469,7 @@
 	            _react2['default'].createElement(_reactPager2['default'], {
 	              total: this.state.maxPageNumber,
 	              current: this.state.pageNumber,
-	              visiblePages: 5,
+	              visiblePages: 3,
 	              titles: { first: '<<|', last: '|>>︎' },
 	              onPageChanged: this.onPageChanged
 	            })

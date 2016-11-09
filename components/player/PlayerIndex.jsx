@@ -161,7 +161,7 @@ export default class PlayerIndex extends React.Component {
                   <Pager
                     total={this.state.maxPageNumber}
                     current={this.state.pageNumber}
-                    visiblePages={5}
+                    visiblePages={3}
                     titles={{ first: '<<|', last: '|>>︎' }}
                     onPageChanged={this.onPageChanged} />
                 </div>
