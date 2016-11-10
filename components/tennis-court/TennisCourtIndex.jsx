@@ -98,7 +98,7 @@ export default class TennisCourtIndex extends React.Component {
 
     return (
       <Grid>
-        <h1>{this.state.prefectureName}の会場を探す</h1>
+        <h1 style={{fontSize: 22}}>{this.state.prefectureName}の会場を探す</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
             <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChanged} style={{margin: -20}} labelStyle={{fontSize: "14px"}}>
               <MenuItem value={undefined}  primaryText="都道府県" />{this.state.prefectures.map((p) => <MenuItem key={p.id} value={p.id} primaryText={p.name} />)}

@@ -26,8 +26,8 @@ export default class Team extends React.Component {
 
       const team = this.state.team;
       const meta = {
-        title: team.prefecture.name + '/' + team.name + 'のデータ - DataSoftTennis -',
-        description: team.prefecture.name + ' ' + team.name　+ 'ソフトテニス部の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+        title: team.prefecture.name + '/' + team.name + 'のデータ - DataSoftTennis ソフトテニスの情報サイト -',
+        description: team.prefecture.name + ' ' + team.name　+ 'ソフトテニス部の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
         meta: {
           charset: 'utf-8',
           name: {
@@ -39,7 +39,7 @@ export default class Team extends React.Component {
       return (
         <Grid>
           <DocumentMeta {...meta} />
-          <h1>{team.name}</h1>
+          <h1>{team.name}のデータ</h1>
           <div style={{ marginLeft: 10 }}>{team.prefecture.name}/{team.team_division.name}</div>
           <TeamPlayerList team={team} />
           <FormerTeamPlayerList team={team} />

@@ -68,7 +68,7 @@ export default class MatchIndex extends React.Component {
 
     return (
       <Grid>
-        <h1>試合を探す</h1>
+        <h1 style={{fontSize: 22}}>試合を探す</h1>
         <div style={{marginBottom: "10px", textAlign: "right"}}>
           <DropDownMenu value={this.state.year} onChange={this.onYearChange} style={{width: 140}} autoWidth={false} labelStyle={{fontSize: "16px"}}>
             {[2014, 2015, 2016].map((y) => <MenuItem key={y} value={y} primaryText={y + '年'}/>)}

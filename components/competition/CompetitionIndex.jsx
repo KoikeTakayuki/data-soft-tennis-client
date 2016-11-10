@@ -48,7 +48,7 @@ export default class CompetitionIndex extends React.Component {
     });
     Server.Proxy.getCompetitions({
       competition_tag_id: competitionTagId,
-      pageNumber: this.state.pageNumber
+      pageNumber: 0
     }).then(competitions => {
       this.setState({ competitions: competitions });
     });
@@ -82,7 +82,7 @@ export default class CompetitionIndex extends React.Component {
 
     return (
       <Grid>
-        <h1>大会を探す</h1>
+        <h1 style={{fontSize: 22}}>大会を探す</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
             <DropDownMenu maxHeight={300} value={this.state.competitionTagId} onChange={this.onCompetitionTagChanged} labelStyle={{fontSize: "14px"}}>
               <MenuItem value={undefined}  primaryText="大会名" />{this.state.competitionTags.map((c) => <MenuItem key={c.id} value={c.id} primaryText={c.name} />)}

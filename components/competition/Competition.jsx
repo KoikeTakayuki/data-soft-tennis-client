@@ -26,8 +26,8 @@ export default class Competition extends React.Component {
       const competition = this.state.competition;
 
       const meta = {
-        title: competition.name + 'のデータ - DataSoftTennis -',
-        description: competition.name　+ 'の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+        title: competition.name + 'のデータ - DataSoftTennis ソフトテニスの情報サイト -',
+        description: competition.name　+ 'の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
         meta: {
           charset: 'utf-8',
           name: {
@@ -41,7 +41,7 @@ export default class Competition extends React.Component {
         <div>
           <Grid>
             <DocumentMeta {...meta} />
-            <h1>{competition.name}のデータ</h1>
+            <h1 style={{fontSize:30}}>{competition.name}のデータ</h1>
           </Grid>
           <CompetitionMatchList competition={competition} />
         </div>

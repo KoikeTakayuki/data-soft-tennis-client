@@ -27,8 +27,8 @@ export default class Match extends React.Component {
       const tableHeaderStyle = {width:"23%", textAlign:"center"};
 
       const meta = {
-        title: match.title + ' - DataSoftTennis -',
-        description: match.title　+ 'の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+        title: match.title + 'のデータ - DataSoftTennis ソフトテニスの情報サイト -',
+        description: match.title　+ 'の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
         meta: {
           charset: 'utf-8',
           name: {
@@ -41,7 +41,7 @@ export default class Match extends React.Component {
       return (
         <Grid>
           <DocumentMeta {...meta} />
-          <h1 style={{fontSize: "14px"}}>{match.title}</h1>
+          <h1 style={{fontSize: 20}}>{match.title}</h1>
           <div>
             <ReactPlayer url={match.url} width="100%" height="300px" style={{maxWidth: 640}} />
             <p>会場: <Link to={"/tennis-court/" + match.tennis_court.id}>{match.tennis_court.name}</Link></p>

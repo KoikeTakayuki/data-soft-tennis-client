@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import GroupIcon from 'material-ui/svg-icons/social/group';
 import HomeIcon from 'material-ui/svg-icons/action/home';
 import FaceIcon from 'material-ui/svg-icons/action/face';
-
+import DocumentMeta from 'react-document-meta';
 
 export default class Home extends React.Component {
 
@@ -28,10 +28,21 @@ export default class Home extends React.Component {
       { url: 'competition', name: '大会を探す', icon: <img src="assets/images/trophy.png" /> }
     ];
 
+    const meta = {
+      title: 'DataSoftTennis ソフトテニスの情報サイト',
+      description: 'ソフトテニスに関する情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+      meta: {
+        charset: 'utf-8',
+        name: {
+          keywords: ['ソフトテニス', 'チーム', 'プレイヤー', '試合', '大会'].join(',')
+        }
+      }
+    };
 
     return (
       <Card>
         <CardHeader>
+          <DocumentMeta {...meta} />
           <h1>DataSoftTennis</h1>
         </CardHeader>
         <p>DataSoftTennisはソフトテニスの試合やプレイヤーのデータを集めたサイトです。</p>

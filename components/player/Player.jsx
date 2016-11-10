@@ -30,8 +30,8 @@ export default class Player extends React.Component {
 
 
       const meta = {
-        title: player.name + '選手のデータ - DataSoftTennis -',
-        description: player.current_team.name + ' ' + player.name + '選手の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+        title: player.name + '選手のデータ - DataSoftTennis ソフトテニスの情報サイト -',
+        description: player.current_team.name + ' ' + player.name + '選手の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
         meta: {
           charset: 'utf-8',
           name: {
@@ -44,7 +44,7 @@ export default class Player extends React.Component {
         <div>
           <Grid>
             <DocumentMeta {...meta} />
-            <h1 style={{fontSize: 22}}>{player.name}選手のデータ</h1>
+            <h1 style={{fontSize: 30}}>{player.name}選手のデータ</h1>
             <h2>プロフィール</h2>
             <DetailedPlayerCard player={this.state.player} />
             <h2>試合一覧</h2>
