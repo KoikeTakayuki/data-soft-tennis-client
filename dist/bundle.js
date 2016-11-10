@@ -64489,16 +64489,29 @@
 
 	        var player = this.state.player;
 
+	        var meta = {
+	          title: player.name + '選手のデータ - DataSoftTennis -',
+	          description: player.current_team.name + ' ' + player.name + '選手の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+	          meta: {
+	            charset: 'utf-8',
+	            name: {
+	              keywords: [player.name, player.current_team.name, 'ソフトテニス', '出身校', '試合'].join(',')
+	            }
+	          }
+	        };
+
 	        return _react2['default'].createElement(
 	          'div',
 	          null,
 	          _react2['default'].createElement(
 	            _reactBootstrap.Grid,
 	            null,
+	            _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	            _react2['default'].createElement(
 	              'h1',
-	              null,
-	              player.name
+	              { style: { fontSize: 22 } },
+	              player.name,
+	              '選手のデータ'
 	            ),
 	            _react2['default'].createElement(
 	              'h2',
@@ -108497,6 +108510,10 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
+	var _reactDocumentMeta = __webpack_require__(963);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var Team = (function (_React$Component) {
 	  _inherits(Team, _React$Component);
 
@@ -108522,10 +108539,21 @@
 	      if (this.state.team) {
 
 	        var team = this.state.team;
+	        var meta = {
+	          title: team.prefecture.name + '/' + team.name + 'のデータ - DataSoftTennis -',
+	          description: team.prefecture.name + ' ' + team.name + 'ソフトテニス部の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+	          meta: {
+	            charset: 'utf-8',
+	            name: {
+	              keywords: [team.name, 'ソフトテニス', 'プレイヤー', '試合'].join(',')
+	            }
+	          }
+	        };
 
 	        return _react2['default'].createElement(
 	          _reactBootstrap.Grid,
 	          null,
+	          _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	          _react2['default'].createElement(
 	            'h1',
 	            null,
@@ -109233,6 +109261,10 @@
 
 	var _reactPlayer2 = _interopRequireDefault(_reactPlayer);
 
+	var _reactDocumentMeta = __webpack_require__(963);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var Match = (function (_React$Component) {
 	  _inherits(Match, _React$Component);
 
@@ -109259,9 +109291,21 @@
 	        var match = this.state.match;
 	        var tableHeaderStyle = { width: "23%", textAlign: "center" };
 
+	        var meta = {
+	          title: match.title + ' - DataSoftTennis -',
+	          description: match.title + 'の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+	          meta: {
+	            charset: 'utf-8',
+	            name: {
+	              keywords: ['ソフトテニス', '試合', match.player1.name, match.player2.name, match.player3.name, match.player4.name, match.competition.name, match.round.name, match.tennis_court.name].join(',')
+	            }
+	          }
+	        };
+
 	        return _react2['default'].createElement(
 	          _reactBootstrap.Grid,
 	          null,
+	          _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	          _react2['default'].createElement(
 	            'h1',
 	            { style: { fontSize: "14px" } },
@@ -111176,6 +111220,10 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
+	var _reactDocumentMeta = __webpack_require__(963);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var Competition = (function (_React$Component) {
 	  _inherits(Competition, _React$Component);
 
@@ -111199,19 +111247,35 @@
 	    key: 'render',
 	    value: function render() {
 	      if (this.state.competition) {
+
+	        var competition = this.state.competition;
+
+	        var meta = {
+	          title: competition.name + 'のデータ - DataSoftTennis -',
+	          description: competition.name + 'の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+	          meta: {
+	            charset: 'utf-8',
+	            name: {
+	              keywords: [competition.name, 'ソフトテニス', '試合'].join(',')
+	            }
+	          }
+	        };
+
 	        return _react2['default'].createElement(
 	          'div',
 	          null,
 	          _react2['default'].createElement(
 	            _reactBootstrap.Grid,
 	            null,
+	            _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	            _react2['default'].createElement(
-	              'h2',
+	              'h1',
 	              null,
-	              this.state.competition.name
+	              competition.name,
+	              'のデータ'
 	            )
 	          ),
-	          _react2['default'].createElement(_CompetitionMatchList2['default'], { competition: this.state.competition })
+	          _react2['default'].createElement(_CompetitionMatchList2['default'], { competition: competition })
 	        );
 	      }
 

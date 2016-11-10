@@ -5,6 +5,7 @@ import Server from '../../config/server';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import { Link } from 'react-router';
 import ReactPlayer from 'react-player'
+import DocumentMeta from 'react-document-meta';
 
 export default class Match extends React.Component {
 
@@ -25,8 +26,21 @@ export default class Match extends React.Component {
       const match = this.state.match;
       const tableHeaderStyle = {width:"23%", textAlign:"center"};
 
+      const meta = {
+        title: match.title + ' - DataSoftTennis -',
+        description: match.title　+ 'の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: ['ソフトテニス', '試合', match.player1.name, match.player2.name, match.player3.name, match.player4.name, match.competition.name, match.round.name, match.tennis_court.name].join(',')
+          }
+        }
+      };
+
+
       return (
         <Grid>
+          <DocumentMeta {...meta} />
           <h1 style={{fontSize: "14px"}}>{match.title}</h1>
           <div>
             <ReactPlayer url={match.url} width="100%" height="300px" style={{maxWidth: 640}} />

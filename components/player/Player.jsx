@@ -28,10 +28,23 @@ export default class Player extends React.Component {
 
       const player = this.state.player;
 
+
+      const meta = {
+        title: player.name + '選手のデータ - DataSoftTennis -',
+        description: player.current_team.name + ' ' + player.name + '選手の情報ならDataSoftTennis! DataSoftTennisではソフトテニスのプレイヤー、チーム、試合、大会のデータが充実しています！',
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: [player.name, player.current_team.name, 'ソフトテニス', '出身校', '試合'].join(',')
+          }
+        }
+      };
+
       return (
         <div>
           <Grid>
-            <h1>{player.name}</h1>
+            <DocumentMeta {...meta} />
+            <h1 style={{fontSize: 22}}>{player.name}選手のデータ</h1>
             <h2>プロフィール</h2>
             <DetailedPlayerCard player={this.state.player} />
             <h2>試合一覧</h2>
