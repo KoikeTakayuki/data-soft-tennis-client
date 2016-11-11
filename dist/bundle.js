@@ -108017,6 +108017,10 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
+	var _reactDocumentMeta = __webpack_require__(793);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var AgeFilteredPlayerIndex = (function (_React$Component) {
 	  _inherits(AgeFilteredPlayerIndex, _React$Component);
 
@@ -108043,6 +108047,7 @@
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
 	        null,
+	        _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	        _react2['default'].createElement(
 	          'h1',
 	          { style: { fontSize: 22 } },
@@ -108262,6 +108267,10 @@
 
 	var _reactRouter = __webpack_require__(472);
 
+	var _reactDocumentMeta = __webpack_require__(793);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var PlayerIndex = (function (_React$Component) {
 	  _inherits(PlayerIndex, _React$Component);
 
@@ -108401,9 +108410,29 @@
 	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
+	      var title = this.state.prefectureName + 'の' + this.state.teamDivisionName + 'プレイヤーを探す - DataSoftTennis ソフトテニスの情報サイト -',
+	          description = this.state.prefectureName + 'の' + this.state.teamDivisionName + 'プレイヤーの情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+	          keywords = ['ソフトテニス', this.state.prefectureName, 'プレイヤー', 'データ'];
+
+	      if (this.state.teamDivisionName) {
+	        keywords.unshift(this.state.teamDivisionName);
+	      }
+
+	      var meta = {
+	        title: title,
+	        description: description,
+	        meta: {
+	          charset: 'utf-8',
+	          name: {
+	            keywords: keywords.join(',')
+	          }
+	        }
+	      };
+
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
 	        null,
+	        _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	        _react2['default'].createElement(
 	          'h1',
 	          { style: { fontSize: 22 } },
@@ -108843,6 +108872,10 @@
 
 	var _reactPager2 = _interopRequireDefault(_reactPager);
 
+	var _reactDocumentMeta = __webpack_require__(793);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var TeamIndex = (function (_React$Component) {
 	  _inherits(TeamIndex, _React$Component);
 
@@ -108971,12 +109004,28 @@
 	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
+	      var title = this.state.prefectureName + 'の' + this.state.teamDivisionName + 'を探す - DataSoftTennis ソフトテニスの情報サイト -',
+	          description = this.state.prefectureName + 'の' + this.state.teamDivisionName + 'の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+	          keywords = ['ソフトテニス', this.state.teamDivisionName, this.state.prefectureName, '在籍選手', 'データ'];
+
+	      var meta = {
+	        title: title,
+	        description: description,
+	        meta: {
+	          charset: 'utf-8',
+	          name: {
+	            keywords: keywords.join(',')
+	          }
+	        }
+	      };
+
 	      return _react2['default'].createElement(
 	        'div',
 	        null,
 	        _react2['default'].createElement(
 	          _reactBootstrap.Grid,
 	          null,
+	          _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	          _react2['default'].createElement(
 	            'h1',
 	            { style: { fontSize: 22 } },
@@ -111096,6 +111145,10 @@
 
 	var _reactPager2 = _interopRequireDefault(_reactPager);
 
+	var _reactDocumentMeta = __webpack_require__(793);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var MatchIndex = (function (_React$Component) {
 	  _inherits(MatchIndex, _React$Component);
 
@@ -111204,13 +111257,41 @@
 	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
+	      var title = '試合を探す',
+	          description = '試合の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+	          keywords = ['ソフトテニス', '試合', '大会'];
+
+	      if (this.state.competitionTagName) {
+	        title = this.state.competitionTagName + 'の' + title;
+	        description = this.state.competitionTagName + 'の' + description;
+	        keywords.unshift(this.state.competitionTagName);
+	      }
+
+	      if (this.state.year) {
+	        title = this.state.year + '年の' + title;
+	        description = this.state.year + '年の' + description;
+	        keywords.unshift(this.state.year + '年');
+	      }
+
+	      var meta = {
+	        title: title + ' - DataSoftTennis ソフトテニスの情報サイト -',
+	        description: description,
+	        meta: {
+	          charset: 'utf-8',
+	          name: {
+	            keywords: keywords.join(',')
+	          }
+	        }
+	      };
+
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
 	        null,
+	        _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	        _react2['default'].createElement(
 	          'h1',
 	          { style: { fontSize: 22 } },
-	          '試合を探す'
+	          title
 	        ),
 	        _react2['default'].createElement(
 	          'div',
@@ -111536,6 +111617,10 @@
 
 	var _reactRouter = __webpack_require__(472);
 
+	var _reactDocumentMeta = __webpack_require__(793);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var CompetitionIndex = (function (_React$Component) {
 	  _inherits(CompetitionIndex, _React$Component);
 
@@ -111547,6 +111632,7 @@
 	      competitions: false,
 	      competitionTagId: props.params.competitionTagId ? Number(props.params.competitionTagId) : undefined,
 	      competitionTags: [],
+	      competitionTagName: false,
 	      pageNumber: 0,
 	      maxPageNumber: 0,
 	      count: 0
@@ -111554,6 +111640,7 @@
 
 	    this.onCompetitionTagChanged = this.onCompetitionTagChanged.bind(this);
 	    this.onPageChanged = this.onPageChanged.bind(this);
+	    this.setCompetitionTag = this.setCompetitionTag.bind(this);
 	  }
 
 	  _createClass(CompetitionIndex, [{
@@ -111572,7 +111659,18 @@
 	      });
 	      _configServer2['default'].Proxy.getCompetitionTags().then(function (competitionTags) {
 	        _this.setState({ competitionTags: competitionTags });
+	      }).then(function () {
+	        _this.setCompetitionTag(_this.state.competitionTagName);
 	      });
+	    }
+	  }, {
+	    key: 'setCompetitionTag',
+	    value: function setCompetitionTag(competitionTagId) {
+	      var competitionTag = this.state.competitionTags.find(function (c) {
+	        return c.id === Number(competitionTagId);
+	      });
+
+	      this.setState({ competitionTagName: competitionTag ? competitionTag.name : false });
 	    }
 	  }, {
 	    key: 'onCompetitionTagChanged',
@@ -111580,7 +111678,7 @@
 	      var _this2 = this;
 
 	      _reactRouter.browserHistory.push("/competition" + (competitionTagId ? "/competition-tag-" + competitionTagId : ""));
-
+	      this.setCompetitionTag(competitionTagId);
 	      this.setState({
 	        competitionTagId: competitionTagId,
 	        pageNumber: 0
@@ -111621,12 +111719,37 @@
 	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
+	      var title = '大会を探す - DataSoftTennis ソフトテニスの情報サイト -',
+	          description = 'の大会情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+	          keywords = ['ソフトテニス', '大会', '試合'];
+
+	      if (this.state.competitionTagName) {
+	        title = '「' + this.state.competitionTagName + '」タグの' + title;
+	        keywords.unshift(this.state.competitionTagName);
+	        description = this.state.competitionTagName + description;
+	      } else {
+	        description = 'ソフトテニス' + description;
+	      }
+
+	      var meta = {
+	        title: title,
+	        description: description,
+	        meta: {
+	          charset: 'utf-8',
+	          name: {
+	            keywords: keywords.join(',')
+	          }
+	        }
+	      };
+
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
 	        null,
+	        _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	        _react2['default'].createElement(
 	          'h1',
 	          { style: { fontSize: 22 } },
+	          this.state.competitionTagName ? '「' + this.state.competitionTagName + '」タグの' : '',
 	          '大会を探す'
 	        ),
 	        _react2['default'].createElement(
@@ -112303,6 +112426,10 @@
 
 	var _reactRouter = __webpack_require__(472);
 
+	var _reactDocumentMeta = __webpack_require__(793);
+
+	var _reactDocumentMeta2 = _interopRequireDefault(_reactDocumentMeta);
+
 	var TennisCourtIndex = (function (_React$Component) {
 	  _inherits(TennisCourtIndex, _React$Component);
 
@@ -112400,9 +112527,25 @@
 	          end = Math.min(count, start + 4 - 1),
 	          countStyle = { fontSize: 16, fontWeight: 700 };
 
+	      var title = this.state.prefectureName + 'の会場を探す - DataSoftTennis ソフトテニスの情報サイト -',
+	          description = this.state.prefectureName + 'のソフトテニスの会場の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+	          keywords = ['ソフトテニス', '会場', this.state.prefectureName, '大会'];
+
+	      var meta = {
+	        title: title,
+	        description: description,
+	        meta: {
+	          charset: 'utf-8',
+	          name: {
+	            keywords: keywords.join(',')
+	          }
+	        }
+	      };
+
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
 	        null,
+	        _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	        _react2['default'].createElement(
 	          'h1',
 	          { style: { fontSize: 22 } },

@@ -6,6 +6,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import CircularProgressCenter from '../util/CircularProgressCenter';
 import Pager from 'react-pager';
+import DocumentMeta from 'react-document-meta';
 
 export default class MatchIndex extends React.Component {
 
@@ -103,10 +104,37 @@ export default class MatchIndex extends React.Component {
         end = Math.min(count, start + 4 - 1),
         countStyle={ fontSize: 16, fontWeight: 700};
 
+    let title = '試合を探す',
+        description = '試合の情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+        keywords = ['ソフトテニス', '試合', '大会'];
+
+    if (this.state.competitionTagName) {
+      title = this.state.competitionTagName + 'の' + title;
+      description = this.state.competitionTagName + 'の' + description;
+      keywords.unshift(this.state.competitionTagName);
+    }
+
+    if (this.state.year) {
+      title = this.state.year + '年の' + title;
+      description = this.state.year + '年の' + description;
+      keywords.unshift(this.state.year + '年');
+    }
+
+    const meta = {
+        title: title + ' - DataSoftTennis ソフトテニスの情報サイト -',
+        description: description,
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: keywords.join(',')
+          }
+        }
+      };
 
     return (
       <Grid>
-        <h1 style={{fontSize: 22}}>試合を探す</h1>
+        <DocumentMeta {...meta} />
+        <h1 style={{fontSize: 22}}>{title}</h1>
         <div style={{marginBottom: "10px", textAlign: "right"}}>
           <DropDownMenu value={this.state.year} onChange={this.onYearChanged} style={{width: 140}} autoWidth={false} labelStyle={{fontSize: "16px"}}>
             <MenuItem value={undefined} primaryText='年を指定'/>{[2014, 2015, 2016].map((y) => <MenuItem key={y} value={y} primaryText={y + '年'}/>)}

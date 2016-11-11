@@ -6,7 +6,8 @@ import CircularProgressCenter from '../util/CircularProgressCenter'
 import Pager from 'react-pager';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
+import DocumentMeta from 'react-document-meta';
 
 export default class PlayerIndex extends React.Component {
 
@@ -139,8 +140,29 @@ export default class PlayerIndex extends React.Component {
         end = Math.min(count, start + 4 - 1),
         countStyle={ fontSize: 16, fontWeight: 700};
 
+    let title = this.state.prefectureName + 'の' + this.state.teamDivisionName + 'プレイヤーを探す - DataSoftTennis ソフトテニスの情報サイト -',
+        description = this.state.prefectureName + 'の' + this.state.teamDivisionName + 'プレイヤーの情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+        keywords = ['ソフトテニス', this.state.prefectureName, 'プレイヤー', 'データ'];
+
+    if (this.state.teamDivisionName) {
+      keywords.unshift(this.state.teamDivisionName);
+    }
+
+    const meta = {
+        title: title,
+        description: description,
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: keywords.join(',')
+          }
+        }
+      };
+
+
     return (
       <Grid>
+        <DocumentMeta {...meta} />
         <h1 style={{fontSize: 22}}>{this.state.prefectureName}の{this.state.teamDivisionName}プレイヤーを探す</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
             <DropDownMenu maxHeight={300} value={this.state.prefectureId} onChange={this.onPrefectureChanged} style={{margin: -20}} labelStyle={{fontSize: "14px"}}>

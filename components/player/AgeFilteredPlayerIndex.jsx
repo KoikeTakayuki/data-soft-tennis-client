@@ -2,7 +2,8 @@ import React from 'react';
 import PlayerList from './PlayerList';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Server from '../../config/server';
-import CircularProgressCenter from '../util/CircularProgressCenter'
+import CircularProgressCenter from '../util/CircularProgressCenter';
+import DocumentMeta from 'react-document-meta';
 
 export default class AgeFilteredPlayerIndex extends React.Component {
 
@@ -22,6 +23,7 @@ export default class AgeFilteredPlayerIndex extends React.Component {
 
     return (
       <Grid>
+        <DocumentMeta {...meta} />
         <h1 style={{fontSize: 22}}>{this.props.params.birthYear}年度生まれのプレイヤー</h1>
         {this.state.players ? (
             <PlayerList players={this.state.players} />

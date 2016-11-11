@@ -7,6 +7,7 @@ import Pager from 'react-pager';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { browserHistory } from 'react-router'
+import DocumentMeta from 'react-document-meta';
 
 export default class CompetitionIndex extends React.Component {
 
@@ -17,6 +18,7 @@ export default class CompetitionIndex extends React.Component {
       competitions: false,
       competitionTagId: props.params.competitionTagId ? Number(props.params.competitionTagId) : undefined,
       competitionTags: [],
+      competitionTagName: false,
       pageNumber: 0,
       maxPageNumber: 0,
       count: 0
@@ -24,6 +26,7 @@ export default class CompetitionIndex extends React.Component {
 
     this.onCompetitionTagChanged = this.onCompetitionTagChanged.bind(this);
     this.onPageChanged = this.onPageChanged.bind(this);
+    this.setCompetitionTag = this.setCompetitionTag.bind(this);
   }
 
   componentDidMount() {
@@ -38,12 +41,23 @@ export default class CompetitionIndex extends React.Component {
     });
     Server.Proxy.getCompetitionTags().then(competitionTags => {
       this.setState({ competitionTags: competitionTags });
+    }).then(() =>{
+      this.setCompetitionTag(this.state.competitionTagName);
     });
   }
 
+  setCompetitionTag(competitionTagId) {
+    let competitionTag = this.state.competitionTags.find(c => {
+      return c.id === Number(competitionTagId);
+    });
+
+    this.setState({ competitionTagName: (competitionTag ? competitionTag.name : false)});
+  }
+
+
   onCompetitionTagChanged(i, e, competitionTagId) {
     browserHistory.push("/competition" + (competitionTagId ? "/competition-tag-" + competitionTagId : ""));
-
+    this.setCompetitionTag(competitionTagId);
     this.setState({
       competitionTagId: competitionTagId,
       pageNumber: 0
@@ -81,10 +95,34 @@ export default class CompetitionIndex extends React.Component {
         end = Math.min(count, start + 4 - 1),
         countStyle={ fontSize: 16, fontWeight: 700};
 
+    let title = '大会を探す - DataSoftTennis ソフトテニスの情報サイト -',
+        description = 'の大会情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+        keywords = ['ソフトテニス', '大会', '試合'];
+
+    if (this.state.competitionTagName) {
+      title = '「' + this.state.competitionTagName + '」タグの' + title;
+      keywords.unshift(this.state.competitionTagName);
+      description = this.state.competitionTagName + description;
+    } else {
+      description = 'ソフトテニス' + description;
+    }
+
+    const meta = {
+        title: title,
+        description: description,
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: keywords.join(',')
+          }
+        }
+      };
+
 
     return (
       <Grid>
-        <h1 style={{fontSize: 22}}>大会を探す</h1>
+        <DocumentMeta {...meta} />
+        <h1 style={{fontSize: 22}}>{(this.state.competitionTagName ? '「' + this.state.competitionTagName + '」タグの' : '')}大会を探す</h1>
           <div style={{textAlign: "right", marginBottom: "10px"}}>
             <DropDownMenu maxHeight={300} value={this.state.competitionTagId} onChange={this.onCompetitionTagChanged} labelStyle={{fontSize: "14px"}}>
               <MenuItem value={undefined}  primaryText="大会名" />{this.state.competitionTags.map((c) => <MenuItem key={c.id} value={c.id} primaryText={c.name} />)}
