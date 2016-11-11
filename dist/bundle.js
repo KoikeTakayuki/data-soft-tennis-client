@@ -142,6 +142,9 @@
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'team/team-division-:teamDivisionId', component: _componentsTeamTeamIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'team/:teamId', component: _componentsTeamTeam2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'match', component: _componentsMatchMatchIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/competition-tag-:competitionTagId', component: _componentsMatchMatchIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/competition-tag-:competitionTagId/year-:year', component: _componentsMatchMatchIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/year-:year', component: _componentsMatchMatchIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/:matchId', component: _componentsMatchMatch2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition', component: _componentsCompetitionCompetitionIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition/competition-tag-:competitionTagId', component: _componentsCompetitionCompetitionIndex2['default'] }),
@@ -65376,6 +65379,9 @@
 	  getMatches: function getMatches(condition) {
 	    return fetchData('/match', condition);
 	  },
+	  getMatchCount: function getMatchCount(condition) {
+	    return fetchData('/match/count', condition);
+	  },
 	  getCompetitionById: function getCompetitionById(competitionId) {
 	    return fetchData('/competition/' + competitionId);
 	  },
@@ -111086,6 +111092,10 @@
 
 	var _utilCircularProgressCenter2 = _interopRequireDefault(_utilCircularProgressCenter);
 
+	var _reactPager = __webpack_require__(977);
+
+	var _reactPager2 = _interopRequireDefault(_reactPager);
+
 	var MatchIndex = (function (_React$Component) {
 	  _inherits(MatchIndex, _React$Component);
 
@@ -111094,16 +111104,20 @@
 
 	    _get(Object.getPrototypeOf(MatchIndex.prototype), 'constructor', this).call(this, props);
 	    this.state = {
-	      year: 2016,
-	      competitionTagId: 1,
-	      competitionTypeId: 1,
+	      year: props.params.year ? Number(props.params.year) : undefined,
+	      competitionTagId: props.params.competitionTagId ? Number(props.params.competitionTagId) : undefined,
 	      competitionTags: [],
-	      competitionTypes: [],
-	      matches: false
+	      pageNumber: 0,
+	      maxPageNumber: 1,
+	      count: 0,
+	      matches: false,
+	      competitionTagName: ''
 	    };
 
-	    this.onYearChange = this.onYearChange.bind(this);
-	    this.onCompetitionTagChange = this.onCompetitionTagChange.bind(this);
+	    this.onYearChanged = this.onYearChanged.bind(this);
+	    this.onCompetitionTagChanged = this.onCompetitionTagChanged.bind(this);
+	    this.fetchMatches = this.fetchMatches.bind(this);
+	    this.onPageChanged = this.onPageChanged.bind(this);
 	  }
 
 	  _createClass(MatchIndex, [{
@@ -111111,50 +111125,84 @@
 	    value: function componentDidMount() {
 	      var _this = this;
 
+	      ;
 	      _configServer2['default'].Proxy.getCompetitionTags().then(function (competitionTags) {
 	        _this.setState({ competitionTags: competitionTags });
-	      });
-
-	      /*Server.Proxy.getCompetitionTypes().then(competitionTypes => {
-	        console.log(competitionTypes);
-	        this.setState({ competitionTypes: competitionTypes });
-	      });*/
-
-	      _configServer2['default'].Proxy.getMatches().then(function (matches) {
-	        _this.setState({ matches: matches });
-	      });
-	    }
-	  }, {
-	    key: 'onYearChange',
-	    value: function onYearChange(e, i, year) {
-	      this.setState({ year: year });
-	      this.fetchMatches({
-	        "competition.year": year,
-	        "competition.competition_tag_id": this.state.competitionTagId
-	      });
-	    }
-	  }, {
-	    key: 'onCompetitionTagChange',
-	    value: function onCompetitionTagChange(e, i, competitionTagId) {
-
-	      this.setState({ competitionTagId: competitionTagId });
-	      this.fetchMatches({
-	        "competition.year": this.state.year,
-	        "competition.competition_tag_id": competitionTagId
+	      }).then(function () {
+	        _this.fetchMatches(_this.state.year, _this.state.competitionTagId, 0, true);
 	      });
 	    }
 	  }, {
 	    key: 'fetchMatches',
-	    value: function fetchMatches(condition) {
+	    value: function fetchMatches(year, competitionTagId, pageNumber, updateRecordCount) {
 	      var _this2 = this;
 
-	      _configServer2['default'].Proxy.getMatches(condition).then(function (matches) {
+	      _configServer2['default'].Proxy.getMatches({
+	        "competition.competition_tag_id": competitionTagId,
+	        "competition.year": year,
+	        pageNumber: pageNumber
+	      }).then(function (matches) {
 	        _this2.setState({ matches: matches });
 	      });
+
+	      if (updateRecordCount) {
+	        _configServer2['default'].Proxy.getMatchCount({
+	          "competition.competition_tag_id": competitionTagId,
+	          "competition.year": year
+	        }).then(function (count) {
+
+	          _this2.setState({
+	            count: count,
+	            maxPageNumber: count / 4
+	          });
+	        });
+
+	        this.setCompetitionTag(competitionTagId);
+	      }
+	    }
+	  }, {
+	    key: 'setCompetitionTag',
+	    value: function setCompetitionTag(competitionTagId) {
+	      var competitionTag = this.state.competitionTags.find(function (c) {
+	        return c.id === Number(competitionTagId);
+	      });
+
+	      this.setState({ competitionTagName: competitionTag ? competitionTag.name : '' });
+	    }
+	  }, {
+	    key: 'onYearChanged',
+	    value: function onYearChanged(e, i, year) {
+	      this.setState({
+	        year: year,
+	        pageNumber: 0
+	      });
+	      this.fetchMatches(year, this.state.competitionTagId, 0, true);
+	    }
+	  }, {
+	    key: 'onCompetitionTagChanged',
+	    value: function onCompetitionTagChanged(e, i, competitionTagId) {
+
+	      this.setState({
+	        competitionTagId: competitionTagId,
+	        pageNumber: 0
+	      });
+	      this.fetchMatches(this.state.year, competitionTagId, 0, true);
+	    }
+	  }, {
+	    key: 'onPageChanged',
+	    value: function onPageChanged(pageNumber) {
+	      pageNumber = Math.ceil(pageNumber);
+	      this.setState({ pageNumber: pageNumber });
+	      this.fetchMatches(this.state.year, this.state.competitionTagId, pageNumber, false);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var count = this.state.count,
+	          start = this.state.pageNumber * 4 + 1,
+	          end = Math.min(count, start + 4 - 1),
+	          countStyle = { fontSize: 16, fontWeight: 700 };
 
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
@@ -111169,7 +111217,8 @@
 	          { style: { marginBottom: "10px", textAlign: "right" } },
 	          _react2['default'].createElement(
 	            _materialUiDropDownMenu2['default'],
-	            { value: this.state.year, onChange: this.onYearChange, style: { width: 140 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
+	            { value: this.state.year, onChange: this.onYearChanged, style: { width: 140 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
+	            _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '年を指定' }),
 	            [2014, 2015, 2016].map(function (y) {
 	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: y, value: y, primaryText: y + '年' });
 	            })
@@ -111177,13 +111226,50 @@
 	          _react2['default'].createElement('br', null),
 	          _react2['default'].createElement(
 	            _materialUiDropDownMenu2['default'],
-	            { value: this.state.competitionTagId, onChange: this.onCompetitionTagChange, style: { width: 170 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
+	            { value: this.state.competitionTagId, onChange: this.onCompetitionTagChanged, style: { width: 170 }, autoWidth: false, labelStyle: { fontSize: "16px" } },
+	            _react2['default'].createElement(_materialUiMenuItem2['default'], { value: undefined, primaryText: '大会を指定' }),
 	            this.state.competitionTags.map(function (t) {
 	              return _react2['default'].createElement(_materialUiMenuItem2['default'], { key: t.id, value: t.id, primaryText: t.name });
 	            })
 	          )
 	        ),
-	        this.state.matches ? _react2['default'].createElement(_MatchList2['default'], { matches: this.state.matches }) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
+	        this.state.matches ? _react2['default'].createElement(
+	          'div',
+	          null,
+	          _react2['default'].createElement(
+	            'div',
+	            { style: { margin: 12 } },
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              count
+	            ),
+	            '件中 ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              start
+	            ),
+	            '件 ~ ',
+	            _react2['default'].createElement(
+	              'span',
+	              { style: countStyle },
+	              end
+	            ),
+	            '件 を表示'
+	          ),
+	          _react2['default'].createElement(_MatchList2['default'], { matches: this.state.matches }),
+	          this.state.maxPageNumber > 1 ? _react2['default'].createElement(
+	            'div',
+	            { style: { textAlign: "center", marginTop: 20 } },
+	            _react2['default'].createElement(_reactPager2['default'], {
+	              total: this.state.maxPageNumber,
+	              current: this.state.pageNumber,
+	              visiblePages: 3,
+	              titles: { first: '<<|', last: '|>>︎' },
+	              onPageChanged: this.onPageChanged })
+	          ) : null
+	        ) : _react2['default'].createElement(_utilCircularProgressCenter2['default'], null)
 	      );
 	    }
 	  }]);

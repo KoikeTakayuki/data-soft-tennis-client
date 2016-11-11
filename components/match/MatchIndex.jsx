@@ -4,7 +4,8 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import Server from '../../config/server';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import CircularProgressCenter from '../util/CircularProgressCenter'
+import CircularProgressCenter from '../util/CircularProgressCenter';
+import Pager from 'react-pager';
 
 export default class MatchIndex extends React.Component {
 
@@ -12,74 +13,126 @@ export default class MatchIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      year: 2016,
-      competitionTagId: 1,
-      competitionTypeId: 1,
+      year: props.params.year ? Number(props.params.year) : undefined,
+      competitionTagId: props.params.competitionTagId ? Number(props.params.competitionTagId) : undefined,
       competitionTags: [],
-      competitionTypes: [],
-      matches: false
+      pageNumber: 0,
+      maxPageNumber: 1,
+      count: 0,
+      matches: false,
+      competitionTagName: ''
     };
 
-    this.onYearChange = this.onYearChange.bind(this);
-    this.onCompetitionTagChange = this.onCompetitionTagChange.bind(this);
+    this.onYearChanged = this.onYearChanged.bind(this);
+    this.onCompetitionTagChanged = this.onCompetitionTagChanged.bind(this);
+    this.fetchMatches = this.fetchMatches.bind(this);
+    this.onPageChanged = this.onPageChanged.bind(this);
   }
 
-  componentDidMount() {
-
+  componentDidMount() {;
     Server.Proxy.getCompetitionTags().then(competitionTags => {
       this.setState({ competitionTags: competitionTags });
-    });
-
-    /*Server.Proxy.getCompetitionTypes().then(competitionTypes => {
-      console.log(competitionTypes);
-      this.setState({ competitionTypes: competitionTypes });
-    });*/
-
-    Server.Proxy.getMatches().then(matches => {
-      this.setState({ matches: matches });
+    }).then(() => {
+      this.fetchMatches(this.state.year, this.state.competitionTagId, 0, true);
     });
   }
 
-  onYearChange(e, i, year) {
-    this.setState({ year: year });
-    this.fetchMatches({
+  fetchMatches(year, competitionTagId, pageNumber, updateRecordCount) {
+
+    Server.Proxy.getMatches({
+      "competition.competition_tag_id": competitionTagId,
       "competition.year": year,
-      "competition.competition_tag_id": this.state.competitionTagId
-    });
-  }
-
-  onCompetitionTagChange(e, i, competitionTagId) {
-
-    this.setState({ competitionTagId: competitionTagId });
-    this.fetchMatches({
-      "competition.year": this.state.year,
-      "competition.competition_tag_id": competitionTagId
-    });
-  }
-
-  fetchMatches(condition) {
-    Server.Proxy.getMatches(condition).then(matches => {
+      pageNumber: pageNumber
+    }).then(matches => {
       this.setState({ matches: matches });
     });
+
+    if (updateRecordCount) {
+      Server.Proxy.getMatchCount({
+        "competition.competition_tag_id": competitionTagId,
+        "competition.year": year
+      }).then(count => {
+
+        this.setState({
+          count: count,
+          maxPageNumber: (count / 4)
+        });
+      });
+
+      this.setCompetitionTag(competitionTagId);
+    }
   }
 
+  setCompetitionTag(competitionTagId) {
+    let competitionTag = this.state.competitionTags.find(c => {
+      return c.id === Number(competitionTagId);
+    });
+
+    this.setState({ competitionTagName: (competitionTag ? competitionTag.name : '')});
+  }
+
+
+  onYearChanged(e, i, year) {
+    this.setState({
+      year: year,
+      pageNumber: 0
+    });
+    this.fetchMatches(year, this.state.competitionTagId, 0, true);
+  }
+
+  onCompetitionTagChanged(e, i, competitionTagId) {
+
+    this.setState({
+      competitionTagId: competitionTagId,
+      pageNumber: 0
+    });
+    this.fetchMatches(this.state.year, competitionTagId, 0, true);
+  }
+
+  onPageChanged(pageNumber) {
+    pageNumber = Math.ceil(pageNumber);
+    this.setState({ pageNumber: pageNumber});
+    this.fetchMatches(this.state.year, this.state.competitionTagId, pageNumber, false);
+  }
 
   render() {
+
+
+    let count = this.state.count,
+        start = this.state.pageNumber * 4 + 1,
+        end = Math.min(count, start + 4 - 1),
+        countStyle={ fontSize: 16, fontWeight: 700};
+
 
     return (
       <Grid>
         <h1 style={{fontSize: 22}}>試合を探す</h1>
         <div style={{marginBottom: "10px", textAlign: "right"}}>
-          <DropDownMenu value={this.state.year} onChange={this.onYearChange} style={{width: 140}} autoWidth={false} labelStyle={{fontSize: "16px"}}>
-            {[2014, 2015, 2016].map((y) => <MenuItem key={y} value={y} primaryText={y + '年'}/>)}
+          <DropDownMenu value={this.state.year} onChange={this.onYearChanged} style={{width: 140}} autoWidth={false} labelStyle={{fontSize: "16px"}}>
+            <MenuItem value={undefined} primaryText='年を指定'/>{[2014, 2015, 2016].map((y) => <MenuItem key={y} value={y} primaryText={y + '年'}/>)}
           </DropDownMenu>
           <br />
-          <DropDownMenu value={this.state.competitionTagId} onChange={this.onCompetitionTagChange} style={{width: 170}} autoWidth={false} labelStyle={{fontSize: "16px"}}>
-            {this.state.competitionTags.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
+          <DropDownMenu value={this.state.competitionTagId} onChange={this.onCompetitionTagChanged} style={{width: 170}} autoWidth={false} labelStyle={{fontSize: "16px"}}>
+            <MenuItem value={undefined} primaryText='大会を指定'/>{this.state.competitionTags.map((t) => <MenuItem key={t.id} value={t.id} primaryText={t.name}/>)}
           </DropDownMenu>
         </div>
         {this.state.matches ? (
+          <div>
+            <div style={{ margin: 12 }}>
+              <span style={countStyle}>{count}</span>件中 <span style={countStyle}>{start}</span>件 ~ <span style={countStyle}>{end}</span>件 を表示
+            </div>
             <MatchList matches={this.state.matches} />
+            {(this.state.maxPageNumber > 1) ? (
+              <div style={{ textAlign: "center", marginTop: 20 }}>
+                <Pager
+                  total={this.state.maxPageNumber}
+                  current={this.state.pageNumber}
+                  visiblePages={3}
+                  titles={{ first: '<<|', last: '|>>︎' }}
+                  onPageChanged={this.onPageChanged} />
+              </div>
+            ) : null}
+          </div>
           ) : (
             <CircularProgressCenter />
           )
