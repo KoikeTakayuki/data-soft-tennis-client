@@ -21,6 +21,21 @@ export default class AgeFilteredPlayerIndex extends React.Component {
 
   render() {
 
+    let title = this.props.params.birthYear + '年度生まれのプレイヤーを探す - DataSoftTennis ソフトテニスの情報サイト -',
+        description = this.props.params.birthYear + '年度生まれのプレイヤーの情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+        keywords = ['ソフトテニス', this.props.params.birthYear + '年度生まれ', 'プレイヤー', 'データ'];
+
+    const meta = {
+        title: title,
+        description: description,
+        meta: {
+          charset: 'utf-8',
+          name: {
+            keywords: keywords.join(',')
+          }
+        }
+      };
+
     return (
       <Grid>
         <DocumentMeta {...meta} />

@@ -108044,6 +108044,21 @@
 	    key: 'render',
 	    value: function render() {
 
+	      var title = this.props.params.birthYear + '年度生まれのプレイヤーを探す - DataSoftTennis ソフトテニスの情報サイト -',
+	          description = this.props.params.birthYear + '年度生まれのプレイヤーの情報ならDataSoftTennis! DataSoftTennisは、ソフトテニスの選手・チームのデータやスコア、試合動画を紹介するサービスです!',
+	          keywords = ['ソフトテニス', this.props.params.birthYear + '年度生まれ', 'プレイヤー', 'データ'];
+
+	      var meta = {
+	        title: title,
+	        description: description,
+	        meta: {
+	          charset: 'utf-8',
+	          name: {
+	            keywords: keywords.join(',')
+	          }
+	        }
+	      };
+
 	      return _react2['default'].createElement(
 	        _reactBootstrap.Grid,
 	        null,
