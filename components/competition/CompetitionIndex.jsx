@@ -15,7 +15,7 @@ export default class CompetitionIndex extends React.Component {
     super(props);
     this.state = {
       competitions: false,
-      competitionTagId: undefined,
+      competitionTagId: props.params.competitionTagId ? Number(props.params.competitionTagId) : undefined,
       competitionTags: [],
       pageNumber: 0,
       maxPageNumber: 0,
@@ -42,6 +42,8 @@ export default class CompetitionIndex extends React.Component {
   }
 
   onCompetitionTagChanged(i, e, competitionTagId) {
+    browserHistory.push("/competition" + (competitionTagId ? "/competition-tag-" + competitionTagId : ""));
+
     this.setState({
       competitionTagId: competitionTagId,
       pageNumber: 0

@@ -39,7 +39,7 @@ export default class Team extends React.Component {
       return (
         <Grid>
           <DocumentMeta {...meta} />
-          <h1>{team.name}のデータ</h1>
+          <h1 style={{fontSize: 22}}>{team.name}のデータ</h1>
           <div style={{ marginLeft: 10 }}>{team.prefecture.name}/{team.team_division.name}</div>
           <TeamPlayerList team={team} />
           <FormerTeamPlayerList team={team} />

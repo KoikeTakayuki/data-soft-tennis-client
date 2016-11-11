@@ -22,7 +22,7 @@ export default class AgeFilteredPlayerIndex extends React.Component {
 
     return (
       <Grid>
-        <h1>{this.props.params.birthYear}年度生まれのプレイヤー</h1>
+        <h1 style={{fontSize: 22}}>{this.props.params.birthYear}年度生まれのプレイヤー</h1>
         {this.state.players ? (
             <PlayerList players={this.state.players} />
           ) : null

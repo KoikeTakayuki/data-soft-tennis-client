@@ -39,6 +39,7 @@ ReactDOM.render((
       <Route path="match" component={MatchIndex} />
       <Route path="match/:matchId" component={Match} />
       <Route path="competition" component={CompetitionIndex} />
+      <Route path="competition/competition-tag-:competitionTagId" component={CompetitionIndex} />
       <Route path="competition/:competitionId" component={Competition} />
       <Route path="tennis-court" component={TennisCourtIndex} />
       <Route path="tennis-court/prefecture-:prefectureId" component={TennisCourtIndex} />

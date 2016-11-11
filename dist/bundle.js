@@ -144,6 +144,7 @@
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'match', component: _componentsMatchMatchIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'match/:matchId', component: _componentsMatchMatch2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition', component: _componentsCompetitionCompetitionIndex2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition/competition-tag-:competitionTagId', component: _componentsCompetitionCompetitionIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'competition/:competitionId', component: _componentsCompetitionCompetition2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court', component: _componentsTennisCourtTennisCourtIndex2['default'] }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'tennis-court/prefecture-:prefectureId', component: _componentsTennisCourtTennisCourtIndex2['default'] }),
@@ -108038,7 +108039,7 @@
 	        null,
 	        _react2['default'].createElement(
 	          'h1',
-	          null,
+	          { style: { fontSize: 22 } },
 	          this.props.params.birthYear,
 	          '年度生まれのプレイヤー'
 	        ),
@@ -108572,7 +108573,7 @@
 	          _react2['default'].createElement(_reactDocumentMeta2['default'], meta),
 	          _react2['default'].createElement(
 	            'h1',
-	            null,
+	            { style: { fontSize: 22 } },
 	            team.name,
 	            'のデータ'
 	          ),
@@ -111458,7 +111459,7 @@
 	    _get(Object.getPrototypeOf(CompetitionIndex.prototype), 'constructor', this).call(this, props);
 	    this.state = {
 	      competitions: false,
-	      competitionTagId: undefined,
+	      competitionTagId: props.params.competitionTagId ? Number(props.params.competitionTagId) : undefined,
 	      competitionTags: [],
 	      pageNumber: 0,
 	      maxPageNumber: 0,
@@ -111491,6 +111492,8 @@
 	    key: 'onCompetitionTagChanged',
 	    value: function onCompetitionTagChanged(i, e, competitionTagId) {
 	      var _this2 = this;
+
+	      _reactRouter.browserHistory.push("/competition" + (competitionTagId ? "/competition-tag-" + competitionTagId : ""));
 
 	      this.setState({
 	        competitionTagId: competitionTagId,
