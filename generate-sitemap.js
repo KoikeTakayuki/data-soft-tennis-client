@@ -28,11 +28,18 @@ const FILE_NAME = './dist/sitemap.xml';
 writeHeader(FILE_NAME)
 .then((ids) => {
   console.log("set player");
-  writeUrl(FILE_NAME, "http://data-soft-tennis.com");
-  writeUrl(FILE_NAME, "http://data-soft-tennis.com/player");
-  writeUrl(FILE_NAME, "http://data-soft-tennis.com/team");
-  connection.query('SELECT id FROM player', (err, res) => {
-    res.forEach((r) => { writeUrl(FILE_NAME, "http://data-soft-tennis.com/player/" + r.id) });
+
+  return new Promise((suc) => {
+    writeUrl(FILE_NAME, "http://data-soft-tennis.com");
+    writeUrl(FILE_NAME, "http://data-soft-tennis.com/player");
+    writeUrl(FILE_NAME, "http://data-soft-tennis.com/team");
+    writeUrl(FILE_NAME, "http://data-soft-tennis.com/competition");
+    writeUrl(FILE_NAME, "http://data-soft-tennis.com/match");
+    writeUrl(FILE_NAME, "http://data-soft-tennis.com/tennis-court");
+    connection.query('SELECT id FROM player', (err, res) => {
+      res.forEach((r) => { writeUrl(FILE_NAME, "http://data-soft-tennis.com/player/" + r.id) });
+      suc(res);
+    });
   });
 })
 .then(() => {
@@ -40,6 +47,33 @@ writeHeader(FILE_NAME)
   return new Promise((suc) => {
     connection.query('SELECT id FROM team', (err, res) => {
       res.forEach((r) => { writeUrl(FILE_NAME, "http://data-soft-tennis.com/team/" + r.id) });
+      suc(res);
+    });
+  });
+})
+.then(() => {
+  console.log("set competition");
+  return new Promise((suc) => {
+    connection.query('SELECT id FROM competition', (err, res) => {
+      res.forEach((r) => { writeUrl(FILE_NAME, "http://data-soft-tennis.com/competition/" + r.id) });
+      suc(res);
+    });
+  });
+})
+.then(() => {
+  console.log("set match");
+  return new Promise((suc) => {
+    connection.query('SELECT id FROM soft_tennis_match', (err, res) => {
+      res.forEach((r) => { writeUrl(FILE_NAME, "http://data-soft-tennis.com/match/" + r.id) });
+      suc(res);
+    });
+  });
+})
+.then(() => {
+  console.log("set tennis-court");
+  return new Promise((suc) => {
+    connection.query('SELECT id FROM tennis_court', (err, res) => {
+      res.forEach((r) => { writeUrl(FILE_NAME, "http://data-soft-tennis.com/tennis-court/" + r.id) });
       suc(res);
     });
   });
