@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: http://data-soft-tennis.com/sitemap.xml
