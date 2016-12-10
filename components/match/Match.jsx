@@ -60,7 +60,5 @@ export default class Match extends React.Component {
         </Grid>
       );
     }
-
-    return null;
   }
 }
