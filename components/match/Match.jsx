@@ -61,6 +61,6 @@ export default class Match extends React.Component {
       );
     }
 
-    return null;
+    return <div />;
   }
 }
